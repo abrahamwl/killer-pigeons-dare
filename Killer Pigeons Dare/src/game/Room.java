@@ -17,10 +17,35 @@ public class Room {
 		this.random = random;
 		ent = new ArrayList<Entity>();
 		ent.add(game.hero);
+		
+		//Generate the room.
+		game.hero.x = 0;
+		game.hero.y = 0;
+		
+		for (int i = 0; i < 39; i++) {
+			Wall wall = new Wall();
+			wall.x = i;
+			wall.y = 0;
+			ent.add(wall);
+			wall = new Wall();
+			wall.x = 39;
+			wall.y = i;
+			ent.add(wall);
+			wall = new Wall();
+			wall.x = 39 - i;
+			wall.y = 39;
+			ent.add(wall);
+			wall = new Wall();
+			wall.x = 0;
+			wall.y = 39 - i;
+			ent.add(wall);
+		}
 	}
 	
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		game.hero.render(gc, g);
+		for (Entity e : ent) {
+			e.render(gc, g);
+		}
 	}
 	
 	public void tick(GameContainer gc) {
