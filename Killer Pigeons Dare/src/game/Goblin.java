@@ -46,6 +46,7 @@ public class Goblin extends Actor {
 				if(offx ==  1) image = facingRight;
 				if(offy == -1) image = facingDown;
 				if(offy ==  1) image = facingUp;
+				image = facingDown;
 			}
 		} else if (attacking) {
 			r.game.hero.hitpoints--;
