@@ -1,5 +1,8 @@
 package game;
 
+import game.action.Action;
+
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
@@ -21,7 +24,7 @@ public class Blueman extends Actor {
 	int wobble = 0;
 	
 	@Override
-	public void execute(Room r) {
+	public boolean execute(Room r) {
 		if (movingToward) {
 			int offx = (int) Math.signum(this.x - r.game.hero.x);
 			int offy = (int) Math.signum(this.y - r.game.hero.y);
@@ -47,6 +50,7 @@ public class Blueman extends Actor {
 				this.y = newy;
 			}
 		}
+		return true;
 	}
 
 	@Override
@@ -57,5 +61,12 @@ public class Blueman extends Actor {
 		if (Math.abs(this.x - r.game.hero.x) + Math.abs(this.y - r.game.hero.y) < 4)  movingAway = true;
 	}
 	
-	
+	public class BluemanBrain implements Controller {
+
+		@Override
+		public Action chooseNextAction(Room room, GameContainer gc) {
+			return null;
+		}
+		
+	}
 }

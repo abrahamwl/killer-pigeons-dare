@@ -29,7 +29,7 @@ public class Goblin extends Actor {
 	
 	int wobble = 0;
 	
-	public void execute(Room r) {
+	public boolean execute(Room r) {
 		if (moving) {
 			int offx = (int) Math.signum(this.x - r.game.hero.x);
 			int offy = (int) Math.signum(this.y - r.game.hero.y);
@@ -51,6 +51,7 @@ public class Goblin extends Actor {
 		} else if (attacking) {
 			r.game.hero.hitpoints--;
 		}
+		return true;
 	}
 
 	public void decide(Room r) {

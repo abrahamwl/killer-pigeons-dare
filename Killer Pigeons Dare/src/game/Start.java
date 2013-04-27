@@ -16,7 +16,7 @@ public class Start extends Entity {
 
 	@Override
 	public boolean execute(Room r) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
+		
 	}
 }
