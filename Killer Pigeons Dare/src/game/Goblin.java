@@ -7,10 +7,9 @@ public class Goblin extends Actor {
 	public Goblin () {
 		SpriteSheet sheet;
 		try {
-			sheet = new SpriteSheet("res/diggerguy.png", 33, 36, 0);
+			sheet = new SpriteSheet("res/goblinguy.png", 33, 36, 0);
 			image = sheet.getSubImage(0, 0);
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -18,7 +17,6 @@ public class Goblin extends Actor {
 
 	@Override
 	public void decide() {
-		// TODO Auto-generated method stub
 		
 	}
 
