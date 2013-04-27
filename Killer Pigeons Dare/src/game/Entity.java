@@ -12,7 +12,7 @@ public abstract class Entity {
 	Image image = null;
 	
 	public void render(GameContainer gc, Graphics g) {
-		image.draw(x * 16, y * 16);
+		image.draw(x * 32, y * 32);
 	}
 	
 	abstract public void execute(Room r);

@@ -22,29 +22,32 @@ public class Room {
 		game.hero.x = 0;
 		game.hero.y = 0;
 		
-		for (int i = 0; i < 39; i++) {
+		for (int i = 0; i < 15; i++) {
 			Wall wall = new Wall();
 			wall.x = i;
 			wall.y = 0;
 			ent.add(wall);
 			wall = new Wall();
-			wall.x = 39;
+			wall.x = 15;
 			wall.y = i;
 			ent.add(wall);
 			wall = new Wall();
-			wall.x = 39 - i;
-			wall.y = 39;
+			wall.x = 15 - i;
+			wall.y = 15;
 			ent.add(wall);
 			wall = new Wall();
 			wall.x = 0;
-			wall.y = 39 - i;
+			wall.y = 15 - i;
 			ent.add(wall);
 		}
 	}
 	
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		for (Entity e : ent) {
-			e.render(gc, g);
+			if (!(e instanceof Actor)) e.render(gc, g);
+		}
+		for (Entity e : ent) {
+			if (e instanceof Actor) e.render(gc, g);
 		}
 	}
 	
