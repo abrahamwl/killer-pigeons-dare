@@ -1,8 +1,12 @@
 package game;
 
+import java.util.Random;
+
 import org.newdawn.slick.*;
 
 public class Game extends BasicGame {
+	Random random = null;
+	
 	Character hero = null;
 
 	public Game (String title) {
