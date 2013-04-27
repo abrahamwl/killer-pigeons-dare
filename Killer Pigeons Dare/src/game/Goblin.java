@@ -12,7 +12,6 @@ public class Goblin extends Actor {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	boolean moving = false;
@@ -24,7 +23,7 @@ public class Goblin extends Actor {
 			int newx = (int) (this.x + Math.signum(this.x - r.game.hero.x));
 			int newy = (int) (this.y + Math.signum(this.y - r.game.hero.y));
 			// Move goblin one step towards hero
-			if (!r.entityExists(newx, newy, Wall.class)) {
+			if (!r.checkForTypeAt(newx, newy, Wall.class)) {
 				this.x = newx;
 				this.y = newy;
 			}
