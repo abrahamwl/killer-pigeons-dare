@@ -1,14 +1,24 @@
 package game;
 
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
 public class Goblin extends Actor {
+	Image facingUp = null;
+	Image facingLeft = null;
+	Image facingRight = null;
+	Image facingDown = null;
+	
 	public Goblin () {
 		SpriteSheet sheet;
 		try {
 			sheet = new SpriteSheet("res/goblinguy.png", 33, 36, 0);
-			image = sheet.getSubImage(0, 0);
+			image = sheet.getSubImage(1, 0);
+			facingUp = sheet.getSubImage(1, 2);
+			facingLeft = sheet.getSubImage(1, 3);
+			facingRight = sheet.getSubImage(1, 1);
+			facingDown = sheet.getSubImage(1, 0);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -17,15 +27,26 @@ public class Goblin extends Actor {
 	boolean moving = false;
 	boolean attacking = false;
 	
+	int wobble = 0;
+	
 	@Override
 	public void execute(Room r) {
 		if (moving) {
-			int newx = (int) (this.x + Math.signum(this.x - r.game.hero.x));
-			int newy = (int) (this.y + Math.signum(this.y - r.game.hero.y));
+			int offx = (int) Math.signum(this.x - r.game.hero.x);
+			int offy = (int) Math.signum(this.y - r.game.hero.y);
+			if(offx != 0 && offy != 0) {if (wobble == 1) offx = 0; else offy = 0; wobble = (wobble + 1) % 2;} // This code makes the goblin take a diagonal course by alternating horizontal and vertical steps
+
+			int newx = (int) (this.x + offx);
+			int newy = (int) (this.y + offy);
 			// Move goblin one step towards hero
 			if (!r.checkForTypeAt(newx, newy, Wall.class)) {
 				this.x = newx;
 				this.y = newy;
+				
+				if(offx == -1) image = facingLeft;
+				if(offx ==  1) image = facingRight;
+				if(offy == -1) image = facingDown;
+				if(offy ==  1) image = facingUp;
 			}
 		} else if (attacking) {
 			r.game.hero.hitpoints--;
