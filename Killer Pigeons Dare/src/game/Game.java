@@ -3,6 +3,7 @@ package game;
 import org.newdawn.slick.*;
 
 public class Game extends BasicGame {
+	Character hero = null;
 
 	public Game (String title) {
 		super(title);
@@ -18,10 +19,13 @@ public class Game extends BasicGame {
 	public void init(GameContainer gc) throws SlickException {
 		gc.setShowFPS(false);
 		
+		// Generating game objects.
+		hero = new Character();		
 	}
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
+		hero.render(gc, g);
 	}
 	
 	@Override
