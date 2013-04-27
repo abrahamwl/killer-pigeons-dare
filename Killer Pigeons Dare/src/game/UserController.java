@@ -35,6 +35,6 @@ public class UserController implements Controller {
 			return out;
 		}
 		
-		return new ActionNoneYet();
+		return ActionNoneYet.INSTANCE;
 	}
 }
