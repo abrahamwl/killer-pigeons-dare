@@ -34,5 +34,4 @@ public class ActionMove extends Action {
 			break;
 		}
 	}
-
 }
