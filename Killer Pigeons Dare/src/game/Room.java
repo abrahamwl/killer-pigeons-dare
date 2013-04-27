@@ -53,4 +53,12 @@ public class Room {
 			e.execute(this);
 		}
 	}
+	
+	boolean checkForTypeAt (int x, int y, Class<?> type) {
+		for (Entity e : ent) {
+			if (e.getClass() == type) return true;
+		}
+		
+		return false;
+	}
 }
