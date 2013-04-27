@@ -6,17 +6,18 @@ import org.newdawn.slick.Image;
 
 // The Actor class is the class inherited by all "characters" in the game. That is, the player character, all monsters, 
 // and other NPCs.
-public class Actor {
-	int x, y; //Location in room coordinates.
-	
+public class Actor extends Entity {
 	Controller controller;
 
-	String name;
+	@Override
+	public void decide() {
+		// TODO Auto-generated method stub
+		
+	}
 
-	Image image = null;
-	
-	
-	public void render(GameContainer gc, Graphics g) {
-		image.draw(x * 16, y * 16);
+	@Override
+	public void execute() {
+		// TODO Auto-generated method stub
+		
 	}
 }

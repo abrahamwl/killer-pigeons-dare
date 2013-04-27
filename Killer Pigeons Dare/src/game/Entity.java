@@ -1,0 +1,20 @@
+package game;
+
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+
+public abstract class Entity {
+	int x, y; //Location in room coordinates.
+	
+	String name;
+
+	Image image = null;
+	
+	public void render(GameContainer gc, Graphics g) {
+		image.draw(x * 16, y * 16);
+	}
+	
+	abstract public void decide();
+	abstract public void execute();
+}
