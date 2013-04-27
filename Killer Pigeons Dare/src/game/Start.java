@@ -13,9 +13,10 @@ public class Start extends Entity {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
-	public void execute(Room r) {
-		
+	public boolean execute(Room r) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

@@ -63,7 +63,7 @@ public class Room {
 		}
 	}
 	
-	boolean checkForTypeAt (int x, int y, Class<?> type) {
+	public boolean checkForTypeAt (int x, int y, Class<?> type) {
 		for (Entity e : ent) {
 			if (e.x == x && e.y == y) {
 				if (e.getClass() == type) return true;
