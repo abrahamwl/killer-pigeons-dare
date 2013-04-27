@@ -8,6 +8,8 @@ import org.newdawn.slick.Image;
 // and other NPCs.
 public class Actor {
 	int x, y; //Location in room coordinates.
+	
+	Controller controller;
 
 	String name;
 
