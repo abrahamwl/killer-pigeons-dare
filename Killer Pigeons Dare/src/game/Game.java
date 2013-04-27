@@ -22,7 +22,7 @@ public class Game extends BasicGame {
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-		gc.setShowFPS(false);
+		//gc.setShowFPS(false);
 		
 		random = new Random();
 		
