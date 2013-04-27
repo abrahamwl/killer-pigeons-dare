@@ -18,11 +18,17 @@ public class Room {
 		this.game = game;
 		this.random = random;
 		ent = new ArrayList<Entity>();
-		ent.add(game.hero);
 		
 		//Generate the room.
+		ent.add(game.hero);
 		game.hero.x = 1;
 		game.hero.y = 1;
+		
+		Goblin goblin = new Goblin();
+		goblin.controller = new AttackController(goblin);
+		goblin.x = 14;
+		goblin.y = 14;
+		ent.add(goblin);
 		
 		for (int i = 0; i < 15; i++) {
 			Wall wall = new Wall();
