@@ -11,6 +11,8 @@ public class Room {
 	Game game = null;
 	Random random;
 	ArrayList<Entity> ent;
+	ArrayList<Entity> waiting = new ArrayList<Entity>();
+	GameContainer gc;
 	
 	public Room (Game game, Random random)	{
 		this.game = game;
@@ -19,8 +21,8 @@ public class Room {
 		ent.add(game.hero);
 		
 		//Generate the room.
-		game.hero.x = 0;
-		game.hero.y = 0;
+		game.hero.x = 1;
+		game.hero.y = 1;
 		
 		for (int i = 0; i < 15; i++) {
 			Wall wall = new Wall();
@@ -51,15 +53,21 @@ public class Room {
 		}
 	}
 	
-	public void tick(GameContainer gc) {
-		for (Entity e : ent) {
-			e.execute(this);
+	public void update(GameContainer gc) {
+		this.gc = gc;
+		if (waiting.isEmpty()) {
+			waiting = (ArrayList<Entity>)ent.clone();
+		}
+		if (waiting.get(waiting.size() - 1).execute(this)) {
+			waiting.remove(waiting.size() - 1);
 		}
 	}
 	
 	boolean checkForTypeAt (int x, int y, Class<?> type) {
 		for (Entity e : ent) {
-			if (e.getClass() == type) return true;
+			if (e.x == x && e.y == y) {
+				if (e.getClass() == type) return true;
+			}
 		}
 		
 		return false;

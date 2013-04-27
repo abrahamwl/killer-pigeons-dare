@@ -27,7 +27,8 @@ public class Game extends BasicGame {
 		random = new Random();
 		
 		// Generating game objects.
-		hero = new Character();	
+		hero = new Character();
+		hero.controller = new UserController(hero);
 		room = new Room(this, new Random(random.nextLong()));
 	}
 
@@ -38,7 +39,7 @@ public class Game extends BasicGame {
 	
 	@Override
 	public void update(GameContainer gc, int timePassed) throws SlickException {
-		
+		room.update(gc);
 	}
 
 }

@@ -15,5 +15,5 @@ public abstract class Entity {
 		image.draw(x * 32, y * 32);
 	}
 	
-	abstract public void execute(Room r);
+	abstract public boolean execute(Room r);
 }

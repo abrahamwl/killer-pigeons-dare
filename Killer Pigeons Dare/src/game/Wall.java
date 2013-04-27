@@ -21,8 +21,8 @@ public class Wall extends Entity {
 	}
 
 	@Override
-	public void execute(Room r) {
-		return; //Doesn't do anything.
+	public boolean execute(Room r) {
+		return true; //Doesn't do anything.
 	}
 
 }

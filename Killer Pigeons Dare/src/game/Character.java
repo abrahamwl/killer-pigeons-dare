@@ -16,16 +16,4 @@ public class Character extends Actor {
 	}
 
 	int hitpoints = 10;
-	
-	@Override
-	public void execute(Room r) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void decide(Room r) {
-		// TODO Auto-generated method stub
-		
-	}
 }

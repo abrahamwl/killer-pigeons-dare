@@ -29,7 +29,6 @@ public class Goblin extends Actor {
 	
 	int wobble = 0;
 	
-	@Override
 	public void execute(Room r) {
 		if (moving) {
 			int offx = (int) Math.signum(this.x - r.game.hero.x);
@@ -53,7 +52,6 @@ public class Goblin extends Actor {
 		}
 	}
 
-	@Override
 	public void decide(Room r) {
 		moving = false;
 		attacking = false;
