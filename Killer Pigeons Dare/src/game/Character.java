@@ -14,4 +14,16 @@ public class Character extends Actor {
 		}
 		
 	}
+
+	@Override
+	public void decide() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void execute(Room r) {
+		// TODO Auto-generated method stub
+		
+	}
 }
