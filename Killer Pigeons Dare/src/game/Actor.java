@@ -9,5 +9,5 @@ import org.newdawn.slick.Image;
 public abstract class Actor extends Entity {
 	Controller controller;
 
-	public abstract void decide();
+	public abstract void decide(Room r);
 }

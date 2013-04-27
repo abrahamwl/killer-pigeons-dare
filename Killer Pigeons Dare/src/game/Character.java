@@ -15,14 +15,16 @@ public class Character extends Actor {
 		
 	}
 
+	int hitpoints = 10;
+	
 	@Override
-	public void decide() {
+	public void execute(Room r) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void execute(Room r) {
+	public void decide(Room r) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -15,15 +15,29 @@ public class Goblin extends Actor {
 		
 	}
 
-	@Override
-	public void decide() {
-		
-	}
-
+	boolean moving = false;
+	boolean attacking = false;
+	
 	@Override
 	public void execute(Room r) {
-		// TODO Auto-generated method stub
-		
+		if (moving) {
+			int newx = (int) (this.x + Math.signum(this.x - r.game.hero.x));
+			int newy = (int) (this.y + Math.signum(this.y - r.game.hero.y));
+			// Move goblin one step towards hero
+			if (!r.entityExists(newx, newy, Wall.class)) {
+				this.x = newx;
+				this.y = newy;
+			}
+		} else if (attacking) {
+			r.game.hero.hitpoints--;
+		}
 	}
 
+	@Override
+	public void decide(Room r) {
+		moving = false;
+		attacking = false;
+		if (Math.abs(this.x - r.game.hero.x) > 1 || Math.abs(this.y - r.game.hero.y) > 1) moving = true;
+		else attacking = true;
+	}
 }
