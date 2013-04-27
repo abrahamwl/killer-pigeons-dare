@@ -1,6 +1,7 @@
 package game;
 
 public enum Dir {
+	NO_DIRECTION,
 	NORTH,
 	NORTH_EAST,
 	EAST,

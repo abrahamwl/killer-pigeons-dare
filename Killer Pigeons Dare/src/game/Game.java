@@ -29,7 +29,8 @@ public class Game extends BasicGame {
 	}
 	
 	@Override
-	public void update(GameContainer gc, int timePassed) throws SlickException { 
+	public void update(GameContainer gc, int timePassed) throws SlickException {
+		
 	}
 
 }
