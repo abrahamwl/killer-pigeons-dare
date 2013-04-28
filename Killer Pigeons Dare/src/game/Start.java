@@ -5,6 +5,7 @@ import org.newdawn.slick.SpriteSheet;
 
 public class Start extends Entity {
 	public Start () {
+		super("Room Entrance");
 		SpriteSheet sheet;
 		try {
 			sheet = new SpriteSheet("res/game.png", 63, 63, 1);

@@ -1,13 +1,21 @@
 package game;
 
-import game.action.*;;
+import game.action.*;
 
 // The Actor class is the class inherited by all "characters" in the game. That is, the player character, all monsters, 
 // and other NPCs.
 public class Actor extends Entity {
 	Controller controller;
 	
-	public int hitpoints;
+	private int level;
+	private int hitpoints;
+	private boolean dead = false;
+	
+	public Actor (String name, int level) {
+		super(name);
+		hitpoints = 10 * level;
+		this.level = level;
+	}
 
 	@Override
 	public boolean execute(Room r) {

@@ -8,6 +8,7 @@ public class Wall extends Entity {
 	private static SpriteSheet sheet = null;
 	
 	public Wall () {
+		super("Wall");
 		if (sheet == null) {
 			try {
 				sheet = new SpriteSheet("res/game.png", 63, 63, 1);

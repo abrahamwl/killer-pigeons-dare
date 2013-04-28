@@ -11,6 +11,7 @@ public class Goblin extends Actor {
 	Image facingDown = null;
 	
 	public Goblin () {
+		super("Goblin", 1);
 		SpriteSheet sheet;
 		try {
 			sheet = new SpriteSheet("res/game.png", 63, 63, 1);

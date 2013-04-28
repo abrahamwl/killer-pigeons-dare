@@ -12,6 +12,10 @@ public abstract class Entity {
 
 	Image image = null;
 	
+	public Entity(String name) {
+		this.name = name;
+	}
+
 	public void render(GameContainer gc, Graphics g) {
 		image.draw(x * cellSize, y * cellSize);
 	}

@@ -87,13 +87,24 @@ public class Room {
 		}
 	}
 
-	public boolean checkForTypeAt (int x, int y, Class<?> type) {
+	public boolean checkForTypeAt (int x, int y, Class<? extends Entity> type) {
 		for (Entity e : ent) {
 			if (e.x == x && e.y == y) {
-				if (e.getClass() == type) return true;
+				if (type.isInstance(e)) return true;
 			}
 		}
 
 		return false;
+	}
+	
+	public ArrayList<Entity> entitiesAt (int x, int y, Class<? extends Entity> type) {
+		ArrayList<Entity> out = new ArrayList<Entity>();
+		for (Entity e : ent) {
+			if (e.x == x && e.y == y) {
+				if (type.isInstance(e)) out.add(e);
+			}
+		}
+		
+		return out;
 	}
 }
