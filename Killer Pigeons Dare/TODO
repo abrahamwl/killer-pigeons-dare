@@ -1,7 +1,13 @@
-- [ ] incorporate scott's drawings into game
-- [X] incorporate controller into goblin
-- [ ] get basic game running
+- [ ] figure out how to make a runnable jar
+  - Exception in thread "main" java.lang.UnsatisfiedLinkError: no lwjgl in java.library.path
 
+- [X] incorporate scott's drawings into game
+- [ ] incorporate controller into blueman
+- [X] get basic game running
+
+- [ ] level editor
+
+- [ ] spell system
 - [ ] item system
 - [ ] make rooms work
 - [ ] opening screen
