@@ -8,6 +8,10 @@ public class Actor extends Entity {
 	Controller controller;
 	
 	private int level;
+	public int getLevel() {
+		return level;
+	}
+
 	private int hitpoints;
 	private boolean dead = false;
 	
@@ -16,9 +20,20 @@ public class Actor extends Entity {
 		hitpoints = 10 * level;
 		this.level = level;
 	}
+	
+	public void applyDamage(int damage) {
+		hitpoints -= damage;
+		if (hitpoints <= 0) {
+			dead = true;
+			noDraw = true;
+		}
+	}
 
 	@Override
 	public boolean execute(Room r) {
+		if (dead) {
+			return true;
+		}
 		Action a = controller.chooseNextAction(r, r.gc);
 		
 		if (a instanceof ActionNoneYet) {
