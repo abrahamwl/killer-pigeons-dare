@@ -45,8 +45,13 @@ public class FlameoController extends AttackController {
 		int pointx[] = new int[9];
 		int pointy[] = new int[9];
 		
+//		System.out.println(Dir.values().length); // DEBUG
+//		System.out.println(Dir.values()[1]); // DEBUG
+//		System.out.println(Dir.values()[1].x); // DEBUG
+		
 		// Find equidistance directions
 		for(int i = 0; i < Dir.values().length; i++) {
+			if(Dir.values()[i] == Dir.NO_DIRECTION) continue;
 				pointx[i] = a.x + Dir.values()[i].x;
 				pointy[i] = a.y + Dir.values()[i].y;
 				testDist = Math.abs(pointx[i] - t.x) + Math.abs(pointy[i] - t.y);
