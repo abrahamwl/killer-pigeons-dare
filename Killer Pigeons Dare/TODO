@@ -1,11 +1,14 @@
+eric's list
+- [ ] flameo - follows player and tries to encircle with flame, will not directly attack player, but will not move when approached by player - player can defuse flame with wand, enemies get harmed by flame too
+- [ ] add steve's music
+
 - [ ] cyclops - will wander and blink, deals heavy damage, can only see and follow and attack player if not blinking, if blinking/blinded will hit local surroundings every so often 
 - [ ] pigeon - can fly over everything to attack player, if close to cyclops will attack and blind cyclops - can be only killed by wand or arrow 
-- [ ] flameo - follows player and tries to encircle with flame, will not directly attack player, but will not move when approached by player - player can defuse flame with wand, enemies get harmed by flame too
 - [ ] snake - can hide in grass, but cannot move while hidden, can attack shielded player
 - [ ] wand - can blind cyclops, defuse flame, reveal snake - need relevant spell books
 - [ ] bow & arrow - range weapon, can kill pigeon
 - [ ] chest - holds potions, spells, arrows
-- [ ] spell book - blind, defuse, reveal
+- [ ] spell book - blind, defuse, reveal, walk on water
 - [ ] potion - health, strength, more moves in a turn
 - [ ] dagger - only and especially effective against cyclops - cyclops has small chink in armor
 - [ ] sword - harms cyclops and snake
