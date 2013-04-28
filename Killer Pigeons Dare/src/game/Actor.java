@@ -1,5 +1,7 @@
 package game;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -10,6 +12,8 @@ import game.action.*;
 // and other NPCs.
 public class Actor extends Entity {
 	public Controller controller;
+	
+	public ArrayList<Ability> abilities = new ArrayList<Ability>();
 	
 	private int level;
 	public int getLevel() {
@@ -54,6 +58,9 @@ public class Actor extends Entity {
 	public boolean execute(Room r) {
 		if (dead) {
 			return true;
+		}
+		for (Ability ability : abilities) {
+			ability.reset();
 		}
 		Action a = controller.chooseNextAction(r, r.gc);
 		
