@@ -8,11 +8,11 @@ import org.newdawn.slick.SpriteSheet;
 
 public class Flameo extends Actor {
 	public Flameo () {
-		super("Flame", 1);
+		super("Flameo", 1);
 		controller = new FlameoController(this);
 		SpriteSheet sheet;
 		try {
-			sheet = new SpriteSheet("res/blueman.png", 33, 36, 0);
+			sheet = new SpriteSheet("res/game.png", 63, 63, 1);
 			image = sheet.getSubImage(6, 0);
 		} catch (SlickException e) {
 			e.printStackTrace();
