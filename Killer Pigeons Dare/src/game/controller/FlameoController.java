@@ -11,11 +11,11 @@ import game.entity.Wall;
 
 import org.newdawn.slick.GameContainer;
 
-public class FlameoController extends BasicController {
-	public FlameoController (Actor monster) {
-		a = monster;
+public class FlameoController extends AttackController {
+	public FlameoController(Actor monster) {
+		super(monster);
 	}
-	
+
 	int flameSpawnTicks = 4; // Number of ticks before creating new flame
 	int flameTime = 10; // How long a flame lives
 	
@@ -23,19 +23,15 @@ public class FlameoController extends BasicController {
 	public Action chooseNextAction(Room room, GameContainer gc) {	
 		Actor t = room.game.hero;
 
-		flameTime--; if(flameTime == 0) die();
+		flameTime--; if(flameTime == 0) a.kill();
 		
 		int distToHero = Math.abs(a.x - t.x) + Math.abs(a.y - t.y);
 		
-		if(distToHero > 10) return chooseMovement(room, t);
+		if(distToHero > 10) return chooseMovement(room, t); // TODO Shouldn't use MoveAttack...
 		
 		if(distToHero > 5) return spawnFlame(room, t);
 		
-		return new ActionWait();
-	}
-
-	private void die() {
-		// TODO
+		return new ActionBurn();
 	}
 	
 	private Action spawnFlame(Room room, Actor t) {
@@ -67,99 +63,5 @@ public class FlameoController extends BasicController {
 				return new ActionSpawn(Dir.values()[i], "Flameo");
 		
 		return new ActionWait();
-	}
-	
-	// TODO remove moveAttack
-	
-	private Action chooseMovement(Room room, Actor t) {
-		if (a.x > t.x) {
-			if (a.y > t.y) {
-				if (!room.checkForTypeAt(a.x - 1, a.y - 1, Wall.class)) {
-					return new ActionMove(Dir.NORTH_WEST);
-				} else {
-					if (a.x - t.x > a.y - t.y) {
-						if (!room.checkForTypeAt(a.x - 1, a.y, Wall.class)) {
-							return new ActionMove(Dir.WEST);
-						} else {
-							return new ActionMove(Dir.NORTH);
-						}
-					} else {
-						if (!room.checkForTypeAt(a.x, a.y - 1, Wall.class)) {
-							return new ActionMove(Dir.NORTH);
-						} else {
-							return new ActionMove(Dir.WEST);
-						}
-					}
-				}
-			} else if (a.y < t.y) {
-				if (!room.checkForTypeAt(a.x - 1, a.y + 1, Wall.class)) {
-					return new ActionMove(Dir.SOUTH_WEST);
-				} else {
-					if (a.x - t.x > t.y - a.y) {
-						if (!room.checkForTypeAt(a.x - 1, a.y, Wall.class)) {
-							return new ActionMove(Dir.WEST);
-						} else {
-							return new ActionMove(Dir.SOUTH);
-						}
-					} else {
-						if (!room.checkForTypeAt(a.x, a.y + 1, Wall.class)) {
-							return new ActionMove(Dir.SOUTH);
-						} else {
-							return new ActionMove(Dir.WEST);
-						}
-					}
-				}
-			} else {
-				return new ActionMove(Dir.WEST);
-			}
-		} else if (a.x < t.x) {
-			if (a.y > t.y) {
-				if (!room.checkForTypeAt(a.x + 1, a.y - 1, Wall.class)) {
-					return new ActionMove(Dir.NORTH_EAST);
-				} else {
-					if (t.x - a.x > a.y - t.y) {
-						if (!room.checkForTypeAt(a.x + 1, a.y, Wall.class)) {
-							return new ActionMove(Dir.EAST);
-						} else {
-							return new ActionMove(Dir.NORTH);
-						}
-					} else {
-						if (!room.checkForTypeAt(a.x, a.y - 1, Wall.class)) {
-							return new ActionMove(Dir.NORTH);
-						} else {
-							return new ActionMove(Dir.EAST);
-						}
-					}
-				}
-			} else if (a.y < t.y) {
-				if (!room.checkForTypeAt(a.x + 1, a.y + 1, Wall.class)) {
-					return new ActionMove(Dir.SOUTH_EAST);
-				} else {
-					if (t.x - a.x > t.y - a.y) {
-						if (!room.checkForTypeAt(a.x+ 1, a.y, Wall.class)) {
-							return new ActionMove(Dir.EAST);
-						} else {
-							return new ActionMove(Dir.SOUTH);
-						}
-					} else {
-						if (!room.checkForTypeAt(a.x, a.y + 1, Wall.class)) {
-							return new ActionMove(Dir.SOUTH);
-						} else {
-							return new ActionMove(Dir.EAST);
-						}
-					}
-				}
-			} else {
-				return new ActionMove(Dir.EAST);
-			}
-		} else {
-			if (a.y > t.y) {
-				return new ActionMove(Dir.NORTH);
-			} else if (a.y < t.y) {
-				return new ActionMove(Dir.SOUTH);
-			} else {
-				return new ActionWait();
-			}
-		}
 	}
 }
