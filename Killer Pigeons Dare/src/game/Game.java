@@ -1,5 +1,9 @@
 package game;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Random;
 
 import org.newdawn.slick.*;
@@ -9,12 +13,15 @@ public class Game extends BasicGame {
 	
 	Character hero = null;
 	Room room;
+	static String[] roomFiles = null;
 
 	public Game (String title) {
 		super(title);
 	}
 
+	// Can be passed multiple room files on the command line to create a complex room
 	public static void main(String[] args) throws SlickException {
+		if(args.length > 0) roomFiles = args; 
 		AppGameContainer app = new AppGameContainer(new Game("Killer Pigeons RPG"));
 		app.setDisplayMode(512, 512, false);
 		app.start();
@@ -30,6 +37,19 @@ public class Game extends BasicGame {
 		hero = new Character();
 		hero.controller = new UserController(hero);
 		room = new Room(this, new Random(random.nextLong()));
+		
+		if(roomFiles != null) {
+			String[] roomStrings = new String[roomFiles.length];
+			for(int i = 0; i < roomFiles.length; i++) {
+				try {
+					BufferedReader br = new BufferedReader(new FileReader(new File(roomFiles[i])));
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+				
+			room = new Room(roomFiles); 
+		}
 	}
 
 	@Override
