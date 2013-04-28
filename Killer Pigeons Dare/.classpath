@@ -23,6 +23,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/libraries"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/jcraft"/>
+	<classpathentry kind="lib" path="/libraries/lib/ogg.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
