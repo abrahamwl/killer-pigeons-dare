@@ -29,13 +29,13 @@ public class AttackController extends BasicController {
 					return moveAttack(room, Dir.NORTH_WEST);
 				} else {
 					if (a.x - h.x > a.y - h.y) {
-						if (!room.checkForPassableAt(a.x - 1, a.y, a)) {
+						if (room.checkForPassableAt(a.x - 1, a.y, a)) {
 							return moveAttack(room, Dir.WEST);
 						} else {
 							return moveAttack(room, Dir.NORTH);
 						}
 					} else {
-						if (!room.checkForPassableAt(a.x, a.y - 1, a)) {
+						if (room.checkForPassableAt(a.x, a.y - 1, a)) {
 							return moveAttack(room, Dir.NORTH);
 						} else {
 							return moveAttack(room, Dir.WEST);
