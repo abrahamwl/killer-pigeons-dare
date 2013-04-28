@@ -2,6 +2,9 @@ eric's list
 - [ ] flameo - follows player and tries to encircle with flame, will not directly attack player, but will not move when approached by player - player can defuse flame with wand, enemies get harmed by flame too
 - [ ] add steve's music
 
+abe's list
+- [ ] add KillerPidgeon, can fly over water
+
 - [ ] cyclops - will wander and blink, deals heavy damage, can only see and follow and attack player if not blinking, if blinking/blinded will hit local surroundings every so often 
 - [ ] pigeon - can fly over everything to attack player, if close to cyclops will attack and blind cyclops - can be only killed by wand or arrow 
 - [ ] snake - can hide in grass, but cannot move while hidden, can attack shielded player
