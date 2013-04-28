@@ -6,6 +6,8 @@ import game.action.*;;
 // and other NPCs.
 public class Actor extends Entity {
 	Controller controller;
+	
+	public int hitpoints;
 
 	@Override
 	public boolean execute(Room r) {
