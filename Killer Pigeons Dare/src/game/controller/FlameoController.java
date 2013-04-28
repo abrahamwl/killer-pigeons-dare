@@ -16,20 +16,25 @@ public class FlameoController extends AttackController {
 		super(monster);
 	}
 
-	int flameSpawnTicks = 4; // Number of ticks before creating new flame
-	int flameTime = 10; // How long a flame lives
+	int spawnTickThreshold = 2; // Number of ticks before creating new flame
+	int spawnTick = 0;
+	
+	int lifeTime = 10; // How long a flame lives
+	int moveDistThreshold = 6;
+	int spawnDistThreshold = 4;
 	
 	@Override
 	public Action chooseNextAction(Room room, GameContainer gc) {	
 		Actor t = room.game.hero;
 
-		flameTime--; if(flameTime == 0) a.kill();
+		lifeTime--; if(lifeTime == 0) a.kill();
 		
 		int distToHero = Math.abs(a.x - t.x) + Math.abs(a.y - t.y);
 		
-		if(distToHero > 10) return chooseMovement(room, t); // TODO Shouldn't use MoveAttack...
+		if(distToHero > moveDistThreshold) return chooseMovement(room, t); // TODO Shouldn't use MoveAttack...
 		
-		if(distToHero > 5) return spawnFlame(room, t);
+		spawnTick = (spawnTick + 1) % spawnDistThreshold;
+		if(distToHero > spawnDistThreshold && spawnTick == 0) return spawnFlame(room, t);
 		
 		return new ActionBurn();
 	}
@@ -40,24 +45,37 @@ public class FlameoController extends AttackController {
 		int distToTarget = Math.abs(a.x - t.x) + Math.abs(a.y - t.y);
 		int testDist = 0;
 
+		Dir currDir = null;
 		int currpoint = 0;
 		boolean dirEquidist[] = new boolean[9]; 
 		int pointx[] = new int[9];
 		int pointy[] = new int[9];
 		
-//		System.out.println(Dir.values().length); // DEBUG
-//		System.out.println(Dir.values()[1]); // DEBUG
-//		System.out.println(Dir.values()[1].x); // DEBUG
+		System.out.println("------"); // DEBUG
+		System.out.println(t.x); // DEBUG
+		System.out.println(t.y); // DEBUG
+		System.out.println(distx); // DEBUG
+		System.out.println(disty); // DEBUG
+		System.out.println(distToTarget); // DEBUG
 		
 		// Find equidistance directions
-		for(int i = 0; i < Dir.values().length; i++) {
-			if(Dir.values()[i] == Dir.NO_DIRECTION) continue;
-				pointx[i] = a.x + Dir.values()[i].x;
-				pointy[i] = a.y + Dir.values()[i].y;
+		for(int i = 0; i < Dir.values().length; i++, currpoint++) {
+			currDir = Dir.values()[i]; 
+			if(currDir == Dir.NO_DIRECTION) continue;
+				pointx[i] = a.x + currDir.x;
+				pointy[i] = a.y + currDir.y;
+
+				System.out.println(currDir); // DEBUG
+				System.out.println(pointx[i]); // DEBUG
+				System.out.println(pointy[i]); // DEBUG
+				
 				testDist = Math.abs(pointx[i] - t.x) + Math.abs(pointy[i] - t.y);
+				
+				System.out.println(testDist); // DEBUG
+				
 				dirEquidist[currpoint] = false;
-				if(testDist == distToTarget) dirEquidist[currpoint] = true;
-				currpoint++;
+				if(testDist == distToTarget) 
+					dirEquidist[currpoint] = true;
 			}				
 		
 		// Spawn flame in first equidistance point that doesn't have flame
