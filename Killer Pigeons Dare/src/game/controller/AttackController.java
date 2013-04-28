@@ -23,10 +23,10 @@ public class AttackController extends BasicController {
 			return new ActionMeleeAttack(Dir.fromXY(h.x - a.x, h.y - a.y));
 		}
 		
-		return chooseMovement(room, h);
+		return chooseMovement(room, a, h);
 	}
 
-	protected Action chooseMovement(Room room, Actor t) {
+	static protected Action chooseMovement(Room room, Actor a, Actor t) {
 		if (a.x > t.x) {
 			if (a.y > t.y) {
 				if (room.checkForPassableAt(a.x - 1, a.y - 1, a)) {

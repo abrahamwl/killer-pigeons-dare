@@ -11,9 +11,9 @@ import game.entity.Wall;
 
 import org.newdawn.slick.GameContainer;
 
-public class FlameoController extends AttackController {
+public class FlameoController extends BasicController {
 	public FlameoController(Actor monster) {
-		super(monster);
+		a = monster;
 	}
 
 	int spawnTickThreshold = 2; // Number of ticks before creating new flame
@@ -31,7 +31,7 @@ public class FlameoController extends AttackController {
 		
 		int distToHero = Math.abs(a.x - t.x) + Math.abs(a.y - t.y);
 		
-		if(distToHero > moveDistThreshold) return chooseMovement(room, t); // TODO Shouldn't use MoveAttack...
+		if(distToHero > moveDistThreshold) return AttackController.chooseMovement(room, a, t); // TODO Shouldn't use MoveAttack...
 		
 		spawnTick = (spawnTick + 1) % spawnDistThreshold;
 		if(distToHero > spawnDistThreshold && spawnTick == 0) return spawnFlame(room, t);
