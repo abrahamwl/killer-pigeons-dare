@@ -14,6 +14,4 @@ public class Character extends Actor {
 		}
 		
 	}
-
-	int hitpoints = 10;
 }
