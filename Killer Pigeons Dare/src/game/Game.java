@@ -33,6 +33,9 @@ public class Game extends BasicGame {
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 		//gc.setShowFPS(false);
+		//gc.setMouseGrabbed(true);
+		Image image = new Image(1, 1);
+		gc.setMouseCursor(image, 0, 0);
 		
 		random = new Random();
 		

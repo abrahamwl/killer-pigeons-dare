@@ -6,9 +6,8 @@ import game.entity.Wall;
 import java.util.ArrayList;
 import java.util.Random;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
+import org.newdawn.slick.geom.*;
 
 public class Room {
 	Game game = null;
@@ -16,6 +15,10 @@ public class Room {
 	ArrayList<Entity> ent;
 	ArrayList<Entity> waiting = new ArrayList<Entity>();
 	GameContainer gc;
+	
+	private Polygon moveCursor = new Polygon(new float[] {0, 0, -32, 16, -32, -16});
+	private Shape drawCursor = moveCursor;
+	
 
 	// This function is passed a series of class names representing entities.  Columns are broken up by commas, rows broken up by semicolons.
 	Entity generateEntity(String es) {
@@ -108,6 +111,40 @@ public class Room {
 		for (Entity e : ent) {
 			if (e instanceof Actor) e.render(gc, g);
 		}
+		
+		int x = gc.getInput().getMouseX();
+		int y = gc.getInput().getMouseY();
+		int hX = game.hero.x  * Entity.CELL_SIZE;
+		int hY = game.hero.y  * Entity.CELL_SIZE;
+		if (x > hX + Entity.CELL_SIZE) {
+			if (y < hY) {
+				drawCursor = moveCursor.transform(Transform.createRotateTransform(-(float)(Math.PI * .25)));
+			} else if (y > hY + Entity.CELL_SIZE) {
+				drawCursor = moveCursor.transform(Transform.createRotateTransform((float)(Math.PI * .25)));
+			} else {
+				drawCursor = moveCursor;
+			}
+		} else if (x < hX) {
+			if (y < hY) {
+				drawCursor = moveCursor.transform(Transform.createRotateTransform(-(float)(Math.PI * .75)));
+			} else if (y > hY + Entity.CELL_SIZE) {
+				drawCursor = moveCursor.transform(Transform.createRotateTransform((float)(Math.PI *.75)));
+			} else {
+				drawCursor = moveCursor.transform(Transform.createRotateTransform((float)Math.PI));
+			}
+		} else {
+			if (y < hY) {
+				drawCursor = moveCursor.transform(Transform.createRotateTransform(-(float)(Math.PI * .5)));
+			} else if (y > hY + Entity.CELL_SIZE) {
+				drawCursor = moveCursor.transform(Transform.createRotateTransform((float)(Math.PI *.5)));
+			} else {
+				//Make it like a pointing arrow.
+				drawCursor = moveCursor.transform(Transform.createRotateTransform(-(float)(Math.PI *.625)));
+			}
+		}
+		
+		drawCursor = drawCursor.transform(Transform.createTranslateTransform(x,y));
+		g.fill(drawCursor);
 	}
 
 	public void update(GameContainer gc) {
