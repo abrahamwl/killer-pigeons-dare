@@ -12,6 +12,7 @@ import java.util.Random;
 import org.newdawn.slick.*;
 
 public class Game extends BasicGame {
+	public static final int MARGIN = 800 - 512;
 	Random random = null;
 	
 	public Character hero = null;
@@ -26,7 +27,7 @@ public class Game extends BasicGame {
 	public static void main(String[] args) throws SlickException {
 		if(args.length > 0) roomFiles = args; 
 		AppGameContainer app = new AppGameContainer(new Game("Killer Pigeons RPG"));
-		app.setDisplayMode(512, 512, false);
+		app.setDisplayMode(512 + MARGIN, 512, false);
 		app.start();
 	}
 

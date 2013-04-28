@@ -15,6 +15,7 @@ public class Room {
 	ArrayList<Entity> ent;
 	ArrayList<Entity> waiting = new ArrayList<Entity>();
 	GameContainer gc;
+	InfoPanel panel;
 	
 	private Polygon moveCursor = new Polygon(new float[] {0, 0, -32, 16, -32, -16});
 	private Shape drawCursor = moveCursor;
@@ -71,6 +72,9 @@ public class Room {
 		this.game = game;
 		this.random = random;
 		ent = new ArrayList<Entity>();
+		
+		//UI
+		panel = new InfoPanel(512, 0, Game.MARGIN, 512);
 
 		//Generate the room.
 		ent.add(game.hero);
@@ -134,6 +138,10 @@ public class Room {
 			if (e instanceof Actor) e.render(gc, g);
 		}
 		
+		// UI
+		panel.render(gc, g);
+		
+		// Cursor
 		int x = gc.getInput().getMouseX();
 		int y = gc.getInput().getMouseY();
 		int hX = game.hero.x  * Entity.CELL_SIZE;
@@ -178,6 +186,8 @@ public class Room {
 		if (waiting.get(waiting.size() - 1).execute(this)) {
 			waiting.remove(waiting.size() - 1);
 		}
+		
+		//if ()
 	}
 
 	public boolean checkForTypeAt (int x, int y, Class<? extends Entity> type) {
