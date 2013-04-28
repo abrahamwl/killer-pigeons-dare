@@ -7,10 +7,10 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-public class W extends Entity {
+public class Wall extends Entity {
 	private static SpriteSheet sheet = null;
 	
-	public W () {
+	public Wall () {
 		super("Wall");
 		if (sheet == null) {
 			try {

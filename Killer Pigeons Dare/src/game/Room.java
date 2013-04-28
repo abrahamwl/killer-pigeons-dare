@@ -1,7 +1,7 @@
 package game;
 
-import game.entity.G;
-import game.entity.W;
+import game.entity.Goblin;
+import game.entity.Wall;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,27 +18,47 @@ public class Room {
 	GameContainer gc;
 
 	// This function is passed a series of class names representing entities.  Columns are broken up by commas, rows broken up by semicolons.
+	Entity generateEntity(String es) {
+		String className = null;
+		Entity entity = null;
+
+		if(es.equals("B")) className = "Blueman";
+		if(es.equals("C")) className = "Character";
+		if(es.equals("E")) className = "End";
+		if(es.equals("G")) className = "Goblin";
+		if(es.equals("S")) className = "Start";
+		if(es.equals("W")) className = "Wall";
+
+		try {
+			entity = (Entity) Class.forName("game.entity.".concat(className)).newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return entity;
+	}
+
 	public Room (Game game, String[] roomStrings) {
 		try {
 			for(String roomString : roomStrings) {
-			String[][] roomGrid = null;
-			String[] roomRow = null;
-			this.game = game;
-			ent = new ArrayList<Entity>();
-			roomString = roomString.replaceAll("\\s", ""); // Remove all whitespace
+				String[][] roomGrid = null;
+				String[] roomRow = null;
+				this.game = game;
+				ent = new ArrayList<Entity>();
+				roomString = roomString.replaceAll("\\s", ""); // Remove all whitespace
 
-			roomRow = roomString.split(";");
-			roomGrid = new String[roomRow.length][];
-			for(int r = 0; r < roomRow.length; r++) roomGrid[r] = roomRow[r].split(",");
+				roomRow = roomString.split(";");
+				roomGrid = new String[roomRow.length][];
+				for(int r = 0; r < roomRow.length; r++) roomGrid[r] = roomRow[r].split(",");
 
-			for(int r = 0; r < roomGrid.length; r++) for(int c = 0; c < roomGrid[r].length; c++) {
-				if(!roomGrid[r][c].equals("")) {
-					Entity e = (Entity) Class.forName("game.entity.".concat(roomGrid[r][c])).newInstance();
-					e.x = c;
-					e.y = r;
-					ent.add(e);
+				for(int r = 0; r < roomGrid.length; r++) for(int c = 0; c < roomGrid[r].length; c++) {
+					if(!roomGrid[r][c].equals("")) {
+						Entity e = generateEntity(roomGrid[r][c]);
+						e.x = c;
+						e.y = r;
+						ent.add(e);
+					}
 				}
-			}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -55,26 +75,26 @@ public class Room {
 		game.hero.x = 1;
 		game.hero.y = 1;
 
-		G goblin = new G();
+		Goblin goblin = new Goblin();
 		goblin.controller = new AttackController(goblin);
 		goblin.x = 6;
 		goblin.y = 6;
 		ent.add(goblin);
 
 		for (int i = 0; i < 8; i++) {
-			W wall = new W();
+			Wall wall = new Wall();
 			wall.x = i;
 			wall.y = 0;
 			ent.add(wall);
-			wall = new W();
+			wall = new Wall();
 			wall.x = 7;
 			wall.y = i;
 			ent.add(wall);
-			wall = new W();
+			wall = new Wall();
 			wall.x = 7 - i;
 			wall.y = 7;
 			ent.add(wall);
-			wall = new W();
+			wall = new Wall();
 			wall.x = 0;
 			wall.y = 7 - i;
 			ent.add(wall);
@@ -109,7 +129,7 @@ public class Room {
 
 		return false;
 	}
-	
+
 	public ArrayList<Entity> entitiesAt (int x, int y, Class<? extends Entity> type) {
 		ArrayList<Entity> out = new ArrayList<Entity>();
 		for (Entity e : ent) {
@@ -117,7 +137,7 @@ public class Room {
 				if (type.isInstance(e)) out.add(e);
 			}
 		}
-		
+
 		return out;
 	}
 }

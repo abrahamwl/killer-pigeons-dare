@@ -5,8 +5,8 @@ import game.UserController;
 
 import org.newdawn.slick.*;
 
-public class C extends Actor {
-	public C () {
+public class Character extends Actor {
+	public Character () {
 		super("Hero", 1);
 		this.controller = new UserController(this);
 		SpriteSheet sheet;

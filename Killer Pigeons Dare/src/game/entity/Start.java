@@ -6,9 +6,9 @@ import game.Room;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-public class E extends Entity {
-	public E () {
-		super("Room Exit");
+public class Start extends Entity {
+	public Start () {
+		super("Room Entrance");
 		SpriteSheet sheet;
 		try {
 			sheet = new SpriteSheet("res/game.png", 63, 63, 1);
@@ -20,7 +20,7 @@ public class E extends Entity {
 
 	@Override
 	public boolean execute(Room r) {
-		// TODO Auto-generated method stub
 		return true;
+		
 	}
 }

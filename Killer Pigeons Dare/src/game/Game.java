@@ -1,6 +1,6 @@
 package game;
 
-import game.entity.C;
+import game.entity.Character;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,7 +14,7 @@ import org.newdawn.slick.*;
 public class Game extends BasicGame {
 	Random random = null;
 	
-	C hero = null;
+	Character hero = null;
 	Room room;
 	static String[] roomFiles = null;
 
@@ -37,7 +37,7 @@ public class Game extends BasicGame {
 		random = new Random();
 		
 		// Generating game objects.
-		hero = new C();
+		hero = new Character();
 		room = new Room(this, new Random(random.nextLong()));
 		
 		// If room files have been passed on the command line, load them all 
