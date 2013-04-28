@@ -2,6 +2,7 @@ package game;
 
 import game.controller.AttackController;
 import game.entity.*;
+import game.entity.Character;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -22,7 +23,7 @@ public class Room {
 	
 
 	// This function is passed a series of class names representing entities.  Columns are broken up by commas, rows broken up by semicolons.
-	public void addEntity(String es, int ex, int ey) {
+	public Entity addEntity(String es, int ex, int ey) {
 		String cn = null;
 		Entity entity = null;
 
@@ -45,10 +46,11 @@ public class Room {
 		entity.y = ey;
 		
 		ent.add(entity);
+		
+		return entity;
 	}
 
 	public Room (Game game, String[] roomStrings) {
-		
 		//UI
 		panel = new InfoPanel(512, 0, Game.MARGIN, 512);
 
@@ -64,8 +66,11 @@ public class Room {
 				roomGrid = new String[roomRow.length][];
 				for(int r = 0; r < roomRow.length; r++) roomGrid[r] = roomRow[r].split(",");
 
-				for(int r = 0; r < roomGrid.length; r++) for(int c = 0; c < roomGrid[r].length; c++)
-					if(!roomGrid[r][c].equals("")) addEntity(roomGrid[r][c], c, r);
+				for(int r = 0; r < roomGrid.length; r++) for(int c = 0; c < roomGrid[r].length; c++) {
+					Entity newEntity = null;
+					if(!roomGrid[r][c].equals("")) newEntity = addEntity(roomGrid[r][c], c, r);
+					if(roomGrid[r][c].equals("C")) game.hero = (Character) newEntity; // TODO HACK to not instantiate a new hero
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
