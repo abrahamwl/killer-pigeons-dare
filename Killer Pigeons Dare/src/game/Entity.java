@@ -24,4 +24,7 @@ public abstract class Entity {
 	}
 	
 	abstract public boolean execute(Room r);
+	
+	public void init () {
+	}
 }

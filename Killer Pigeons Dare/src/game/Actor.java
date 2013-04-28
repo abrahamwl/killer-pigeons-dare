@@ -21,11 +21,13 @@ public class Actor extends Entity {
 	}
 
 	private int hitpoints;
+	private int maxHitpoints;
 	private boolean dead = false;
 	
 	public Actor (String name, int level) {
 		super(name);
 		hitpoints = 10 * level;
+		maxHitpoints = hitpoints;
 		this.level = level;
 	}
 	
@@ -33,6 +35,16 @@ public class Actor extends Entity {
 		hitpoints -= damage;
 		if (hitpoints <= 0) {
 			kill();
+		}
+	}
+	
+	@Override
+	public void init () {
+		for (Ability ability : abilities) {
+			if (ability.type == Ability.Type.TOUGH && ability.active) {
+				hitpoints *= 1.5;
+				maxHitpoints = hitpoints;
+			}
 		}
 	}
 	
@@ -50,7 +62,8 @@ public class Actor extends Entity {
 			g.setColor(Color.red);
 			g.fillRect(x * CELL_SIZE, y * CELL_SIZE + 60, 64, 3);
 			g.setColor(Color.green);
-			g.fillRect(x * CELL_SIZE, y * CELL_SIZE + 60, 64 * hitpoints / (level * 10), 3);
+			
+			g.fillRect(x * CELL_SIZE, y * CELL_SIZE + 60, 64 * hitpoints / maxHitpoints, 3);
 		}
 	}
 	

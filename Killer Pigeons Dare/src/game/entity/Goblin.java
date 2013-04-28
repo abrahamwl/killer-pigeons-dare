@@ -1,5 +1,6 @@
 package game.entity;
 
+import game.Ability;
 import game.Actor;
 import game.controller.AttackController;
 
@@ -16,6 +17,7 @@ public class Goblin extends Actor {
 	public Goblin () {
 		super("Goblin", 1);
 		controller = new AttackController(this);
+		abilities.add(new Ability(Ability.Type.TOUGH));
 		SpriteSheet sheet;
 		try {
 			sheet = new SpriteSheet("res/game.png", 63, 63, 1);

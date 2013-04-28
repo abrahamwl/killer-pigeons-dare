@@ -22,6 +22,7 @@ public class Ability {
 	
 	public Ability (Type type) {
 		this.type = type;
+		active = type.activeByDefault;
 	}
 	
 	public void reset() {

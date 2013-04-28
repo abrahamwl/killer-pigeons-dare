@@ -43,6 +43,8 @@ public class Room {
 
 		entity.x = ex;
 		entity.y = ey;
+		
+		ent.add(entity);
 	}
 
 	public Room (Game game, String[] roomStrings) {
@@ -63,7 +65,7 @@ public class Room {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 
 	public Room (Game game, Random random)	{
@@ -99,6 +101,12 @@ public class Room {
 			wall.x = 0;
 			wall.y = 7 - i;
 			ent.add(wall);
+		}
+	}
+	
+	void init () {
+		for (Entity e : ent) {
+			e.init();
 		}
 	}
 

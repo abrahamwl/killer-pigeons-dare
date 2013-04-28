@@ -59,6 +59,8 @@ public class Game extends BasicGame {
 
 			room = new Room(this, roomStrings); 
 		}
+		
+		room.init();
 	}
 
 	@Override
