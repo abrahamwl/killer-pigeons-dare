@@ -32,7 +32,7 @@ public class Room {
 		if(es.equals("F")) cn = "Flameo";
 		if(es.equals("G")) cn = "Goblin";
 		if(es.equals("S")) cn = "Snake";
-		if(es.equals("K")) cn = "KillerPigeon";
+		if(es.equals("K")) cn = "KillerPidgeon";
 		if(es.equals("R")) cn = "Wall";
 		if(es.equals("W")) cn = "Water";
 		if(es.equals("t")) cn = "Tree";

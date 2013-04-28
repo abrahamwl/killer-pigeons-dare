@@ -39,7 +39,8 @@ public class Game extends BasicGame {
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 		// Set up and play music
-		if((new File("./res/")).listFiles(new regexpFilter("res/Medieval1.aif")).length != 0) 
+		File[] f = (new File("./res/")).listFiles(new regexpFilter("Medieval1.aif"));
+		if(f.length != 0) 
 			musc = new Music("res/Medieval1.aif");
 		else musc = new Music("res/Medieval1.ogg");
 		musc.play();
