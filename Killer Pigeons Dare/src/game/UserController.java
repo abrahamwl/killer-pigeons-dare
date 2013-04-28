@@ -16,24 +16,16 @@ public class UserController implements Controller {
 		Input input = gc.getInput();
 		
 		if (input.isKeyPressed(Input.KEY_RIGHT)) {
-			ActionMove out = new ActionMove();
-			out.dir = Dir.EAST;
-			return out;
+			return new ActionMove(Dir.EAST);
 		}
 		if (input.isKeyPressed(Input.KEY_DOWN)) {
-			ActionMove out = new ActionMove();
-			out.dir = Dir.SOUTH;
-			return out;
+			return new ActionMove(Dir.SOUTH);
 		}
 		if (input.isKeyPressed(Input.KEY_LEFT)) {
-			ActionMove out = new ActionMove();
-			out.dir = Dir.WEST;
-			return out;
+			return new ActionMove(Dir.WEST);
 		}
 		if (input.isKeyPressed(Input.KEY_UP)) {
-			ActionMove out = new ActionMove();
-			out.dir = Dir.NORTH;
-			return out;
+			return new ActionMove(Dir.NORTH);
 		}
 		
 		return ActionNoneYet.INSTANCE;

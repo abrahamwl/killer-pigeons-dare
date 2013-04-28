@@ -5,6 +5,10 @@ import game.entity.Wall;
 
 public class ActionMove extends Action {
 	public Dir dir;
+	
+	public ActionMove (Dir dir) {
+		this.dir = dir;
+	}
 
 	@Override
 	public void execute(Room r, Actor a) {

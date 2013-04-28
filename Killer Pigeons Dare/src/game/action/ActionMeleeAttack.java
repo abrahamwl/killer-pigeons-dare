@@ -8,6 +8,10 @@ public class ActionMeleeAttack extends ActionAttack {
 	public static final int DAMAGE_PER_LEVEL = 5;
 	public Dir dir;
 
+	public ActionMeleeAttack(Dir dir) {
+		this.dir = dir;
+	}
+
 	@Override
 	public void execute(Room r, Actor a) {
 		ArrayList<Entity> target = r.entitiesAt(a.x + dir.x, a.y + dir.y, Actor.class);
