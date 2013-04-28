@@ -78,10 +78,13 @@ public class Room {
 		game.hero.y = 1;
 
 		Goblin goblin = new Goblin();
-		goblin.controller = new AttackController(goblin);
 		goblin.x = 6;
 		goblin.y = 6;
 		ent.add(goblin);
+		KillerPidgeon pidge = new KillerPidgeon();
+		pidge.x = 5;
+		pidge.y = 6;
+		ent.add(pidge);
 
 		for (int i = 0; i < 8; i++) {
 			Wall wall = new Wall();
@@ -103,10 +106,14 @@ public class Room {
 		}
 		for (int i = 0; i < 4; i++) {
 			Water water = new Water();
-			water.x = 5;
+			water.x = 4;
 			water.y = 6 - i;
 			ent.add(water);
 		}
+		Water water = new Water();
+		water.x = 5;
+		water.y = 3;
+		ent.add(water);
 	}
 	
 	void init () {
