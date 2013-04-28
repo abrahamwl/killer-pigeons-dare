@@ -21,7 +21,15 @@ public class Actor extends Entity {
 	}
 
 	private int hitpoints;
+	public int getHitpoints() {
+		return hitpoints;
+	}
+
 	private int maxHitpoints;
+	public int getMaxHitpoints() {
+		return maxHitpoints;
+	}
+
 	private boolean dead = false;
 	
 	public Actor (String name, int level) {

@@ -8,6 +8,7 @@ public class InfoPanel {
 	Graphics g;
 	Actor target = null;
 	private static final Color BROWN = new Color(.7f, .4f, .2f);
+	private boolean redraw = true;
 	
 	InfoPanel (int x, int y, int width, int height) {
 		this.x = x;
@@ -29,7 +30,40 @@ public class InfoPanel {
 			}
 		}
 		
+		if (redraw) {
+			g = panel.getGraphics();
+			g.setColor(BROWN);
+			g.fillRoundRect(0, 0, width, height, 5);
+			
+			if (target != null) {
+				g.drawImage(target.image, 5, 5);
+				g.setColor(Color.black);
+				g.drawString(target.name, 10 + Entity.CELL_SIZE, 5);
+				g.setColor(Color.red);
+				g.fillRect(5, 65, 64, 3);
+				g.setColor(Color.green);
+				g.fillRect(5, 65, 64 * target.getHitpoints() / target.getMaxHitpoints(), 3);
+				
+				g.setColor(Color.white);
+				g.drawString(String.valueOf(target.getLevel()), 5, 5);
+				
+				int y = 10 + Entity.CELL_SIZE;
+				
+				g.setColor(Color.blue);
+				for (Ability a : target.abilities) {
+					g.drawString(a.type.toString(), 5, y);
+					y += 14;
+				}
+			}
+			
+			redraw = false;
+		}
+		
 		g.flush();
 		g.drawImage(panel, x, y);
+	}
+
+	public void triggerRedraw() {
+		redraw = true;
 	}
 }

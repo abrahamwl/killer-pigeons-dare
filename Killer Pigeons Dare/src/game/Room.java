@@ -17,6 +17,7 @@ public class Room {
 	ArrayList<Entity> waiting = new ArrayList<Entity>();
 	GameContainer gc;
 	InfoPanel panel;
+	private int turnCount = 0;
 	
 	private Polygon moveCursor = new Polygon(new float[] {0, 0, -32, 16, -32, -16});
 	private Shape drawCursor = moveCursor;
@@ -191,12 +192,22 @@ public class Room {
 		this.gc = gc;
 		if (waiting.isEmpty()) {
 			waiting = (ArrayList<Entity>)ent.clone();
+			turnCount++;
 		}
 		if (waiting.get(waiting.size() - 1).execute(this)) {
 			waiting.remove(waiting.size() - 1);
 		}
 		
-		//if ()
+		// Update the InfoPanel
+		int x = gc.getInput().getMouseX();
+		int y = gc.getInput().getMouseY();
+		ArrayList<Entity> actors = entitiesAt(x / Entity.CELL_SIZE, y / Entity.CELL_SIZE, Actor.class);
+		if (!actors.isEmpty()) {
+			if (panel.target != (Actor)actors.get(0)) {
+				panel.target = (Actor)actors.get(0);
+				panel.triggerRedraw();
+			}
+		}
 	}
 
 	public boolean checkForTypeAt (int x, int y, Class<? extends Entity> type) {
