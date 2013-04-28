@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Random;
 
@@ -17,22 +18,30 @@ public class Game extends BasicGame {
 	
 	public Character hero = null;
 	Room room;
-	static String[] roomFiles = null;
+	static File[] roomFiles = null;
 
 	public Game (String title) {
 		super(title);
 	}
-
+	
 	// Can be passed multiple room files on the command line to create a complex room
 	public static void main(String[] args) throws SlickException {
-		if(args.length > 0) roomFiles = args; 
+		// Scan directory for room files
+		roomFiles = (new File("./")).listFiles(new roomFileFilter());
+		
 		AppGameContainer app = new AppGameContainer(new Game("Killer Pigeons RPG"));
 		app.setDisplayMode(512 + MARGIN, 512, false);
 		app.start();
 	}
 
+	Music musc = null;
+	
 	@Override
 	public void init(GameContainer gc) throws SlickException {
+		// Set up and play music
+		musc = new Music("res/Medieval1.ogg");
+		musc.play();
+		
 		//gc.setShowFPS(false);
 		//gc.setMouseGrabbed(true);
 		Image image = new Image(1, 1);
@@ -49,7 +58,7 @@ public class Game extends BasicGame {
 			String[] roomStrings = new String[roomFiles.length];
 			for(int i = 0; i < roomFiles.length; i++) {
 				try {
-					BufferedReader br = new BufferedReader(new FileReader(new File(roomFiles[i])));
+					BufferedReader br = new BufferedReader(new FileReader(roomFiles[i]));
 					roomStrings[i] = new String();
 					while(br.ready()) roomStrings[i] = roomStrings[i].concat(br.readLine());
 					br.close();
@@ -72,6 +81,14 @@ public class Game extends BasicGame {
 	@Override
 	public void update(GameContainer gc, int timePassed) throws SlickException {
 		room.update(gc);
+		if(!musc.playing()) musc.play();
 	}
 
+}
+
+class roomFileFilter implements FilenameFilter {
+	@Override
+	public boolean accept(File arg0, String arg1) {
+		return arg1.matches("room.*");
+	}
 }
