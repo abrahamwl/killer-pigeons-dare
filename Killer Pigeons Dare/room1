@@ -1,8 +1,8 @@
-W,W,W,W,W,W,W,W;
-W,C, , , , , ,W;
-W, , , , , , ,W;
-W, , , , , , ,W;
-W, , , , , , ,W;
-W, , , , , , ,W;
-W,S,G,P, , ,F,W;
-W,W,W,W,W,W,W,W;
+R,R,R,R,R,R,R,R;
+R,C, , , , , ,R;
+R, , , , , , ,R;
+R, , ,g, , , ,R;
+R, , ,d, , , ,R;
+R, , ,t, , , ,R;
+R,S,G,K, , ,F,R;
+R,R,R,R,R,R,R,R;

@@ -32,9 +32,12 @@ public class Room {
 		if(es.equals("F")) cn = "Flameo";
 		if(es.equals("G")) cn = "Goblin";
 		if(es.equals("S")) cn = "Snake";
-		if(es.equals("P")) cn = "KillerPigeon";
+		if(es.equals("K")) cn = "KillerPigeon";
 		if(es.equals("R")) cn = "Wall";
 		if(es.equals("W")) cn = "Water";
+		if(es.equals("t")) cn = "Tree";
+		if(es.equals("g")) cn = "Grass";
+		if(es.equals("d")) cn = "Dirt";
 		try {
 			entity = (Entity) Class.forName("game.entity.".concat(cn)).newInstance();
 		} catch (Exception e) {
@@ -93,7 +96,7 @@ public class Room {
 		goblin.x = 6;
 		goblin.y = 6;
 		ent.add(goblin);
-		KillerPigeon pidge = new KillerPigeon();
+		KillerPidgeon pidge = new KillerPidgeon();
 		pidge.x = 5;
 		pidge.y = 6;
 		ent.add(pidge);

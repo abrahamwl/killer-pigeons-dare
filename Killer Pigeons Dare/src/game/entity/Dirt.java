@@ -12,7 +12,7 @@ public class Dirt extends Entity {
 	private static SpriteSheet sheet = null;
 	
 	public Dirt () {
-		super("Wall");
+		super("Dirt");
 		if (sheet == null) {
 			try {
 				sheet = new SpriteSheet("res/game.png", 63, 63, 1);
@@ -20,7 +20,7 @@ public class Dirt extends Entity {
 				e.printStackTrace();
 			}
 		}
-		image = sheet.getSubImage(0, 5);
+		image = sheet.getSubImage(8, 3);
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class Dirt extends Entity {
 
 	@Override
 	public boolean passableFor(Actor a) {
-		return false;
+		return true;
 	}
 
 }

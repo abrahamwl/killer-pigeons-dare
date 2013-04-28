@@ -12,7 +12,7 @@ public class Tree extends Entity {
 	private static SpriteSheet sheet = null;
 	
 	public Tree () {
-		super("Wall");
+		super("Tree");
 		if (sheet == null) {
 			try {
 				sheet = new SpriteSheet("res/game.png", 63, 63, 1);
@@ -20,7 +20,7 @@ public class Tree extends Entity {
 				e.printStackTrace();
 			}
 		}
-		image = sheet.getSubImage(0, 5);
+		image = sheet.getSubImage(9, 3);
 	}
 
 	@Override
