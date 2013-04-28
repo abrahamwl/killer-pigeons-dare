@@ -4,7 +4,7 @@ eric's list
 
 abe's list
 - [X] add KillerPidgeon, can fly over water
-- [ ] add Snake, has nothing special
+- [X] add Snake, has nothing special
 - [ ] add basic UI info on right of screen
 
 - [ ] cyclops - will wander and blink, deals heavy damage, can only see and follow and attack player if not blinking, if blinking/blinded will hit local surroundings every so often 

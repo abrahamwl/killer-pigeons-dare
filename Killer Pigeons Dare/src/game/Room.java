@@ -85,6 +85,10 @@ public class Room {
 		pidge.x = 5;
 		pidge.y = 6;
 		ent.add(pidge);
+		Snake snake = new Snake();
+		snake.x = 6;
+		snake.y = 5;
+		ent.add(snake);
 
 		for (int i = 0; i < 8; i++) {
 			Wall wall = new Wall();

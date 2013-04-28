@@ -26,88 +26,88 @@ public class AttackController extends BasicController {
 		if (a.x > h.x) {
 			if (a.y > h.y) {
 				if (room.checkForPassableAt(a.x - 1, a.y - 1, a)) {
-					return moveAttack(room, Dir.NORTH_WEST);
+					return new ActionMove(Dir.NORTH_WEST);
 				} else {
 					if (a.x - h.x > a.y - h.y) {
 						if (room.checkForPassableAt(a.x - 1, a.y, a)) {
-							return moveAttack(room, Dir.WEST);
+							return new ActionMove(Dir.WEST);
 						} else {
-							return moveAttack(room, Dir.NORTH);
+							return new ActionMove(Dir.NORTH);
 						}
 					} else {
 						if (room.checkForPassableAt(a.x, a.y - 1, a)) {
-							return moveAttack(room, Dir.NORTH);
+							return new ActionMove(Dir.NORTH);
 						} else {
-							return moveAttack(room, Dir.WEST);
+							return new ActionMove(Dir.WEST);
 						}
 					}
 				}
 			} else if (a.y < h.y) {
 				if (room.checkForPassableAt(a.x - 1, a.y + 1, a)) {
-					return moveAttack(room, Dir.SOUTH_WEST);
+					return new ActionMove(Dir.SOUTH_WEST);
 				} else {
 					if (a.x - h.x > h.y - a.y) {
 						if (room.checkForPassableAt(a.x - 1, a.y, a)) {
-							return moveAttack(room, Dir.WEST);
+							return new ActionMove(Dir.WEST);
 						} else {
-							return moveAttack(room, Dir.SOUTH);
+							return new ActionMove(Dir.SOUTH);
 						}
 					} else {
 						if (room.checkForPassableAt(a.x, a.y + 1, a)) {
-							return moveAttack(room, Dir.SOUTH);
+							return new ActionMove(Dir.SOUTH);
 						} else {
-							return moveAttack(room, Dir.WEST);
+							return new ActionMove(Dir.WEST);
 						}
 					}
 				}
 			} else {
-				return moveAttack(room, Dir.WEST);
+				return new ActionMove(Dir.WEST);
 			}
 		} else if (a.x < h.x) {
 			if (a.y > h.y) {
 				if (room.checkForPassableAt(a.x + 1, a.y - 1, a)) {
-					return moveAttack(room, Dir.NORTH_EAST);
+					return new ActionMove(Dir.NORTH_EAST);
 				} else {
 					if (h.x - a.x > a.y - h.y) {
 						if (room.checkForPassableAt(a.x + 1, a.y, a)) {
-							return moveAttack(room, Dir.EAST);
+							return new ActionMove(Dir.EAST);
 						} else {
-							return moveAttack(room, Dir.NORTH);
+							return new ActionMove(Dir.NORTH);
 						}
 					} else {
 						if (room.checkForPassableAt(a.x, a.y - 1, a)) {
-							return moveAttack(room, Dir.NORTH);
+							return new ActionMove(Dir.NORTH);
 						} else {
-							return moveAttack(room, Dir.EAST);
+							return new ActionMove(Dir.EAST);
 						}
 					}
 				}
 			} else if (a.y < h.y) {
 				if (room.checkForPassableAt(a.x + 1, a.y + 1, a)) {
-					return moveAttack(room, Dir.SOUTH_EAST);
+					return new ActionMove(Dir.SOUTH_EAST);
 				} else {
 					if (h.x - a.x > h.y - a.y) {
 						if (room.checkForPassableAt(a.x+ 1, a.y, a)) {
-							return moveAttack(room, Dir.EAST);
+							return new ActionMove(Dir.EAST);
 						} else {
-							return moveAttack(room, Dir.SOUTH);
+							return new ActionMove(Dir.SOUTH);
 						}
 					} else {
 						if (room.checkForPassableAt(a.x, a.y + 1, a)) {
-							return moveAttack(room, Dir.SOUTH);
+							return new ActionMove(Dir.SOUTH);
 						} else {
-							return moveAttack(room, Dir.EAST);
+							return new ActionMove(Dir.EAST);
 						}
 					}
 				}
 			} else {
-				return moveAttack(room, Dir.EAST);
+				return new ActionMove(Dir.EAST);
 			}
 		} else {
 			if (a.y > h.y) {
-				return moveAttack(room, Dir.NORTH);
+				return new ActionMove(Dir.NORTH);
 			} else if (a.y < h.y) {
-				return moveAttack(room, Dir.SOUTH);
+				return new ActionMove(Dir.SOUTH);
 			} else {
 				return new ActionWait();
 			}
