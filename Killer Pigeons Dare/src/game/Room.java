@@ -1,8 +1,7 @@
 package game;
 
 import game.controller.AttackController;
-import game.entity.Goblin;
-import game.entity.Wall;
+import game.entity.*;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -101,6 +100,12 @@ public class Room {
 			wall.x = 0;
 			wall.y = 7 - i;
 			ent.add(wall);
+		}
+		for (int i = 0; i < 4; i++) {
+			Water water = new Water();
+			water.x = 5;
+			water.y = 6 - i;
+			ent.add(water);
 		}
 	}
 	

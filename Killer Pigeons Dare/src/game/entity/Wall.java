@@ -21,7 +21,6 @@ public class Wall extends Entity {
 			}
 		}
 		image = sheet.getSubImage(0, 5);
-		name = "Wall";
 	}
 
 	@Override

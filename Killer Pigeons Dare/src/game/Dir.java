@@ -1,5 +1,7 @@
 package game;
 
+import game.action.ActionWait;
+
 public enum Dir {
 	NO_DIRECTION(null, null),
 	NORTH(0, -1),
@@ -38,6 +40,34 @@ public enum Dir {
 			return SOUTH_EAST;
 		default:
 			return NO_DIRECTION;
+		}
+	}
+	
+	public static Dir fromXY(int x, int y) {
+		if (x > 0) {
+			if (y > 0) {
+				return SOUTH_EAST;
+			} else if (y < 0) {
+				return NORTH_EAST;
+			} else {
+				return EAST;
+			}
+		} else if (x < 0) {
+			if (y > 0) {
+				return SOUTH_WEST;
+			} else if (y < 0) {
+				return NORTH_WEST;
+			} else {
+				return WEST;
+			}
+		} else {
+			if (y > 0) {
+				return SOUTH;
+			} else if (y < 0) {
+				return NORTH;
+			} else {
+				return NO_DIRECTION;
+			}
 		}
 	}
 }

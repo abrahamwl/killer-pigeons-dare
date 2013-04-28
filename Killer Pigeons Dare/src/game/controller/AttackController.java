@@ -19,19 +19,23 @@ public class AttackController extends BasicController {
 	public Action chooseNextAction(Room room, GameContainer gc) {
 		Character h = room.game.hero;
 		
+		if (Math.abs(a.x - h.x) <= 1 && Math.abs(a.y - h.y) <= 1) {
+			return new ActionMeleeAttack(Dir.fromXY(h.x - a.x, h.y - a.y));
+		}
+		
 		if (a.x > h.x) {
 			if (a.y > h.y) {
-				if (!room.checkForPassableAt(a.x - 1, a.y - 1, Wall.class)) {
+				if (room.checkForPassableAt(a.x - 1, a.y - 1, a)) {
 					return moveAttack(room, Dir.NORTH_WEST);
 				} else {
 					if (a.x - h.x > a.y - h.y) {
-						if (!room.checkForPassableAt(a.x - 1, a.y, Wall.class)) {
+						if (!room.checkForPassableAt(a.x - 1, a.y, a)) {
 							return moveAttack(room, Dir.WEST);
 						} else {
 							return moveAttack(room, Dir.NORTH);
 						}
 					} else {
-						if (!room.checkForPassableAt(a.x, a.y - 1, Wall.class)) {
+						if (!room.checkForPassableAt(a.x, a.y - 1, a)) {
 							return moveAttack(room, Dir.NORTH);
 						} else {
 							return moveAttack(room, Dir.WEST);
@@ -39,11 +43,11 @@ public class AttackController extends BasicController {
 					}
 				}
 			} else if (a.y < h.y) {
-				if (!room.checkForPassableAt(a.x - 1, a.y + 1, Wall.class)) {
+				if (room.checkForPassableAt(a.x - 1, a.y + 1, a)) {
 					return moveAttack(room, Dir.SOUTH_WEST);
 				} else {
 					if (a.x - h.x > h.y - a.y) {
-						if (!room.checkForPassableAt(a.x - 1, a.y, Wall.class)) {
+						if (room.checkForPassableAt(a.x - 1, a.y, a)) {
 							return moveAttack(room, Dir.WEST);
 						} else {
 							return moveAttack(room, Dir.SOUTH);
@@ -61,7 +65,7 @@ public class AttackController extends BasicController {
 			}
 		} else if (a.x < h.x) {
 			if (a.y > h.y) {
-				if (!room.checkForPassableAt(a.x + 1, a.y - 1, a)) {
+				if (room.checkForPassableAt(a.x + 1, a.y - 1, a)) {
 					return moveAttack(room, Dir.NORTH_EAST);
 				} else {
 					if (h.x - a.x > a.y - h.y) {

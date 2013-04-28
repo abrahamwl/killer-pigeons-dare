@@ -1,7 +1,6 @@
 package game.action;
 
 import game.*;
-import game.entity.Wall;
 
 public class ActionMove extends Action {
 	public Dir dir;
@@ -12,8 +11,7 @@ public class ActionMove extends Action {
 
 	@Override
 	public void execute(Room r, Actor a) {
-		if (r.checkForTypeAt(a.x + dir.x, a.y + dir.y, Wall.class)) {
-		} else {
+		if (r.checkForPassableAt(a.x + dir.x, a.y + dir.y, a)) {
 			a.x += dir.x;
 			a.y += dir.y;
 		}
