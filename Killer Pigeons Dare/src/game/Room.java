@@ -48,6 +48,10 @@ public class Room {
 	}
 
 	public Room (Game game, String[] roomStrings) {
+		
+		//UI
+		panel = new InfoPanel(512, 0, Game.MARGIN, 512);
+
 		try {
 			for(String roomString : roomStrings) {
 				String[][] roomGrid = null;
