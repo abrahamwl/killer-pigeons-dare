@@ -11,6 +11,7 @@ import org.newdawn.slick.SpriteSheet;
 
 public class Flameo extends Actor {
 	public Flameo () {
+		super("Flame", 1);
 		SpriteSheet sheet;
 		try {
 			sheet = new SpriteSheet("res/blueman.png", 33, 36, 0);
@@ -54,14 +55,6 @@ public class Flameo extends Actor {
 			}
 		}
 		return true;
-	}
-
-	@Override
-	public void decide(Room r) {
-		movingToward = false;
-		movingAway = false;
-		if (Math.abs(this.x - r.game.hero.x) + Math.abs(this.y - r.game.hero.y) > 10) movingToward = true;
-		if (Math.abs(this.x - r.game.hero.x) + Math.abs(this.y - r.game.hero.y) < 4)  movingAway = true;
 	}
 	
 	public class BluemanBrain implements Controller {

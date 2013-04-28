@@ -1,5 +1,6 @@
 package game;
 
+import game.controller.AttackController;
 import game.entity.Goblin;
 import game.entity.Wall;
 
@@ -10,7 +11,7 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.geom.*;
 
 public class Room {
-	Game game = null;
+	public Game game = null;
 	Random random;
 	ArrayList<Entity> ent;
 	ArrayList<Entity> waiting = new ArrayList<Entity>();
@@ -21,24 +22,27 @@ public class Room {
 	
 
 	// This function is passed a series of class names representing entities.  Columns are broken up by commas, rows broken up by semicolons.
-	Entity generateEntity(String es) {
-		String className = null;
+	public void addEntity(String es, int ex, int ey) {
+		String cn = null;
 		Entity entity = null;
 
-		if(es.equals("B")) className = "Blueman";
-		if(es.equals("C")) className = "Character";
-		if(es.equals("E")) className = "End";
-		if(es.equals("G")) className = "Goblin";
-		if(es.equals("S")) className = "Start";
-		if(es.equals("W")) className = "Wall";
+		cn = es; // Default behavior is to use the passed string as classname, unless a known shortname is used
+		if(es.equals("B")) cn = "Blueman";
+		if(es.equals("C")) cn = "Character";
+		if(es.equals("E")) cn = "End";
+		if(es.equals("F")) cn = "Flameo";
+		if(es.equals("G")) cn = "Goblin";
+		if(es.equals("S")) cn = "Start";
+		if(es.equals("W")) cn = "Wall";
 
 		try {
-			entity = (Entity) Class.forName("game.entity.".concat(className)).newInstance();
+			entity = (Entity) Class.forName("game.entity.".concat(cn)).newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return entity;
+		entity.x = ex;
+		entity.y = ey;
 	}
 
 	public Room (Game game, String[] roomStrings) {
@@ -54,14 +58,8 @@ public class Room {
 				roomGrid = new String[roomRow.length][];
 				for(int r = 0; r < roomRow.length; r++) roomGrid[r] = roomRow[r].split(",");
 
-				for(int r = 0; r < roomGrid.length; r++) for(int c = 0; c < roomGrid[r].length; c++) {
-					if(!roomGrid[r][c].equals("")) {
-						Entity e = generateEntity(roomGrid[r][c]);
-						e.x = c;
-						e.y = r;
-						ent.add(e);
-					}
-				}
+				for(int r = 0; r < roomGrid.length; r++) for(int c = 0; c < roomGrid[r].length; c++)
+					if(!roomGrid[r][c].equals("")) addEntity(roomGrid[r][c], c, r);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

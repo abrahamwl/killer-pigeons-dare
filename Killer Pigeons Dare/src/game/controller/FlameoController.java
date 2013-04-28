@@ -1,19 +1,23 @@
-package game;
+package game.controller;
 
+import game.Actor;
+import game.BasicController;
+import game.Dir;
+import game.Room;
 import game.action.*;
 import game.entity.Character;
 import game.entity.Wall;
 
 import org.newdawn.slick.GameContainer;
 
-public class AttackController extends BasicController {
-	public AttackController (Actor monster) {
+public class FlameoController extends BasicController {
+	public FlameoController (Actor monster) {
 		a = monster;
 	}
 	
 	@Override
-	public Action chooseNextAction(Room room, GameContainer gc) {
-		Character h = room.game.hero;
+	public Action chooseNextAction(Room room, GameContainer gc) {	
+		Actor t = room.game.hero;
 		
 		if (a.x > h.x) {
 			if (a.y > h.y) {

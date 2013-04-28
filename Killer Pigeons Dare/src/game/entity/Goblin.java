@@ -1,7 +1,7 @@
 package game.entity;
 
 import game.Actor;
-import game.AttackController;
+import game.controller.AttackController;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;

@@ -14,7 +14,7 @@ import org.newdawn.slick.*;
 public class Game extends BasicGame {
 	Random random = null;
 	
-	Character hero = null;
+	public Character hero = null;
 	Room room;
 	static String[] roomFiles = null;
 
