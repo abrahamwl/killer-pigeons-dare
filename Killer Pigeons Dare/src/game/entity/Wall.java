@@ -1,5 +1,6 @@
 package game.entity;
 
+import game.Actor;
 import game.Entity;
 import game.Room;
 
@@ -26,6 +27,11 @@ public class Wall extends Entity {
 	@Override
 	public boolean execute(Room r) {
 		return true; //Doesn't do anything.
+	}
+
+	@Override
+	public boolean passableFor(Actor a) {
+		return false;
 	}
 
 }

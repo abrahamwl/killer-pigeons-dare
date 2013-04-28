@@ -184,4 +184,16 @@ public class Room {
 
 		return out;
 	}
+	
+	public boolean checkForPassableAt (int x, int y, Actor a) {
+		for (Entity e : ent) {
+			if (e.x == x && e.y == y) {
+				if (!e.passableFor(a)) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
 }

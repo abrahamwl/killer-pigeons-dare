@@ -27,4 +27,6 @@ public abstract class Entity {
 	
 	public void init () {
 	}
+	
+	public abstract boolean passableFor(Actor a);
 }

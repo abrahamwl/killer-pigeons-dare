@@ -59,11 +59,14 @@ public class Actor extends Entity {
 	public void render(GameContainer gc, Graphics g) {
 		if (!noDraw) {
 			image.draw(x * CELL_SIZE, y * CELL_SIZE);
+			
 			g.setColor(Color.red);
 			g.fillRect(x * CELL_SIZE, y * CELL_SIZE + 60, 64, 3);
 			g.setColor(Color.green);
-			
 			g.fillRect(x * CELL_SIZE, y * CELL_SIZE + 60, 64 * hitpoints / maxHitpoints, 3);
+			
+			g.setColor(Color.white);
+			g.drawString(String.valueOf(level), x * CELL_SIZE, y * CELL_SIZE);
 		}
 	}
 	
@@ -83,5 +86,10 @@ public class Actor extends Entity {
 			a.execute(r, this);
 			return true;
 		}
+	}
+
+	@Override
+	public boolean passableFor(Actor a) {
+		return false;
 	}
 }

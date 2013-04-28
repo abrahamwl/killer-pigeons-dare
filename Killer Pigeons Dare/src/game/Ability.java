@@ -6,8 +6,10 @@ public class Ability {
 		TOUGH(true), //Extra 50% HP.
 		QUICK(true), //Acts <power> extra times in a turn.
 		BLOCK(true), //Negates the first melee attack it would receive in a turn.
-		COUNTER_WAIT(false); //If it waits, the first <power> times it would be melee attacked in a turn,
+		COUNTER_WAIT(false), //If it waits, the first <power> times it would be melee attacked in a turn,
 								//it attacks back instead.
+		FLYING(true),	//Can pass over water.
+		SWIMMING(true); //Can pass over water.
 		
 		protected boolean activeByDefault;
 		
