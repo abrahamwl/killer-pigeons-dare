@@ -9,9 +9,9 @@ public abstract class Entity {
 	public static final int CELL_SIZE = 64;
 	public boolean noDraw = false;
 	
-	String name;
+	protected String name;
 
-	Image image = null;
+	protected Image image = null;
 	
 	public Entity(String name) {
 		this.name = name;

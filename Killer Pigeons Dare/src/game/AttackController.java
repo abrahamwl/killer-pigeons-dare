@@ -9,7 +9,7 @@ import org.newdawn.slick.GameContainer;
 public class AttackController implements Controller {
 	Actor m;
 	
-	AttackController (Actor monster) {
+	public AttackController (Actor monster) {
 		m = monster;
 	}
 

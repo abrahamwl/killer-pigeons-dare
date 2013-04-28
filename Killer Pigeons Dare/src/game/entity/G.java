@@ -1,6 +1,7 @@
 package game.entity;
 
 import game.Actor;
+import game.AttackController;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -14,6 +15,7 @@ public class G extends Actor {
 	
 	public G () {
 		super("Goblin", 1);
+		controller = new AttackController(this);
 		SpriteSheet sheet;
 		try {
 			sheet = new SpriteSheet("res/game.png", 63, 63, 1);

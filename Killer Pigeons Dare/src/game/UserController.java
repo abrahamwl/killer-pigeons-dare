@@ -8,7 +8,7 @@ import org.newdawn.slick.Input;
 
 public class UserController implements Controller {
 	
-	UserController (C avatar) {
+	public UserController (C avatar) {
 	}
 
 	@Override

@@ -1,12 +1,14 @@
 package game.entity;
 
 import game.Actor;
+import game.UserController;
 
 import org.newdawn.slick.*;
 
 public class C extends Actor {
 	public C () {
 		super("Hero", 1);
+		this.controller = new UserController(this);
 		SpriteSheet sheet;
 		try {
 			sheet = new SpriteSheet("res/game.png", 63, 63, 1);

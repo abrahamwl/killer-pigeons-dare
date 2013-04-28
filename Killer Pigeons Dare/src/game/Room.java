@@ -18,11 +18,12 @@ public class Room {
 	GameContainer gc;
 
 	// This function is passed a series of class names representing entities.  Columns are broken up by commas, rows broken up by semicolons.
-	public Room (String[] roomStrings) {
+	public Room (Game game, String[] roomStrings) {
 		try {
 			for(String roomString : roomStrings) {
 			String[][] roomGrid = null;
 			String[] roomRow = null;
+			this.game = game;
 			ent = new ArrayList<Entity>();
 			roomString = roomString.replaceAll("\\s", ""); // Remove all whitespace
 
@@ -30,7 +31,14 @@ public class Room {
 			roomGrid = new String[roomRow.length][];
 			for(int r = 0; r < roomRow.length; r++) roomGrid[r] = roomRow[r].split(",");
 
-			for(int r = 0; r < roomGrid.length; r++) for(int c = 0; c < roomGrid[r].length; c++) ent.add((Entity) Class.forName(roomGrid[r][c]).newInstance());
+			for(int r = 0; r < roomGrid.length; r++) for(int c = 0; c < roomGrid[r].length; c++) {
+				if(!roomGrid[r][c].equals("")) {
+					Entity e = (Entity) Class.forName("game.entity.".concat(roomGrid[r][c])).newInstance();
+					e.x = c;
+					e.y = r;
+					ent.add(e);
+				}
+			}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

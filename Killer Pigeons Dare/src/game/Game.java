@@ -38,7 +38,6 @@ public class Game extends BasicGame {
 		
 		// Generating game objects.
 		hero = new C();
-		hero.controller = new UserController(hero);
 		room = new Room(this, new Random(random.nextLong()));
 		
 		// If room files have been passed on the command line, load them all 
@@ -47,14 +46,15 @@ public class Game extends BasicGame {
 			for(int i = 0; i < roomFiles.length; i++) {
 				try {
 					BufferedReader br = new BufferedReader(new FileReader(new File(roomFiles[i])));
+					roomStrings[i] = new String();
 					while(br.ready()) roomStrings[i] = roomStrings[i].concat(br.readLine());
 					br.close();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-				
-			room = new Room(roomFiles); 
+
+			room = new Room(this, roomStrings); 
 		}
 	}
 
