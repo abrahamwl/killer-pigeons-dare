@@ -7,8 +7,8 @@ public class End extends Entity {
 	public End () {
 		SpriteSheet sheet;
 		try {
-			sheet = new SpriteSheet("res/blocks1.png", 16, 16);
-			image = sheet.getSubImage(13, 9);
+			sheet = new SpriteSheet("res/game.png", 63, 63, 1);
+			image = sheet.getSubImage(0, 2);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

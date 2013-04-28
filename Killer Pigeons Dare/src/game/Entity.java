@@ -6,13 +6,14 @@ import org.newdawn.slick.Image;
 
 public abstract class Entity {
 	public int x, y; //Location in room coordinates.
+	public int cellSize = 64;
 	
 	String name;
 
 	Image image = null;
 	
 	public void render(GameContainer gc, Graphics g) {
-		image.draw(x * 32, y * 32);
+		image.draw(x * cellSize, y * cellSize);
 	}
 	
 	abstract public boolean execute(Room r);

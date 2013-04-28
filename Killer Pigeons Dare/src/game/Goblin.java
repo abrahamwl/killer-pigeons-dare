@@ -13,7 +13,7 @@ public class Goblin extends Actor {
 	public Goblin () {
 		SpriteSheet sheet;
 		try {
-			sheet = new SpriteSheet("res/goblinguy.png", 33, 36, 0);
+			sheet = new SpriteSheet("res/game.png", 63, 63, 1);
 			image = sheet.getSubImage(1, 0);
 		} catch (SlickException e) {
 			e.printStackTrace();
