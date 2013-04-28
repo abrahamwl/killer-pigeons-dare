@@ -144,6 +144,7 @@ public class Room {
 		}
 		
 		drawCursor = drawCursor.transform(Transform.createTranslateTransform(x,y));
+		g.setColor(Color.white);
 		g.fill(drawCursor);
 	}
 
