@@ -23,12 +23,16 @@ public class AttackController extends BasicController {
 			return new ActionMeleeAttack(Dir.fromXY(h.x - a.x, h.y - a.y));
 		}
 		
-		if (a.x > h.x) {
-			if (a.y > h.y) {
+		return chooseMovement(room, h);
+	}
+
+	protected Action chooseMovement(Room room, Actor t) {
+		if (a.x > t.x) {
+			if (a.y > t.y) {
 				if (room.checkForPassableAt(a.x - 1, a.y - 1, a)) {
 					return new ActionMove(Dir.NORTH_WEST);
 				} else {
-					if (a.x - h.x > a.y - h.y) {
+					if (a.x - t.x > a.y - t.y) {
 						if (room.checkForPassableAt(a.x - 1, a.y, a)) {
 							return new ActionMove(Dir.WEST);
 						} else {
@@ -42,11 +46,11 @@ public class AttackController extends BasicController {
 						}
 					}
 				}
-			} else if (a.y < h.y) {
+			} else if (a.y < t.y) {
 				if (room.checkForPassableAt(a.x - 1, a.y + 1, a)) {
 					return new ActionMove(Dir.SOUTH_WEST);
 				} else {
-					if (a.x - h.x > h.y - a.y) {
+					if (a.x - t.x > t.y - a.y) {
 						if (room.checkForPassableAt(a.x - 1, a.y, a)) {
 							return new ActionMove(Dir.WEST);
 						} else {
@@ -63,12 +67,12 @@ public class AttackController extends BasicController {
 			} else {
 				return new ActionMove(Dir.WEST);
 			}
-		} else if (a.x < h.x) {
-			if (a.y > h.y) {
+		} else if (a.x < t.x) {
+			if (a.y > t.y) {
 				if (room.checkForPassableAt(a.x + 1, a.y - 1, a)) {
 					return new ActionMove(Dir.NORTH_EAST);
 				} else {
-					if (h.x - a.x > a.y - h.y) {
+					if (t.x - a.x > a.y - t.y) {
 						if (room.checkForPassableAt(a.x + 1, a.y, a)) {
 							return new ActionMove(Dir.EAST);
 						} else {
@@ -82,11 +86,11 @@ public class AttackController extends BasicController {
 						}
 					}
 				}
-			} else if (a.y < h.y) {
+			} else if (a.y < t.y) {
 				if (room.checkForPassableAt(a.x + 1, a.y + 1, a)) {
 					return new ActionMove(Dir.SOUTH_EAST);
 				} else {
-					if (h.x - a.x > h.y - a.y) {
+					if (t.x - a.x > t.y - a.y) {
 						if (room.checkForPassableAt(a.x+ 1, a.y, a)) {
 							return new ActionMove(Dir.EAST);
 						} else {
@@ -104,9 +108,9 @@ public class AttackController extends BasicController {
 				return new ActionMove(Dir.EAST);
 			}
 		} else {
-			if (a.y > h.y) {
+			if (a.y > t.y) {
 				return new ActionMove(Dir.NORTH);
-			} else if (a.y < h.y) {
+			} else if (a.y < t.y) {
 				return new ActionMove(Dir.SOUTH);
 			} else {
 				return new ActionWait();
