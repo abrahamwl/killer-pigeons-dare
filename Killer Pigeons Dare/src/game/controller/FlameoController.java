@@ -6,6 +6,7 @@ import game.Dir;
 import game.Room;
 import game.action.*;
 import game.entity.Character;
+import game.entity.Flameo;
 import game.entity.Wall;
 
 import org.newdawn.slick.GameContainer;
@@ -22,14 +23,13 @@ public class FlameoController extends BasicController {
 	public Action chooseNextAction(Room room, GameContainer gc) {	
 		Actor t = room.game.hero;
 
-		flameTime--;
-		if(flameTime == 0) die();
+		flameTime--; if(flameTime == 0) die();
 		
 		int distToHero = Math.abs(a.x - t.x) + Math.abs(a.y - t.y);
 		
 		if(distToHero > 10) return chooseMovement(room, t);
 		
-		if(distToHero > 5) return spawnFlame(room);
+		if(distToHero > 5) return spawnFlame(room, t);
 		
 		return new ActionWait();
 	}
@@ -38,10 +38,35 @@ public class FlameoController extends BasicController {
 		// TODO
 	}
 	
-	private Action spawnFlame(Room room) {
-		// TODO
+	private Action spawnFlame(Room room, Actor t) {
+		int distx = a.x - t.x;
+		int disty = a.y - t.y;
+		int distToTarget = Math.abs(a.x - t.x) + Math.abs(a.y - t.y);
+		int testDist = 0;
+
+		int currpoint = 0;
+		boolean dirEquidist[] = new boolean[9]; 
+		int pointx[] = new int[9];
+		int pointy[] = new int[9];
 		
-		return null;
+		// Find equidistance directions
+		for(int i = 0; i < Dir.values().length; i++) {
+				pointx[i] = a.x + Dir.values()[i].x;
+				pointy[i] = a.y + Dir.values()[i].y;
+				testDist = Math.abs(pointx[i] - t.x) + Math.abs(pointy[i] - t.y);
+				dirEquidist[currpoint] = false;
+				if(testDist == distToTarget) dirEquidist[currpoint] = true;
+				currpoint++;
+			}				
+		
+		// Spawn flame in first equidistance point that doesn't have flame
+		for(int i = 0; i < 9; i++)
+			if(dirEquidist[i] && 
+					!room.checkForTypeAt(pointx[i], pointy[i], Flameo.class) && 
+					room.checkForPassableAt(pointx[i], pointy[i], a)) 
+				return new ActionSpawn(Dir.values()[i], "Flameo");
+		
+		return new ActionWait();
 	}
 	
 	// TODO remove moveAttack
@@ -50,88 +75,88 @@ public class FlameoController extends BasicController {
 		if (a.x > t.x) {
 			if (a.y > t.y) {
 				if (!room.checkForTypeAt(a.x - 1, a.y - 1, Wall.class)) {
-					return moveAttack(room, Dir.NORTH_WEST);
+					return new ActionMove(Dir.NORTH_WEST);
 				} else {
 					if (a.x - t.x > a.y - t.y) {
 						if (!room.checkForTypeAt(a.x - 1, a.y, Wall.class)) {
-							return moveAttack(room, Dir.WEST);
+							return new ActionMove(Dir.WEST);
 						} else {
-							return moveAttack(room, Dir.NORTH);
+							return new ActionMove(Dir.NORTH);
 						}
 					} else {
 						if (!room.checkForTypeAt(a.x, a.y - 1, Wall.class)) {
-							return moveAttack(room, Dir.NORTH);
+							return new ActionMove(Dir.NORTH);
 						} else {
-							return moveAttack(room, Dir.WEST);
+							return new ActionMove(Dir.WEST);
 						}
 					}
 				}
 			} else if (a.y < t.y) {
 				if (!room.checkForTypeAt(a.x - 1, a.y + 1, Wall.class)) {
-					return moveAttack(room, Dir.SOUTH_WEST);
+					return new ActionMove(Dir.SOUTH_WEST);
 				} else {
 					if (a.x - t.x > t.y - a.y) {
 						if (!room.checkForTypeAt(a.x - 1, a.y, Wall.class)) {
-							return moveAttack(room, Dir.WEST);
+							return new ActionMove(Dir.WEST);
 						} else {
-							return moveAttack(room, Dir.SOUTH);
+							return new ActionMove(Dir.SOUTH);
 						}
 					} else {
 						if (!room.checkForTypeAt(a.x, a.y + 1, Wall.class)) {
-							return moveAttack(room, Dir.SOUTH);
+							return new ActionMove(Dir.SOUTH);
 						} else {
-							return moveAttack(room, Dir.WEST);
+							return new ActionMove(Dir.WEST);
 						}
 					}
 				}
 			} else {
-				return moveAttack(room, Dir.WEST);
+				return new ActionMove(Dir.WEST);
 			}
 		} else if (a.x < t.x) {
 			if (a.y > t.y) {
 				if (!room.checkForTypeAt(a.x + 1, a.y - 1, Wall.class)) {
-					return moveAttack(room, Dir.NORTH_EAST);
+					return new ActionMove(Dir.NORTH_EAST);
 				} else {
 					if (t.x - a.x > a.y - t.y) {
 						if (!room.checkForTypeAt(a.x + 1, a.y, Wall.class)) {
-							return moveAttack(room, Dir.EAST);
+							return new ActionMove(Dir.EAST);
 						} else {
-							return moveAttack(room, Dir.NORTH);
+							return new ActionMove(Dir.NORTH);
 						}
 					} else {
 						if (!room.checkForTypeAt(a.x, a.y - 1, Wall.class)) {
-							return moveAttack(room, Dir.NORTH);
+							return new ActionMove(Dir.NORTH);
 						} else {
-							return moveAttack(room, Dir.EAST);
+							return new ActionMove(Dir.EAST);
 						}
 					}
 				}
 			} else if (a.y < t.y) {
 				if (!room.checkForTypeAt(a.x + 1, a.y + 1, Wall.class)) {
-					return moveAttack(room, Dir.SOUTH_EAST);
+					return new ActionMove(Dir.SOUTH_EAST);
 				} else {
 					if (t.x - a.x > t.y - a.y) {
 						if (!room.checkForTypeAt(a.x+ 1, a.y, Wall.class)) {
-							return moveAttack(room, Dir.EAST);
+							return new ActionMove(Dir.EAST);
 						} else {
-							return moveAttack(room, Dir.SOUTH);
+							return new ActionMove(Dir.SOUTH);
 						}
 					} else {
 						if (!room.checkForTypeAt(a.x, a.y + 1, Wall.class)) {
-							return moveAttack(room, Dir.SOUTH);
+							return new ActionMove(Dir.SOUTH);
 						} else {
-							return moveAttack(room, Dir.EAST);
+							return new ActionMove(Dir.EAST);
 						}
 					}
 				}
 			} else {
-				return moveAttack(room, Dir.EAST);
+				return new ActionMove(Dir.EAST);
 			}
 		} else {
 			if (a.y > t.y) {
-				return moveAttack(room, Dir.NORTH);
+				return new ActionMove(Dir.NORTH);
 			} else if (a.y < t.y) {
-				return moveAttack(room, Dir.SOUTH);
+				return new ActionMove(Dir.SOUTH);
 			} else {
 				return new ActionWait();
 			}
