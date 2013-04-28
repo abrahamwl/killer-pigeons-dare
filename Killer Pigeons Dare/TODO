@@ -7,6 +7,7 @@
 
 - [ ] level editor
   - [ ] test editor, make sure I can stack multiple things
+  - [X] refactor code base to work with level editor
 
 - [ ] spell system
 - [ ] item system
