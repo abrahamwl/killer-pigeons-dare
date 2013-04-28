@@ -6,56 +6,46 @@ import game.entity.Wall;
 
 import org.newdawn.slick.GameContainer;
 
-public class AttackController implements Controller {
-	Actor m;
-	
+public class AttackController extends BasicController {
 	public AttackController (Actor monster) {
-		m = monster;
+		a = monster;
 	}
 	
-	private Action moveAttack (Room room, Dir dir) {
-		if (!room.checkForTypeAt(m.x + dir.x, m.y + dir.y, Actor.class)) {
-			return new ActionMove(dir);
-		} else {
-			return new ActionMeleeAttack(dir);
-		}
-	}
-
 	@Override
 	public Action chooseNextAction(Room room, GameContainer gc) {
 		Character h = room.game.hero;
 		
-		if (m.x > h.x) {
-			if (m.y > h.y) {
-				if (!room.checkForTypeAt(m.x - 1, m.y - 1, Wall.class)) {
+		if (a.x > h.x) {
+			if (a.y > h.y) {
+				if (!room.checkForTypeAt(a.x - 1, a.y - 1, Wall.class)) {
 					return moveAttack(room, Dir.NORTH_WEST);
 				} else {
-					if (m.x - h.x > m.y - h.y) {
-						if (!room.checkForTypeAt(m.x - 1, m.y, Wall.class)) {
+					if (a.x - h.x > a.y - h.y) {
+						if (!room.checkForTypeAt(a.x - 1, a.y, Wall.class)) {
 							return moveAttack(room, Dir.WEST);
 						} else {
 							return moveAttack(room, Dir.NORTH);
 						}
 					} else {
-						if (!room.checkForTypeAt(m.x, m.y - 1, Wall.class)) {
+						if (!room.checkForTypeAt(a.x, a.y - 1, Wall.class)) {
 							return moveAttack(room, Dir.NORTH);
 						} else {
 							return moveAttack(room, Dir.WEST);
 						}
 					}
 				}
-			} else if (m.y < h.y) {
-				if (!room.checkForTypeAt(m.x - 1, m.y + 1, Wall.class)) {
+			} else if (a.y < h.y) {
+				if (!room.checkForTypeAt(a.x - 1, a.y + 1, Wall.class)) {
 					return moveAttack(room, Dir.SOUTH_WEST);
 				} else {
-					if (m.x - h.x > h.y - m.y) {
-						if (!room.checkForTypeAt(m.x - 1, m.y, Wall.class)) {
+					if (a.x - h.x > h.y - a.y) {
+						if (!room.checkForTypeAt(a.x - 1, a.y, Wall.class)) {
 							return moveAttack(room, Dir.WEST);
 						} else {
 							return moveAttack(room, Dir.SOUTH);
 						}
 					} else {
-						if (!room.checkForTypeAt(m.x, m.y + 1, Wall.class)) {
+						if (!room.checkForTypeAt(a.x, a.y + 1, Wall.class)) {
 							return moveAttack(room, Dir.SOUTH);
 						} else {
 							return moveAttack(room, Dir.WEST);
@@ -65,37 +55,37 @@ public class AttackController implements Controller {
 			} else {
 				return moveAttack(room, Dir.WEST);
 			}
-		} else if (m.x < h.x) {
-			if (m.y > h.y) {
-				if (!room.checkForTypeAt(m.x + 1, m.y - 1, Wall.class)) {
+		} else if (a.x < h.x) {
+			if (a.y > h.y) {
+				if (!room.checkForTypeAt(a.x + 1, a.y - 1, Wall.class)) {
 					return moveAttack(room, Dir.NORTH_EAST);
 				} else {
-					if (h.x - m.x > m.y - h.y) {
-						if (!room.checkForTypeAt(m.x + 1, m.y, Wall.class)) {
+					if (h.x - a.x > a.y - h.y) {
+						if (!room.checkForTypeAt(a.x + 1, a.y, Wall.class)) {
 							return moveAttack(room, Dir.EAST);
 						} else {
 							return moveAttack(room, Dir.NORTH);
 						}
 					} else {
-						if (!room.checkForTypeAt(m.x, m.y - 1, Wall.class)) {
+						if (!room.checkForTypeAt(a.x, a.y - 1, Wall.class)) {
 							return moveAttack(room, Dir.NORTH);
 						} else {
 							return moveAttack(room, Dir.EAST);
 						}
 					}
 				}
-			} else if (m.y < h.y) {
-				if (!room.checkForTypeAt(m.x + 1, m.y + 1, Wall.class)) {
+			} else if (a.y < h.y) {
+				if (!room.checkForTypeAt(a.x + 1, a.y + 1, Wall.class)) {
 					return moveAttack(room, Dir.SOUTH_EAST);
 				} else {
-					if (h.x - m.x > h.y - m.y) {
-						if (!room.checkForTypeAt(m.x+ 1, m.y, Wall.class)) {
+					if (h.x - a.x > h.y - a.y) {
+						if (!room.checkForTypeAt(a.x+ 1, a.y, Wall.class)) {
 							return moveAttack(room, Dir.EAST);
 						} else {
 							return moveAttack(room, Dir.SOUTH);
 						}
 					} else {
-						if (!room.checkForTypeAt(m.x, m.y + 1, Wall.class)) {
+						if (!room.checkForTypeAt(a.x, a.y + 1, Wall.class)) {
 							return moveAttack(room, Dir.SOUTH);
 						} else {
 							return moveAttack(room, Dir.EAST);
@@ -106,9 +96,9 @@ public class AttackController implements Controller {
 				return moveAttack(room, Dir.EAST);
 			}
 		} else {
-			if (m.y > h.y) {
+			if (a.y > h.y) {
 				return moveAttack(room, Dir.NORTH);
-			} else if (m.y < h.y) {
+			} else if (a.y < h.y) {
 				return moveAttack(room, Dir.SOUTH);
 			} else {
 				return new ActionWait();
