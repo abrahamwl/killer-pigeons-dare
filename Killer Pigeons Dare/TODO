@@ -3,7 +3,9 @@ eric's list
 - [ ] add steve's music
 
 abe's list
-- [ ] add KillerPidgeon, can fly over water
+- [X] add KillerPidgeon, can fly over water
+- [ ] add Snake, has nothing special
+- [ ] add basic UI info on right of screen
 
 - [ ] cyclops - will wander and blink, deals heavy damage, can only see and follow and attack player if not blinking, if blinking/blinded will hit local surroundings every so often 
 - [ ] pigeon - can fly over everything to attack player, if close to cyclops will attack and blind cyclops - can be only killed by wand or arrow 
