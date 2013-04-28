@@ -8,6 +8,7 @@
 - [ ] level editor
   - [ ] test editor, make sure I can stack multiple things
   - [X] refactor code base to work with level editor
+  - [ ] make controllers initialize within entity classes
 
 - [ ] spell system
 - [ ] item system
