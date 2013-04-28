@@ -1,16 +1,18 @@
-package game;
+package game.entity;
+
+import game.Actor;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-public class Goblin extends Actor {
+public class G extends Actor {
 	Image facingUp = null;
 	Image facingLeft = null;
 	Image facingRight = null;
 	Image facingDown = null;
 	
-	public Goblin () {
+	public G () {
 		super("Goblin", 1);
 		SpriteSheet sheet;
 		try {

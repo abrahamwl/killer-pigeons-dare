@@ -1,5 +1,7 @@
 package game;
 
+import game.entity.C;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,7 +14,7 @@ import org.newdawn.slick.*;
 public class Game extends BasicGame {
 	Random random = null;
 	
-	Character hero = null;
+	C hero = null;
 	Room room;
 	static String[] roomFiles = null;
 
@@ -35,7 +37,7 @@ public class Game extends BasicGame {
 		random = new Random();
 		
 		// Generating game objects.
-		hero = new Character();
+		hero = new C();
 		hero.controller = new UserController(hero);
 		room = new Room(this, new Random(random.nextLong()));
 		

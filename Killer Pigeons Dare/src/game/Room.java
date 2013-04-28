@@ -1,5 +1,8 @@
 package game;
 
+import game.entity.G;
+import game.entity.W;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -44,26 +47,26 @@ public class Room {
 		game.hero.x = 1;
 		game.hero.y = 1;
 
-		Goblin goblin = new Goblin();
+		G goblin = new G();
 		goblin.controller = new AttackController(goblin);
 		goblin.x = 6;
 		goblin.y = 6;
 		ent.add(goblin);
 
 		for (int i = 0; i < 8; i++) {
-			Wall wall = new Wall();
+			W wall = new W();
 			wall.x = i;
 			wall.y = 0;
 			ent.add(wall);
-			wall = new Wall();
+			wall = new W();
 			wall.x = 7;
 			wall.y = i;
 			ent.add(wall);
-			wall = new Wall();
+			wall = new W();
 			wall.x = 7 - i;
 			wall.y = 7;
 			ent.add(wall);
-			wall = new Wall();
+			wall = new W();
 			wall.x = 0;
 			wall.y = 7 - i;
 			ent.add(wall);

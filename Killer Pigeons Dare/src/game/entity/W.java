@@ -1,13 +1,16 @@
-package game;
+package game.entity;
+
+import game.Entity;
+import game.Room;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-public class Wall extends Entity {
+public class W extends Entity {
 	private static SpriteSheet sheet = null;
 	
-	public Wall () {
+	public W () {
 		super("Wall");
 		if (sheet == null) {
 			try {

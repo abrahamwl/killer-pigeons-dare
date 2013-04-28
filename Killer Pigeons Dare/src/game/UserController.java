@@ -1,13 +1,14 @@
 package game;
 
 import game.action.*;
+import game.entity.C;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 
 public class UserController implements Controller {
 	
-	UserController (Character avatar) {
+	UserController (C avatar) {
 	}
 
 	@Override

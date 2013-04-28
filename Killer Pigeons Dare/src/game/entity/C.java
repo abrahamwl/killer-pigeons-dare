@@ -1,9 +1,11 @@
-package game;
+package game.entity;
+
+import game.Actor;
 
 import org.newdawn.slick.*;
 
-public class Character extends Actor {
-	public Character () {
+public class C extends Actor {
+	public C () {
 		super("Hero", 1);
 		SpriteSheet sheet;
 		try {

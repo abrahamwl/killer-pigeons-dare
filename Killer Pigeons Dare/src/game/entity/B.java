@@ -1,13 +1,16 @@
-package game;
+package game.entity;
 
+import game.Actor;
+import game.Controller;
+import game.Room;
 import game.action.Action;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-public class Blueman extends Actor {
-	public Blueman () {
+public class B extends Actor {
+	public B () {
 		SpriteSheet sheet;
 		try {
 			sheet = new SpriteSheet("res/blueman.png", 33, 36, 0);
@@ -33,7 +36,7 @@ public class Blueman extends Actor {
 			int newx = (int) (this.x + offx);
 			int newy = (int) (this.y + offy);
 			// Move blueman one step towards hero
-			if (!r.checkForTypeAt(newx, newy, Wall.class)) {
+			if (!r.checkForTypeAt(newx, newy, W.class)) {
 				this.x = newx;
 				this.y = newy;
 			}
@@ -45,7 +48,7 @@ public class Blueman extends Actor {
 			int newx = (int) (this.x + offx);
 			int newy = (int) (this.y + offy);
 			// Move blueman one step towards hero
-			if (!r.checkForTypeAt(newx, newy, Wall.class)) {
+			if (!r.checkForTypeAt(newx, newy, W.class)) {
 				this.x = newx;
 				this.y = newy;
 			}

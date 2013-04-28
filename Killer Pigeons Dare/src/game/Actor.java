@@ -5,7 +5,7 @@ import game.action.*;
 // The Actor class is the class inherited by all "characters" in the game. That is, the player character, all monsters, 
 // and other NPCs.
 public class Actor extends Entity {
-	Controller controller;
+	public Controller controller;
 	
 	private int level;
 	public int getLevel() {
