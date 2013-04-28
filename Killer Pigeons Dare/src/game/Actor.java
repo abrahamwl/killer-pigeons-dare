@@ -24,9 +24,15 @@ public class Actor extends Entity {
 	public void applyDamage(int damage) {
 		hitpoints -= damage;
 		if (hitpoints <= 0) {
-			dead = true;
-			noDraw = true;
+			kill();
 		}
+	}
+	
+	public void kill() {
+		dead = true;
+		noDraw = true;
+		x = Integer.MIN_VALUE;
+		y = Integer.MIN_VALUE;
 	}
 
 	@Override
