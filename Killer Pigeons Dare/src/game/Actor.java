@@ -1,5 +1,9 @@
 package game;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+
 import game.action.*;
 
 // The Actor class is the class inherited by all "characters" in the game. That is, the player character, all monsters, 
@@ -35,6 +39,17 @@ public class Actor extends Entity {
 		y = Integer.MIN_VALUE;
 	}
 
+	@Override
+	public void render(GameContainer gc, Graphics g) {
+		if (!noDraw) {
+			image.draw(x * CELL_SIZE, y * CELL_SIZE);
+			g.setColor(Color.red);
+			g.fillRect(x * CELL_SIZE, y * CELL_SIZE + 60, 64, 3);
+			g.setColor(Color.green);
+			g.fillRect(x * CELL_SIZE, y * CELL_SIZE + 60, 64 * hitpoints / (level * 10), 3);
+		}
+	}
+	
 	@Override
 	public boolean execute(Room r) {
 		if (dead) {
