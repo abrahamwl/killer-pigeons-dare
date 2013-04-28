@@ -8,8 +8,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-public class KillerPidgeon extends Actor {
-	public KillerPidgeon () {
+public class KillerPigeon extends Actor {
+	public KillerPigeon () {
 		super("Killer Pidgeon", 1);
 		controller = new AttackController(this);
 		abilities.add(new Ability(Ability.Type.FLYING));

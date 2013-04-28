@@ -93,7 +93,7 @@ public class Room {
 		goblin.x = 6;
 		goblin.y = 6;
 		ent.add(goblin);
-		KillerPidgeon pidge = new KillerPidgeon();
+		KillerPigeon pidge = new KillerPigeon();
 		pidge.x = 5;
 		pidge.y = 6;
 		ent.add(pidge);
