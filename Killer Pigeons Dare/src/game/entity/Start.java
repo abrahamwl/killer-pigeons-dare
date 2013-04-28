@@ -12,7 +12,7 @@ public class Start extends Entity {
 		SpriteSheet sheet;
 		try {
 			sheet = new SpriteSheet("res/game.png", 63, 63, 1);
-			image = sheet.getSubImage(0, 2);
+			image = sheet.getSubImage(1, 5);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

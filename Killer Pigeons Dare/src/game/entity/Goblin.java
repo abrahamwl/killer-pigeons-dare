@@ -19,7 +19,7 @@ public class Goblin extends Actor {
 		SpriteSheet sheet;
 		try {
 			sheet = new SpriteSheet("res/game.png", 63, 63, 1);
-			image = sheet.getSubImage(1, 0);
+			image = sheet.getSubImage(2, 0);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

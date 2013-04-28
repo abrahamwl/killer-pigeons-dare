@@ -9,12 +9,12 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-public class Blueman extends Actor {
-	public Blueman () {
+public class Flameo extends Actor {
+	public Flameo () {
 		SpriteSheet sheet;
 		try {
 			sheet = new SpriteSheet("res/blueman.png", 33, 36, 0);
-			image = sheet.getSubImage(1, 0);
+			image = sheet.getSubImage(6, 0);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

@@ -16,11 +16,10 @@ public class Wall extends Entity {
 			try {
 				sheet = new SpriteSheet("res/game.png", 63, 63, 1);
 			} catch (SlickException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		image = sheet.getSubImage(1, 2);
+		image = sheet.getSubImage(0, 5);
 		name = "Wall";
 	}
 
