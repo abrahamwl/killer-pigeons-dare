@@ -62,12 +62,12 @@ public class Room {
 		//UI
 		panel = new InfoPanel(512, 0, Game.MARGIN, 512);
 
+		ent = new ArrayList<Entity>();
 		try {
 			for(String roomString : roomStrings) {
 				String[][] roomGrid = null;
 				String[] roomRow = null;
 				this.game = game;
-				ent = new ArrayList<Entity>();
 				roomString = roomString.replaceAll("\\s", ""); // Remove all whitespace
 
 				roomRow = roomString.split(";");
@@ -77,7 +77,7 @@ public class Room {
 				for(int r = 0; r < roomGrid.length; r++) for(int c = 0; c < roomGrid[r].length; c++) {
 					Entity newEntity = null;
 					if(!roomGrid[r][c].equals("")) newEntity = addEntity(roomGrid[r][c], c, r);
-					if(roomGrid[r][c].equals("C")) game.hero = (Character) newEntity; // TODO HACK to not instantiate a new hero
+					if(roomGrid[r][c].equals("C")) game.hero = (Character) newEntity; // TODO HACK to not instantiate multiple heroes
 				}
 			}
 		} catch (Exception e) {
