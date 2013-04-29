@@ -82,7 +82,8 @@ public class Room {
 
 		if(es.equals("C")) entity = getOrCreateCharacter();
 		if(es.equals("F")) entity = new Flameo(enemyLevel);
-		if(es.equals("G")) entity = new Goblin(enemyLevel);
+		if(es.equals("G")) entity = new Golem(enemyLevel);
+		if(es.equals("O")) entity = new Goblin(enemyLevel);
 		if(es.equals("S")) entity = new Snake(enemyLevel);
 		if(es.equals("K")) entity = new KillerPidgeon(enemyLevel);
 		if(es.equals("R")) entity = new Wall();
@@ -167,7 +168,7 @@ public class Room {
 		game.hero.x = 1;
 		game.hero.y = 1;
 
-		Goblin goblin = new Goblin(1);
+		Golem goblin = new Golem(1);
 		goblin.x = 6;
 		goblin.y = 6;
 		ent.add(goblin);

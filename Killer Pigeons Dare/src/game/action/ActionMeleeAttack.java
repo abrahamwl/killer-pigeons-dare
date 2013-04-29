@@ -68,7 +68,7 @@ public class ActionMeleeAttack extends ActionAttack {
 			}
 			
 			if(a instanceof Snake) soundEffectAttackSnake.play();
-			if(a instanceof Goblin) soundEffectAttackGoblin.play();
+			if(a instanceof Golem) soundEffectAttackGoblin.play();
 			if(a instanceof KillerPidgeon) soundEffectAttackKillerPidgeon.play();
 			if(a instanceof Character) soundEffectAttackCharacter.play();
 			if(a instanceof Flameo) soundEffectAttackFlameo.play();

@@ -9,6 +9,14 @@ import game.entity.Character;
 import org.newdawn.slick.GameContainer;
 
 public class AttackController extends BasicController {
+	private int waitDistance = 0;
+	
+	public AttackController (Actor monster, int waitDistance) {
+		this(monster);
+		
+		this.waitDistance = waitDistance;
+	}
+	
 	public AttackController (Actor monster) {
 		a = monster;
 	}
@@ -17,10 +25,16 @@ public class AttackController extends BasicController {
 	public Action chooseNextAction(Room room, GameContainer gc) {
 		Character h = room.game.hero;
 		
-		if (Math.abs(a.x - h.x) <= 1 && Math.abs(a.y - h.y) <= 1) {
+		int dist = Math.max(Math.abs(a.x - h.x), Math.abs(a.y - h.y));
+		
+		if (dist <= 1) {
 			return new ActionMeleeAttack(Dir.fromXY(h.x - a.x, h.y - a.y));
 		}
 		
+		if (dist <= waitDistance) {
+			return new ActionWait();
+		}
+	
 		return chooseMovement(room, a, h);
 	}
 
