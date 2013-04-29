@@ -68,22 +68,7 @@ public class LevelUp extends UILayer {
 	}
 
 	public void draw(GameContainer gc, Graphics g) {
-		if (levelUpStep == 1) {
-			options = new ArrayList<Ability.Type>();
-			for (Ability.Type type : Ability.Type.values()) {
-				if (c.getAbility(type) == null) {
-					options.add(type);
-				}
-			}
-			if (options.size() == 0) {
-				levelUpStep = 0;
-				c.level = newLevel;
-				return;
-			} else {
-				levelUpStep = 2;
-			}
-		} else if (levelUpStep == 2) {
-			
+		if (levelUpStep > 0) {
 			g.setColor(InfoPanel.BROWN);
 			g.fillRoundRect(OUTER_LEFT, OUTER_TOP, OUTER_WIDTH, OUTER_HEIGHT, 5);
 			g.setColor(Color.lightGray);
@@ -95,49 +80,60 @@ public class LevelUp extends UILayer {
 			g.setColor(Color.black);
 			g.drawString("Welcome to level " + String.valueOf(newLevel) + "!", LEFT, line);
 			line += 14;
-
-			if (selectsLeft > 0) {
-				g.drawString("Please select " + String.valueOf(selectsLeft) + " new ability below.", LEFT, line);
-				line += 14;
 			
-				line = LIST_TOP;
-				for (Ability.Type type : options) {
-					if (c.getAbility(type) == null) {
-						g.setColor(Color.blue);
-						g.drawString(type.toString(), LEFT, line);
-						line += 14;
-					}
-				}
+			if (levelUpStep == 2) {
+				g.drawString("Please select " + String.valueOf(selectsLeft) + " new ability below.", LEFT, line);
 			}
-				
-			return;
 		}
 	}
 
 	public void process(GameContainer gc) {
-		if (levelUpStep == 2) {
-			Input input = gc.getInput();
-			int mX = input.getMouseX();
-			int mY = input.getMouseY(); 
-			
-			if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-				if (selectsLeft > 0) {
-					if (mX >= LEFT && mX <= LEFT + 800 - 256 - 5 && mY >= LIST_TOP && mY <= LIST_TOP + options.size() * 14) {
-						int selection = (mY - LIST_TOP) / 14;
-						selectsLeft--;
-						c.abilities.add(new Ability(options.get(selection)));
-						c.maxHitpoints = (int)(newLevel * 10.0 * (c.getAbility(Ability.Type.TOUGH) == null ? 1.0 : 1.5));
-						c.hitpoints = c.maxHitpoints;
-						levelUpStep = 1;
-					}
-				} else {
-					levelUpStep = 0;
-					c.level = newLevel;
+		if (selectsLeft > 0) {
+			options = new ArrayList<Ability.Type>();
+			for (Ability.Type type : Ability.Type.values()) {
+				if (c.getAbility(type) == null) {
+					options.add(type);
 				}
 			}
+			
+			if (options.size() > 0) {
+				levelUpStep = 2;
+			}
 		}
-		if (levelUpStep == 0) {
+		
+		Input input = gc.getInput();
+		if (levelUpStep == 2) {
+			int mX = input.getMouseX();
+			int mY = input.getMouseY();
+			
+			if (children.size() == 0) {
+				int line = LIST_TOP;
+				for (Ability.Type type : options) {
+					if (c.getAbility(type) == null) {
+						children.add(type.getDisplayElement(game, LEFT, line));
+						line += 14;
+					}
+				}
+			}
+			
+			if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+				if (mX >= LEFT && mX <= LEFT + 800 - 256 - 5 && mY >= LIST_TOP && mY <= LIST_TOP + options.size() * 14) {
+					int selection = (mY - LIST_TOP) / 14;
+					selectsLeft--;
+					c.abilities.add(new Ability(options.get(selection)));
+					c.maxHitpoints = (int)(newLevel * 10.0 * (c.getAbility(Ability.Type.TOUGH) == null ? 1.0 : 1.5));
+					c.hitpoints = c.maxHitpoints;
+					levelUpStep = 1;
+					children.clear();
+				}
+			}
+		} else if (levelUpStep == 1) {
+			if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+				levelUpStep = 0;
+				c.level = newLevel;
+			}
+		} else {
 			game.popUILayer();
 		}
 	}
-	}
+}

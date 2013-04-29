@@ -1,5 +1,12 @@
 package game;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
+
+import game.ui.UIElement;
+
 public class Ability {
 	
 	public enum Type {
@@ -10,11 +17,45 @@ public class Ability {
 		POISONOUS(true, "This character's attacks cause you to lose their level x 2 life per turn.");
 		
 		protected boolean activeByDefault;
-		public final String toolTip;
+		public final String tooltip;
 		
 		private Type(boolean activeByDefault, String toolTip) {
-			this.toolTip = toolTip;
+			this.tooltip = toolTip;
 			this.activeByDefault = activeByDefault;
+		}
+		
+		public class DisplayElement extends UIElement {
+			private Game game;
+			private int x, y, width = 0, height = 0;
+			
+			private DisplayElement (Game game, int x, int y) {
+				this.game = game;
+				this.x = x;
+				this.y = y;
+			}
+			
+			@Override
+			public void draw(GameContainer gc, Graphics g)
+					throws SlickException {
+				g.setColor(Color.blue);
+				String name = Type.this.toString();
+				g.drawString(name, x, y);
+				width = g.getFont().getWidth(name);
+				height = g.getFont().getLineHeight();
+			}
+
+			@Override
+			public void process(GameContainer gc) throws SlickException {
+				int mX = gc.getInput().getMouseX();
+				int mY = gc.getInput().getMouseY();
+				
+				if (mX >= x && mX <= x + width && mY >= y && mY <= y + height) {
+					game.tooltip = Type.this.tooltip;				}
+			}				
+		}
+		
+		public UIElement getDisplayElement (Game game, int x, int y) {
+			return new DisplayElement(game, x, y);
 		}
 	}
 

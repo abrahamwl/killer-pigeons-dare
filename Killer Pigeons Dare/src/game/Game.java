@@ -19,6 +19,8 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 	public static final int MARGIN = 800 - 512;
 	Random random = null;
 	
+	public String tooltip = null;
+	
 	Music music = null;
 	String currentMusicName = null;
 	SuppliesMusic musicSupplier = null;
@@ -74,12 +76,26 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 			renderCursor(gc, g);
 		}
 		
-		//TODO: Draw a tooltip.
+		if (tooltip != null) {
+			int width = g.getFont().getWidth(tooltip) + 6;
+			int height = g.getFont().getLineHeight() + 2;
+			int x = gc.getInput().getMouseX() - width;
+			x = Math.min(Math.max(x,  0), 800 - width);
+			int y = gc.getInput().getMouseY();
+			y = Math.min(y,  512 - height);
+			
+			g.setColor(Color.yellow);
+			g.fillRect(x, y, width, height);
+			g.setColor(Color.black);
+			g.drawRect(x, y, width, height);
+			g.drawString(tooltip, x + 3, y + 1);
+		}
 	}
 	
 	@Override
 	public void update(GameContainer gc, int timePassed) throws SlickException {
 		this.gc = gc;
+		tooltip = null;
 		uiLayers.peek().update(gc);
 		
 		if (musicSupplier != null) {

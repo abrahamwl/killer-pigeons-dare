@@ -10,11 +10,8 @@ import org.newdawn.slick.*;
 
 public class InfoPanel extends UIElement {
 	int x, y, width, height;
-	Image panel = null;
-	Graphics g;
 	Actor target = null;
 	public static final Color BROWN = new Color(.7f, .4f, .2f);
-	private boolean redraw = true;
 	private RoomLayer layer;
 	
 	InfoPanel (RoomLayer layer, int x, int y, int width, int height) {
@@ -26,55 +23,33 @@ public class InfoPanel extends UIElement {
 	}
 	
 	public void draw(GameContainer gc, Graphics g) throws SlickException {
-		if (panel == null) {
-			try {
-				panel = new Image (width, height);
-				g = panel.getGraphics();
-				g.setColor(BROWN);
-				g.fillRoundRect(0, 0, width, height, 5);
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		g.translate(x, y);
+		g.setColor(BROWN);
+		g.fillRoundRect(0, 0, width, height, 5);
 		
-		if (redraw) {
-			g = panel.getGraphics();
-			g.setColor(BROWN);
-			g.fillRoundRect(0, 0, width, height, 5);
+		if (target != null) {
+			g.drawImage(target.image, 5, 5);
+			g.setColor(Color.black);
+			g.drawString(target.name, 10 + Entity.CELL_SIZE, 5);
+			g.setColor(Color.red);
+			g.fillRect(5, 65, 64, 3);
+			g.setColor(Color.green);
+			g.fillRect(5, 65, 64 * target.getHitpoints() / target.getMaxHitpoints(), 3);
 			
-			if (target != null) {
-				g.drawImage(target.image, 5, 5);
-				g.setColor(Color.black);
-				g.drawString(target.name, 10 + Entity.CELL_SIZE, 5);
-				g.setColor(Color.red);
-				g.fillRect(5, 65, 64, 3);
+			g.setColor(Color.white);
+			g.drawString(String.valueOf(target.getLevel()), 5, 5);
+			
+			int y = 10 + Entity.CELL_SIZE;
+			
+			y += target.abilities.size() * 14;
+			
+			if (target.poisoned > 0) {
+				y += 14;
 				g.setColor(Color.green);
-				g.fillRect(5, 65, 64 * target.getHitpoints() / target.getMaxHitpoints(), 3);
-				
-				g.setColor(Color.white);
-				g.drawString(String.valueOf(target.getLevel()), 5, 5);
-				
-				int y = 10 + Entity.CELL_SIZE;
-				
-				g.setColor(Color.blue);
-				for (Ability a : target.abilities) {
-					g.drawString(a.type.toString(), 5, y);
-					y += 14;
-				}
-				
-				if (target.poisoned > 0) {
-					y += 14;
-					g.setColor(Color.green);
-					g.drawString(target.poisoned + " POISON", 5, y);
-				}
+				g.drawString(target.poisoned + " POISON", 5, y);
 			}
-			
-			redraw = false;
 		}
-		
-		g.flush();
-		g.drawImage(panel, x, y);
+		g.translate(-x, -y);
 	}
 	
 	@Override
@@ -86,7 +61,16 @@ public class InfoPanel extends UIElement {
 		if (!actors.isEmpty()) {
 			if (target != (Actor)actors.get(0)) {
 				target = (Actor)actors.get(0);
-				redraw = true;;
+				
+				children.clear();
+
+				int lY = 10 + Entity.CELL_SIZE;
+				
+				for (Ability a : target.abilities) {
+					children.add(a.type.getDisplayElement(layer.game, this.x + 5, this.y + lY));
+					lY += 14;
+				}
+				
 			}
 		}
 
