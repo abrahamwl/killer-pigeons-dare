@@ -171,6 +171,9 @@ public class Room {
 		// UI
 		panel.render(gc, g);
 		
+		// Hero UI
+		game.hero.deferredRender(gc, g);
+		
 		// Cursor
 		int x = gc.getInput().getMouseX();
 		int y = gc.getInput().getMouseY();

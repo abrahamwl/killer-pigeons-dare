@@ -55,10 +55,7 @@ public class Character extends Actor {
 		}
 	}
 	
-	@Override
-	public void render (GameContainer gc, Graphics g) {
-		super.render(gc, g);
-		
+	public void deferredRender (GameContainer gc, Graphics g) {
 		if (levelUpStep > 0) {
 			System.out.println("Render"); // DEBUG
 			select.render(gc, g);
@@ -101,19 +98,22 @@ public class Character extends Actor {
 				g.drawRoundRect(128, 64, 800 - 256, 512 - 128, 5);
 				
 				g.setColor(Color.black);
-				g.drawString("You have levelled up!", LEFT, TOP);
+				g.drawString("You have leveled up!", LEFT, TOP);
 				line += 14;
 				g.drawString("Welcome to level " + String.valueOf(newLevel) + "!", LEFT, line);
 				line += 14;
-				g.drawString("Please select a new ability below." + String.valueOf(newLevel) + "!", LEFT, line);
-				line += 14;
+
+				if (selectsLeft > 0) {
+					g.drawString("Please select " + String.valueOf(selectsLeft) + " new ability below.", LEFT, line);
+					line += 14;
 				
-				line = LIST_TOP;
-				for (Ability.Type type : options) {
-					if (getAbility(type) == null) {
-						g.setColor(Color.blue);
-						g.drawString(type.toString(), LEFT, line);
-						line += 14;
+					line = LIST_TOP;
+					for (Ability.Type type : options) {
+						if (getAbility(type) == null) {
+							g.setColor(Color.blue);
+							g.drawString(type.toString(), LEFT, line);
+							line += 14;
+						}
 					}
 				}
 					
@@ -128,16 +128,16 @@ public class Character extends Actor {
 				int mY = input.getMouseY(); 
 				
 				if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-					if (mX >= LEFT && mX <= LEFT + 800 - 256 - 5 && mY >= LIST_TOP && mY <= LIST_TOP + options.size() * 14) {
-						int selection = (mY - LIST_TOP) / 14;
-						selectsLeft--;
-						abilities.add(new Ability(options.get(selection)));
-						if (selectsLeft == 0) {
-							levelUpStep = 0;
-							level = newLevel;
-						} else {
+					if (selectsLeft > 0) {
+						if (mX >= LEFT && mX <= LEFT + 800 - 256 - 5 && mY >= LIST_TOP && mY <= LIST_TOP + options.size() * 14) {
+							int selection = (mY - LIST_TOP) / 14;
+							selectsLeft--;
+							abilities.add(new Ability(options.get(selection)));
 							levelUpStep = 1;
 						}
+					} else {
+						levelUpStep = 0;
+						level = newLevel;
 					}
 				}
 			}
