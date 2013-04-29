@@ -18,6 +18,18 @@ public class Room {
 	GameContainer gc;
 	InfoPanel panel;
 	
+	enum State {
+		PLAYING,
+		LOST,
+		WON,
+		LEVEL_UP;
+	}
+	State state = State.PLAYING;
+	
+	int turnCount = 0;
+	int monsterCount = 0;
+	int totalMonsterLevels = 0;
+	
 	private Polygon moveCursor = new Polygon(new float[] {0, 0, -32, 16, -32, -16});
 	private Shape drawCursor = moveCursor;
 	
@@ -132,6 +144,10 @@ public class Room {
 	void init () {
 		for (Entity e : ent) {
 			e.init();
+			if (e instanceof Actor && !(e instanceof Character)) {
+				monsterCount++;
+				totalMonsterLevels += ((Actor)e).getLevel();
+			}
 		}
 	}
 
@@ -185,14 +201,58 @@ public class Room {
 
 	public void update(GameContainer gc) {
 		this.gc = gc;
-		if (waiting.isEmpty()) {
-			waiting = (ArrayList<Entity>)ent.clone();
-		}
-		if (waiting.get(waiting.size() - 1).execute(this)) {
-			waiting.remove(waiting.size() - 1);
-		}
+		if (state == State.PLAYING) {
+			if (waiting.isEmpty()) {
+				waiting = (ArrayList<Entity>)ent.clone();
+				turnCount++;
+			}
+			if (waiting.get(waiting.size() - 1).execute(this)) {
+				waiting.remove(waiting.size() - 1);
+			}
 		
-		//if ()
+
+			// Update the InfoPanel
+			int x = gc.getInput().getMouseX();
+			int y = gc.getInput().getMouseY();
+			ArrayList<Entity> actors = entitiesAt(x / Entity.CELL_SIZE, y / Entity.CELL_SIZE, Actor.class);
+			if (!actors.isEmpty()) {
+				if (panel.target != (Actor)actors.get(0)) {
+					panel.target = (Actor)actors.get(0);
+					panel.triggerRedraw();
+				}
+			}
+		
+			// Check for loss.
+			if (game.hero.isDead()) {
+				state = State.LOST;
+				return;
+			}
+			
+			// Check for win.
+			int baddyCount = 0;
+			for (Entity e : ent) {
+				if (e instanceof Actor && !(e instanceof Character)) {
+					if (!((Actor)e).isDead()) {
+						baddyCount++;
+					}
+				}
+			}
+			if (baddyCount == 0) {
+				state = State.WON;
+			}
+		} else if (state == State.LOST) {
+			//TODO: Hero died. Reset the room.
+		} else if (state == State.WON) {
+			//TODO: Add game won screen.
+			state = state.LEVEL_UP;
+			game.hero.addXP(turnCount, monsterCount, totalMonsterLevels);
+
+		} else if (state == State.LEVEL_UP) {
+			if (game.hero.doLevelUp(gc)) {
+				// doLevelUp() will return true when the level up is finished.
+				//TODO: Move to the next level.
+			}
+		}
 	}
 
 	public boolean checkForTypeAt (int x, int y, Class<? extends Entity> type) {

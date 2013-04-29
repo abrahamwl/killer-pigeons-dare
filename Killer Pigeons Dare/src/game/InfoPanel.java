@@ -7,7 +7,7 @@ public class InfoPanel {
 	Image panel = null;
 	Graphics g;
 	Actor target = null;
-	private static final Color BROWN = new Color(.7f, .4f, .2f);
+	public static final Color BROWN = new Color(.7f, .4f, .2f);
 	private boolean redraw = true;
 	
 	InfoPanel (int x, int y, int width, int height) {

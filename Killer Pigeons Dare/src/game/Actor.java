@@ -15,23 +15,27 @@ public class Actor extends Entity {
 	
 	public ArrayList<Ability> abilities = new ArrayList<Ability>();
 	
-	private int level;
+	protected int level;
 	public int getLevel() {
 		return level;
 	}
 
-	private int hitpoints;
+	protected int hitpoints;
 	public int getHitpoints() {
 		return hitpoints;
 	}
 
-	private int maxHitpoints;
+	protected int maxHitpoints;
 	public int getMaxHitpoints() {
 		return maxHitpoints;
 	}
 
 	private boolean dead = false;
 	
+	public boolean isDead() {
+		return dead;
+	}
+
 	public Actor (String name, int level) {
 		super(name);
 		hitpoints = 10 * level;
@@ -99,5 +103,14 @@ public class Actor extends Entity {
 	@Override
 	public boolean passableFor(Actor a) {
 		return false;
+	}
+	
+	public Ability getAbility(Ability.Type type) {
+		for (Ability a : abilities) {
+			if (a.type == type) {
+				return a;
+			}
+		}
+		return null;
 	}
 }
