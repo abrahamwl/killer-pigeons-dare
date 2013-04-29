@@ -51,7 +51,7 @@ public class Actor extends Entity {
 	}
 	
 	@Override
-	public void init () {
+	public void init (Room r) {
 		for (Ability ability : abilities) {
 			if (ability.type == Ability.Type.TOUGH && ability.active) {
 				hitpoints *= 1.5;

@@ -25,7 +25,7 @@ public abstract class Entity {
 	
 	abstract public boolean execute(Room r);
 	
-	public void init () {
+	public void init (Room r) {
 	}
 	
 	public abstract boolean passableFor(Actor a);

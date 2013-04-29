@@ -27,6 +27,7 @@ public class Room {
 	State state = State.PLAYING;
 	
 	int turnCount = 0;
+	int turnAllBaddiesKilled = -1;
 	int monsterCount = 0;
 	int totalMonsterLevels = 0;
 	
@@ -38,7 +39,7 @@ public class Room {
 	public Entity addEntity(String es, int ex, int ey) {
 		Entity entity = new Emptity();
 
-		if(es.equals("C")) entity = new Character();
+		if(es.equals("C")) entity = getOrCreateCharacter();
 		if(es.equals("F")) entity = new Flameo();
 		if(es.equals("G")) entity = new Goblin();
 		if(es.equals("S")) entity = new Snake();
@@ -56,6 +57,14 @@ public class Room {
 		ent.add(entity);
 		
 		return entity;
+	}
+
+	private Entity getOrCreateCharacter() {
+		if (game.hero == null) {
+			game.hero = new Character();
+		}
+		
+		return game.hero;
 	}
 
 	public Room (Game game, String[] roomStrings) {
@@ -94,7 +103,7 @@ public class Room {
 		panel = new InfoPanel(512, 0, Game.MARGIN, 512);
 
 		//Generate the room.
-		ent.add(game.hero);
+		ent.add(getOrCreateCharacter());
 		game.hero.x = 1;
 		game.hero.y = 1;
 
@@ -143,7 +152,7 @@ public class Room {
 	
 	void init () {
 		for (Entity e : ent) {
-			e.init();
+			e.init(this);
 			if (e instanceof Actor && !(e instanceof Character)) {
 				monsterCount++;
 				totalMonsterLevels += ((Actor)e).getLevel();
@@ -228,7 +237,7 @@ public class Room {
 				return;
 			}
 			
-			// Check for win.
+			// Check for all baddies killed.
 			int baddyCount = 0;
 			for (Entity e : ent) {
 				if (e instanceof Actor && !(e instanceof Character)) {
@@ -238,19 +247,27 @@ public class Room {
 				}
 			}
 			if (baddyCount == 0) {
+				turnAllBaddiesKilled = turnCount;
+			}
+			//Check for win.
+			if (checkForTypeAt(game.hero.x, game.hero.y, Door.class)) {
 				state = State.WON;
 			}
 		} else if (state == State.LOST) {
 			//TODO: Hero died. Reset the room.
 		} else if (state == State.WON) {
 			//TODO: Add game won screen.
+			
+			Door door = (Door)entitiesAt(game.hero.x, game.hero.y, Door.class).get(0);
 			state = state.LEVEL_UP;
-			game.hero.addXP(turnCount, monsterCount, totalMonsterLevels);
-
+			if (turnAllBaddiesKilled == -1) {
+				game.hero.addXP(turnCount, door.getDistanceFromCharacterStart(), totalMonsterLevels / 2);
+			} else {
+				game.hero.addXP(turnAllBaddiesKilled, monsterCount, totalMonsterLevels);
+			}
 		} else if (state == State.LEVEL_UP) {
 			if (game.hero.doLevelUp(gc)) {
-				// doLevelUp() will return true when the level up is finished.
-				//TODO: Move to the next level.
+				game.loadRoom(((Door)entitiesAt(game.hero.x, game.hero.y, Door.class).get(0)).roomNumber);
 			}
 		}
 	}

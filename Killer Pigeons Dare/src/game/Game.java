@@ -50,9 +50,6 @@ public class Game extends BasicGame {
 		
 		random = new Random();
 		
-		// Generating game objects.
-		hero = new Character();
-		
 		// If room files have been passed on the command line, load them all 
 		if(roomFiles != null) {
 			loadRoom(1);
