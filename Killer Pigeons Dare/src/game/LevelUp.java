@@ -43,6 +43,30 @@ public class LevelUp extends UILayer {
 	int selectsLeft;
 	ArrayList<Ability.Type> options;
 	
+	public LevelUp(Game game) {
+		this.game = game;
+		c = game.hero;
+		
+		newLevel = c.level;
+		boolean addingLevels = true;
+		while (addingLevels) {
+			int oldXP = (((newLevel * newLevel) + newLevel) / 2 - 1) * 5;
+			if (c.totalXP - oldXP >= (newLevel + 1) * 5) {
+				newLevel = c.level + 1;
+			} else {
+				addingLevels = false;
+			}
+		}
+					
+		if (newLevel > c.level) {
+			c.maxHitpoints = (int)(newLevel * 10.0 * (c.getAbility(Ability.Type.TOUGH) == null ? 1.0 : 1.5));
+			c.hitpoints = c.maxHitpoints;
+			
+			selectsLeft = newLevel / 3 - c.level / 3;
+			levelUpStep = 1;
+		}
+	}
+
 	public void draw(GameContainer gc, Graphics g) {
 		if (levelUpStep == 1) {
 			options = new ArrayList<Ability.Type>();
@@ -116,28 +140,4 @@ public class LevelUp extends UILayer {
 			game.popUILayer();
 		}
 	}
-	
-	public LevelUp(Game game) {
-		this.game = game;
-		c = game.hero;
-		
-		newLevel = c.level;
-		boolean addingLevels = true;
-		while (addingLevels) {
-			int oldXP = (((newLevel * newLevel) + newLevel) / 2) * 5;
-			if (c.totalXP - oldXP >= (newLevel + 1) * 5) {
-				newLevel = c.level + 1;
-			} else {
-				addingLevels = false;
-			}
-		}
-					
-		if (newLevel > c.level) {
-			c.maxHitpoints = (int)(newLevel * 10.0 * (c.getAbility(Ability.Type.TOUGH) == null ? 1.0 : 1.5));
-			c.hitpoints = c.maxHitpoints;
-			
-			selectsLeft = newLevel / 3 - c.level / 3;
-			levelUpStep = 1;
-		}
 	}
-}
