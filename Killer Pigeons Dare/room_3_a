@@ -1,8 +1,8 @@
 R,R,R,R,R,R,R,R;
 R, , , , , , ,R;
-R,C, , , , , ,R;
+X,C, , , , , ,R;
 R, ,W,W,W, , ,R;
 R, ,W,W, , ,S,R;
 R, , ,W, , , ,R;
-R, , ,W,K, ,1,R;
-R,R,R,R,R,R,R,R;
+R, , ,W,K, , ,R;
+R,R,R,R,4,R,R,R;

@@ -27,7 +27,7 @@ public class Game extends BasicGame {
 	// Can be passed multiple room files on the command line to create a complex room
 	public static void main(String[] args) throws SlickException {
 		// Scan directory for room files
-		roomFiles = (new File("./")).listFiles(new regexpFilter("room_1_.*"));
+		roomFiles = (new File("./")).listFiles(new regexpFilter("room_0_.*"));
 		
 		AppGameContainer app = new AppGameContainer(new Game("Killer Pigeons RPG"));
 		app.setDisplayMode(512 + MARGIN, 512, false);
@@ -48,7 +48,7 @@ public class Game extends BasicGame {
 		
 		// If room files have been passed on the command line, load them all 
 		if(roomFiles != null) {
-			loadRoomNumber = 1;
+			loadRoomNumber = 0;
 			loadRoomInternal();
 		} else {
 			room = new Room(this, new Random(random.nextLong()));

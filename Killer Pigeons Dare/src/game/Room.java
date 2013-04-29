@@ -74,6 +74,7 @@ public class Room {
 		if(es.equals("t")) entity = new Tree();
 		if(es.equals("g")) entity = new Grass();
 		if(es.equals("d")) entity = new Dirt();
+		if(es.equals("X")) entity = new ClosedDoor();
 		if(es.matches("[0-9]+")) 
 			entity = new Door(new Integer(es));
 
@@ -123,12 +124,16 @@ public class Room {
 				for(int r = 0; r < roomGrid.length; r++) for(int c = 0; c < roomGrid[r].length; c++) {
 					Entity newEntity = null;
 					if(!roomGrid[r][c].equals("")) newEntity = addEntity(roomGrid[r][c], c, r);
-					if(roomGrid[r][c].equals("C")) game.hero = (Character) newEntity; // TODO HACK to not instantiate multiple heroes
+					//if(roomGrid[r][c].equals("C")) game.hero = (Character) newEntity; // TODO HACK to not instantiate multiple heroes
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		// Put the hero at the end of the list so he always moves first.
+		ent.remove(game.hero);
+		ent.add(game.hero);
 	}
 
 	public Room (Game game, Random random)	{
@@ -308,20 +313,29 @@ public class Room {
 			}
 
 			// Check for all baddies killed.
-			int baddyCount = 0;
-			for (Entity e : ent) {
-				if (e instanceof Actor && !(e instanceof Character)) {
-					if (!((Actor)e).isDead()) {
-						baddyCount++;
+			if (turnAllBaddiesKilled == -1) {
+				int baddyCount = 0;
+				for (Entity e : ent) {
+					if (e instanceof Actor && !(e instanceof Character)) {
+						if (!((Actor)e).isDead()) {
+							baddyCount++;
+						}
 					}
 				}
+				if (baddyCount == 0) {
+					turnAllBaddiesKilled = turnCount;
+				}
 			}
-			if (baddyCount == 0) {
-				turnAllBaddiesKilled = turnCount;
-			}
+			
 			//Check for win.
 			if (checkForTypeAt(game.hero.x, game.hero.y, Door.class)) {
 				state = State.WON;
+				if (turnAllBaddiesKilled == -1) {
+					Door door = (Door)entitiesAt(game.hero.x, game.hero.y, Door.class).get(0);
+					winLose.expEarned = game.hero.addXP(turnCount, door.getDistanceFromCharacterStart(), totalMonsterLevels / 2);
+				} else {
+					winLose.expEarned = game.hero.addXP(turnAllBaddiesKilled, monsterCount, totalMonsterLevels);
+				}
 			}
 		} else if (state == State.LOST) {
 			winLose.update(gc);
@@ -371,12 +385,13 @@ public class Room {
 		static final int IMAGE_WIDTH = 350;
 		static final int OUTER_WIDTH = IMAGE_WIDTH + 10;
 		static final int IMAGE_HEIGHT = 82;
-		static final int OUTER_HEIGHT = IMAGE_HEIGHT + 3 * 14 + 10;
+		static final int OUTER_HEIGHT = IMAGE_HEIGHT + 4 * 14 + 10;
 		static final int OUTER_LEFT = (800 - IMAGE_WIDTH) / 2;
 		static final int LEFT = OUTER_LEFT + 5;
 		static final int OUTER_TOP = 64;
 		static final int TOP = OUTER_TOP + 5;
 		
+		int expEarned;
 		int selectsLeft;
 		ArrayList<Ability.Type> options;
 		
@@ -394,25 +409,22 @@ public class Room {
 				IMAGE_WIN.draw(LEFT, TOP);
 				if (turnAllBaddiesKilled == -1) {
 					g.drawString("You escaped on turn " + turnCount, LEFT, TOP + IMAGE_HEIGHT + 14);
+					g.drawString("This earned you " + expEarned + " experience points.", LEFT, TOP + IMAGE_HEIGHT + 2 * 14);
 				} else {
 					g.drawString("You defeated all the enemies on turn " + turnAllBaddiesKilled + ".", LEFT, TOP + IMAGE_HEIGHT + 14);
+					g.drawString("This earned you " + expEarned + " experience points.", LEFT, TOP + IMAGE_HEIGHT + 2 * 14);
 				}
 			} else if (state == State.LOST) {
 				IMAGE_LOST.draw(LEFT, TOP);
 				g.drawString("You died on turn " + turnCount, LEFT, TOP + IMAGE_HEIGHT + 14);
 			}
-			g.drawString("Click to continue...", LEFT, TOP + IMAGE_HEIGHT + 28);
+			g.drawString("Click to continue...", LEFT, TOP + IMAGE_HEIGHT + 3 * 14);
 		}
 
 		public void update(GameContainer gc) {
 			if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 				if (state == State.WON) {
-					Door door = (Door)entitiesAt(game.hero.x, game.hero.y, Door.class).get(0);
-					if (turnAllBaddiesKilled == -1) {
-						game.hero.addXP(turnCount, door.getDistanceFromCharacterStart(), totalMonsterLevels / 2);
-					} else {
-						game.hero.addXP(turnAllBaddiesKilled, monsterCount, totalMonsterLevels);
-					}
+					game.hero.refresh();
 					state = State.LEVEL_UP;
 				} else if (state == State.LOST){
 					game.hero.refresh();

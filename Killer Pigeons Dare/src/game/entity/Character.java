@@ -29,15 +29,25 @@ public class Character extends Actor {
 		
 	}
 	
-	public void addXP (int turns, int monsterCount, int totalMonsterLevels) {
-		double n = 2.0 * (double)turns / (double)monsterCount;
-		totalXP += (int)(totalMonsterLevels * 5 / n);
+	public int addXP (int turns, int monsterCount, int totalMonsterLevels) {
+		double n = .5 * (double)turns / (double)monsterCount;
+		int xp = (int)(totalMonsterLevels * 5 / n);
+		totalXP += xp;
+		return xp;
 	}
 	
 	public boolean doLevelUp(GameContainer gc) {
 		if (levelUpStep == 0) {
-			newLevel = (totalXP / 5);
-			newLevel = (((newLevel * newLevel) + newLevel) / 2) + 1;
+			newLevel = level;
+			boolean addingLevels = true;
+			while (addingLevels) {
+				int oldXP = (((newLevel * newLevel) + newLevel) / 2) * 5;
+				if (totalXP - oldXP >= (level + 1) * 5) {
+					newLevel = level + 1;
+				} else {
+					addingLevels = false;
+				}
+			}
 						
 			if (newLevel > level) {
 				maxHitpoints = (int)(newLevel * 10.0 * (getAbility(Ability.Type.TOUGH) == null ? 1.0 : 1.5));
