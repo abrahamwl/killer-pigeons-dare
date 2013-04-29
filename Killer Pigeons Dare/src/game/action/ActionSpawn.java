@@ -1,6 +1,7 @@
 package game.action;
 
 import game.*;
+import game.entity.Actor;
 import game.entity.Wall;
 
 public class ActionSpawn extends Action {

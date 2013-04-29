@@ -1,10 +1,10 @@
 package game.controller;
 
 import game.Dir;
-import game.Entity;
 import game.Room;
 import game.action.*;
 import game.entity.Character;
+import game.entity.Entity;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;

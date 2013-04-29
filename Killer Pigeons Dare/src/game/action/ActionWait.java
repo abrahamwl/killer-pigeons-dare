@@ -1,6 +1,7 @@
 package game.action;
 
 import game.*;
+import game.entity.Actor;
 
 public class ActionWait extends Action {
 	@Override

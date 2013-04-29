@@ -1,7 +1,5 @@
 package game.entity;
 
-import game.Actor;
-import game.Entity;
 import game.Room;
 
 import org.newdawn.slick.SlickException;

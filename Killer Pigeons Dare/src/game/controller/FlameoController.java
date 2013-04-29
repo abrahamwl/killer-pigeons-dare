@@ -1,9 +1,9 @@
 package game.controller;
 
-import game.Actor;
 import game.Dir;
 import game.Room;
 import game.action.*;
+import game.entity.Actor;
 import game.entity.Flameo;
 import org.newdawn.slick.GameContainer;
 

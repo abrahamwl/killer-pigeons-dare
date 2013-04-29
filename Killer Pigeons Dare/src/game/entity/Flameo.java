@@ -1,6 +1,5 @@
 package game.entity;
 
-import game.Actor;
 import game.controller.FlameoController;
 
 import org.newdawn.slick.SlickException;

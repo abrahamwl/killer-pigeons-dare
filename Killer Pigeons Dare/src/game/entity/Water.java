@@ -4,8 +4,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
 import game.Ability;
-import game.Actor;
-import game.Entity;
 import game.Room;
 
 public class Water extends Entity {

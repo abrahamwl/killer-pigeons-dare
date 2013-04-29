@@ -1,12 +1,11 @@
 package game.controller;
 
-import game.Actor;
-import game.Controller;
 import game.Dir;
 import game.Room;
 import game.action.Action;
 import game.action.ActionMeleeAttack;
 import game.action.ActionMove;
+import game.entity.Actor;
 
 public abstract class BasicController implements Controller {
 	protected Actor a;

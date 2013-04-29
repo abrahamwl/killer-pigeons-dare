@@ -1,4 +1,6 @@
-package game;
+package game.entity;
+
+import game.Room;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -9,9 +11,9 @@ public abstract class Entity {
 	public static final int CELL_SIZE = 64;
 	public boolean noDraw = false;
 	
-	protected String name;
+	public String name;
 
-	protected Image image = null;
+	public Image image = null;
 	
 	public Entity(String name) {
 		this.name = name;

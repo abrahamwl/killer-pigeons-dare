@@ -1,42 +1,51 @@
 package game;
 
 import game.entity.Character;
+import game.ui.DrawsMouseCursor;
+import game.ui.SuppliesMusic;
+import game.ui.UILayer;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Random;
 
 import org.newdawn.slick.*;
+import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Transform;
 
-public class Game extends BasicGame {
+public class Game extends BasicGame implements DrawsMouseCursor {
 	public static final int MARGIN = 800 - 512;
 	Random random = null;
 	
+	Music music = null;
+	String currentMusicName = null;
+	SuppliesMusic musicSupplier = null;
+	
+	private Polygon cursor = new Polygon(new float[] {0, 0, -32, 16, -32, -16});
+	
+	public GameContainer gc;
+
+	private LinkedList<UILayer> uiLayers = new LinkedList<UILayer>();
+	
 	public Character hero = null;
-	Room room;
-	static File[] roomFiles = null;
 
 	public Game (String title) {
 		super(title);
 	}
 	
-	private int loadRoomNumber = -1;
-	
 	// Can be passed multiple room files on the command line to create a complex room
 	public static void main(String[] args) throws SlickException {
-		// Scan directory for room files
-		roomFiles = (new File("./")).listFiles(new RegexpFilter("room_0_.*"));
 		
 		AppGameContainer app = new AppGameContainer(new Game("Killer Pigeons RPG"));
 		app.setDisplayMode(512 + MARGIN, 512, false);
 		app.start();
 	}
 
-	Music musc = null;
-	
 	@Override
 	public void init(GameContainer gc) throws SlickException {
+		this.gc = gc;
 		
 		//gc.setShowFPS(false);
 		//gc.setMouseGrabbed(true);
@@ -45,54 +54,90 @@ public class Game extends BasicGame {
 		
 		random = new Random();
 		
-		// If room files have been passed on the command line, load them all 
-		if(roomFiles != null) {
-			loadRoomNumber = 0;
-			loadRoomInternal();
-		} else {
-			room = new Room(this, new Random(random.nextLong()));
-			
-			room.init();
-		}
-	}
-	
-	public void loadRoom (int roomNumber) {
-		loadRoomNumber = roomNumber;
+		uiLayers.push(new RoomLayer(this));
 	}
 
-	private void loadRoomInternal() {
-		System.out.println("Loading room #" + String.valueOf(loadRoomNumber) + "..."); //DEBUG
-		roomFiles = (new File("./")).listFiles(new RegexpFilter("room_" + loadRoomNumber + "_.*"));
-		String[] roomStrings = new String[roomFiles.length];
-		for(int i = 0; i < roomFiles.length; i++) {
-			try {
-				BufferedReader br = new BufferedReader(new FileReader(roomFiles[i]));
-				roomStrings[i] = new String();
-				while(br.ready()) roomStrings[i] = roomStrings[i].concat(br.readLine());
-				br.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		room = new Room(this, roomStrings, (long)loadRoomNumber); 
-		
-		room.init();
-		
-		loadRoomNumber = -1;
-	}
-	
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		room.render(gc, g);
+		this.gc = gc;
+		UILayer last = null;
+		Iterator<UILayer> it = uiLayers.descendingIterator();
+		while (it.hasNext()) {
+			UILayer layer = it.next();
+			layer.render(gc, g);
+			last = layer;
+		}
+		
+		if (last instanceof DrawsMouseCursor) {
+			((DrawsMouseCursor)last).renderCursor(gc, g);
+		} else {
+			renderCursor(gc, g);
+		}
+		
+		//TODO: Draw a tooltip.
 	}
 	
 	@Override
 	public void update(GameContainer gc, int timePassed) throws SlickException {
-		room.update(gc);
+		this.gc = gc;
+		uiLayers.peek().update(gc);
 		
-		if (loadRoomNumber != -1) {
-			loadRoomInternal();
+		if (musicSupplier != null) {
+			if (musicSupplier.musicToPlay() != currentMusicName || music == null) {
+				currentMusicName = musicSupplier.musicToPlay();
+				playMusic(currentMusicName);
+			} else if (!music.playing()) {
+				music.play();
+			}
 		}
+	}
+	
+	public void pushUILayer (UILayer layer) {
+		uiLayers.push(layer);
+		if (layer instanceof SuppliesMusic) {
+			if (music != null) music.stop();
+			musicSupplier = (SuppliesMusic)layer;
+		}
+	}
+	
+	public void popUILayer() {
+		if (uiLayers.peek() instanceof SuppliesMusic) {
+			music.stop();
+		}
+		uiLayers.pop();
+		musicSupplier = null;
+		for (UILayer mLayer : uiLayers) {
+			if (mLayer instanceof SuppliesMusic) {
+				musicSupplier = (SuppliesMusic)mLayer;
+			}
+		}
+	}
+
+	private void playMusic(String musicName) {
+		File[] f = (new File("./res/")).listFiles(new RegexpFilter(musicName + ".aif"));
+		try {
+			if(f.length != 0) {
+				music = new Music("res/" + musicName + ".aif");
+			}
+			else {
+				music = new Music("res/" + musicName + ".ogg");
+			}
+		} catch (SlickException e1) {
+			e1.printStackTrace();
+		}
+		music.stop();
+		music.play();
+	}
+
+	@Override
+	public void renderCursor(GameContainer gc, Graphics g) {
+		int x = gc.getInput().getMouseX();
+		int y = gc.getInput().getMouseY();
+		
+		Shape drawCursor = cursor.transform(Transform.createRotateTransform(-(float)(Math.PI *.625)));
+
+		drawCursor = drawCursor.transform(Transform.createTranslateTransform(x,y));
+		g.setColor(Color.white);
+		g.fill(drawCursor);
 	}
 }

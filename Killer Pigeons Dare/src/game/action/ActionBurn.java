@@ -3,6 +3,8 @@ package game.action;
 import java.util.ArrayList;
 
 import game.*;
+import game.entity.Actor;
+import game.entity.Entity;
 
 public class ActionBurn extends ActionAttack {
 	public static final int DAMAGE_PER_LEVEL = 2;

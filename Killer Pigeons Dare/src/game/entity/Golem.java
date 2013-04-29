@@ -1,7 +1,6 @@
 package game.entity;
 
 import game.Ability;
-import game.Actor;
 import game.controller.AttackController;
 
 import org.newdawn.slick.Image;

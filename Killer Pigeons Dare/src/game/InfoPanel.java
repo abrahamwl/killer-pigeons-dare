@@ -1,23 +1,31 @@
 package game;
 
+import java.util.ArrayList;
+
+import game.entity.Actor;
+import game.entity.Entity;
+import game.ui.UIElement;
+
 import org.newdawn.slick.*;
 
-public class InfoPanel {
+public class InfoPanel extends UIElement {
 	int x, y, width, height;
 	Image panel = null;
 	Graphics g;
 	Actor target = null;
 	public static final Color BROWN = new Color(.7f, .4f, .2f);
 	private boolean redraw = true;
+	private RoomLayer layer;
 	
-	InfoPanel (int x, int y, int width, int height) {
+	InfoPanel (RoomLayer layer, int x, int y, int width, int height) {
+		this.layer = layer;
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 	}
 	
-	public void render(GameContainer gc, Graphics g) throws SlickException {
+	public void draw(GameContainer gc, Graphics g) throws SlickException {
 		if (panel == null) {
 			try {
 				panel = new Image (width, height);
@@ -69,7 +77,18 @@ public class InfoPanel {
 		g.drawImage(panel, x, y);
 	}
 	
-	public void triggerRedraw() {
-		redraw = true;
+	@Override
+	public void process(GameContainer gc) throws SlickException {
+		// Update the InfoPanel
+		int x = gc.getInput().getMouseX();
+		int y = gc.getInput().getMouseY();
+		ArrayList<Entity> actors = layer.room.entitiesAt(x / Entity.CELL_SIZE, y / Entity.CELL_SIZE, Actor.class);
+		if (!actors.isEmpty()) {
+			if (target != (Actor)actors.get(0)) {
+				target = (Actor)actors.get(0);
+				redraw = true;;
+			}
+		}
+
 	}
 }

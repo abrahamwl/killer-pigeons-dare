@@ -1,4 +1,4 @@
-package game;
+package game.entity;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,11 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
+import game.Ability;
+import game.Room;
+import game.Ability.Type;
 import game.action.*;
+import game.controller.Controller;
 
 // The Actor class is the class inherited by all "characters" in the game. That is, the player character, all monsters, 
 // and other NPCs.
@@ -15,17 +19,17 @@ public class Actor extends Entity {
 	
 	public ArrayList<Ability> abilities = new ArrayList<Ability>();
 	
-	protected int level;
+	public int level;
 	public int getLevel() {
 		return level;
 	}
 
-	protected int hitpoints;
+	public int hitpoints;
 	public int getHitpoints() {
 		return hitpoints;
 	}
 
-	protected int maxHitpoints;
+	public int maxHitpoints;
 	public int getMaxHitpoints() {
 		return maxHitpoints;
 	}
@@ -92,7 +96,7 @@ public class Actor extends Entity {
 		for (Ability ability : abilities) {
 			ability.reset();
 		}
-		Action a = controller.chooseNextAction(r, r.gc);
+		Action a = controller.chooseNextAction(r, r.game.gc);
 		
 		if (a instanceof ActionNoneYet) {
 			return false;
