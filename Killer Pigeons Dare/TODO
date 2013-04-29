@@ -1,8 +1,9 @@
-
 eric's list
 - [ ] room linking
-- [ ] characters
+  - [ ] fix room stacking
+- [ ] levels
 - [ ] music and sound
+- [ ] characters
 - [X] flameo - follows player and tries to encircle with flame, will not directly attack player, but will not move when approached by player - player can defuse flame with wand, enemies get harmed by flame too
 - [X] make level editor useable by steve and scott
 - [X] add steve's music

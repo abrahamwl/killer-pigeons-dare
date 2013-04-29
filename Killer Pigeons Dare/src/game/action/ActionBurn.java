@@ -16,7 +16,12 @@ public class ActionBurn extends ActionAttack {
 		ArrayList<Entity> target = r.entitiesAt(a.x, a.y, Actor.class);
 
 		if (target.size() > 0) {
-			((Actor)(target.get(0))).applyDamage(a.getLevel() * DAMAGE_PER_LEVEL);
+			for(Entity actr : target)
+			if (!actr.equals(a)){
+				((Actor)(target.get(0))).applyDamage(a.getLevel() * DAMAGE_PER_LEVEL);
+				return;
+			}
+			a.applyDamage(DAMAGE_PER_LEVEL); // If no other actor on flameo square, flameo burns himself to death 
 		}
 	}
 }

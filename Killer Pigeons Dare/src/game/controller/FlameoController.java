@@ -19,7 +19,6 @@ public class FlameoController extends BasicController {
 	int spawnTickThreshold = 2; // Number of ticks before creating new flame
 	int spawnTick = 0;
 	
-	int lifeTime = 10; // How long a flame lives
 	int moveDistThreshold = 6;
 	int spawnDistThreshold = 4;
 	
@@ -27,8 +26,6 @@ public class FlameoController extends BasicController {
 	public Action chooseNextAction(Room room, GameContainer gc) {	
 		Actor t = room.game.hero;
 
-		lifeTime--; if(lifeTime == 0) a.kill();
-		
 		int distToHero = Math.abs(a.x - t.x) + Math.abs(a.y - t.y);
 		
 		if(distToHero > moveDistThreshold) return AttackController.chooseMovement(room, a, t); // TODO Shouldn't use MoveAttack...
