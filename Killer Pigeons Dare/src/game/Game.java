@@ -22,6 +22,8 @@ public class Game extends BasicGame {
 		super(title);
 	}
 	
+	private int loadRoomNumber = -1;
+	
 	// Can be passed multiple room files on the command line to create a complex room
 	public static void main(String[] args) throws SlickException {
 		// Scan directory for room files
@@ -46,16 +48,22 @@ public class Game extends BasicGame {
 		
 		// If room files have been passed on the command line, load them all 
 		if(roomFiles != null) {
-			loadRoom(1);
+			loadRoomNumber = 1;
+			loadRoomInternal();
 		} else {
 			room = new Room(this, new Random(random.nextLong()));
 			
 			room.init();
 		}
 	}
+	
+	public void loadRoom (int roomNumber) {
+		loadRoomNumber = roomNumber;
+	}
 
-	public void loadRoom(int roomNumber) {
-		roomFiles = (new File("./")).listFiles(new regexpFilter("room_" + roomNumber + "_.*"));
+	private void loadRoomInternal() {
+		System.out.println("Loading room #" + String.valueOf(loadRoomNumber) + "..."); //DEBUG
+		roomFiles = (new File("./")).listFiles(new regexpFilter("room_" + loadRoomNumber + "_.*"));
 		String[] roomStrings = new String[roomFiles.length];
 		for(int i = 0; i < roomFiles.length; i++) {
 			try {
@@ -68,9 +76,11 @@ public class Game extends BasicGame {
 			}
 		}
 
-		room = new Room(this, roomStrings); 
+		room = new Room(this, roomStrings, (long)loadRoomNumber); 
 		
-		room.init();		
+		room.init();
+		
+		loadRoomNumber = -1;
 	}
 	
 	@Override
@@ -81,6 +91,10 @@ public class Game extends BasicGame {
 	@Override
 	public void update(GameContainer gc, int timePassed) throws SlickException {
 		room.update(gc);
+		
+		if (loadRoomNumber != -1) {
+			loadRoomInternal();
+		}
 	}
 }
 

@@ -144,4 +144,10 @@ public class Character extends Actor {
 		}
 		
 	}
+
+	public void refresh() {
+		dead = false;
+		hitpoints = maxHitpoints;
+		noDraw = false;
+	}
 }

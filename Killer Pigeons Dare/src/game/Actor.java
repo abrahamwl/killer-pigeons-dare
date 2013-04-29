@@ -30,7 +30,7 @@ public class Actor extends Entity {
 		return maxHitpoints;
 	}
 
-	private boolean dead = false;
+	protected boolean dead = false;
 	
 	public boolean isDead() {
 		return dead;
