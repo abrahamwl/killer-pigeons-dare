@@ -60,6 +60,12 @@ public class ActionMeleeAttack extends ActionAttack {
 				}
 			}
 			victim.applyDamage(a.getLevel() * DAMAGE_PER_LEVEL);
+			Ability abi = a.getAbility(Ability.Type.POISONOUS);
+			if (abi != null) {
+				if (abi.active) {
+					victim.poisoned += a.getLevel() * 2;
+				}
+			}
 			
 			if(a instanceof Snake) soundEffectAttackSnake.play();
 			if(a instanceof Goblin) soundEffectAttackGoblin.play();

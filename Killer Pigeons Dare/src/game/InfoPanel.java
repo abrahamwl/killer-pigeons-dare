@@ -54,6 +54,12 @@ public class InfoPanel {
 					g.drawString(a.type.toString(), 5, y);
 					y += 14;
 				}
+				
+				if (target.poisoned > 0) {
+					y += 14;
+					g.setColor(Color.green);
+					g.drawString(target.poisoned + " POISON", 5, y);
+				}
 			}
 			
 			redraw = false;
@@ -62,7 +68,7 @@ public class InfoPanel {
 		g.flush();
 		g.drawImage(panel, x, y);
 	}
-
+	
 	public void triggerRedraw() {
 		redraw = true;
 	}

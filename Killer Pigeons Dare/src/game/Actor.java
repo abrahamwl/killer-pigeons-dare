@@ -32,6 +32,8 @@ public class Actor extends Entity {
 
 	protected boolean dead = false;
 	
+	public int poisoned = 0;
+	
 	public boolean isDead() {
 		return dead;
 	}
@@ -96,6 +98,7 @@ public class Actor extends Entity {
 			return false;
 		} else {
 			a.execute(r, this);
+			applyDamage(poisoned);
 			return true;
 		}
 	}

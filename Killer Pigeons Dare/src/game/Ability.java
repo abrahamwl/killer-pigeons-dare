@@ -6,7 +6,8 @@ public class Ability {
 		TOUGH(true, "This character has 50% more hitpoints."),
 		BLOCK(true, "This character blocks the first melee attack against it in a turn."),
 		COUNTER_WAIT(false, "When this character waits, it will stop the first attack against it in a turn and counter-attack."),
-		FLYING(true, "This character can move over water.");
+		FLYING(true, "This character can move over water."),
+		POISONOUS(true, "This character's attacks cause you to lose their level x 2 life per turn.");
 		
 		protected boolean activeByDefault;
 		public final String toolTip;

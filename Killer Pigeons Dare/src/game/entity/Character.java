@@ -18,7 +18,7 @@ public class Character extends Actor {
 		IMAGE_LEVEL_UP = temp;
 	}
 	
-	int totalXP = 0;
+	int totalXP = 5;
 	
 	private int newLevel;
 	private int levelUpStep = 0;
@@ -174,6 +174,7 @@ public class Character extends Actor {
 	public void refresh() {
 		dead = false;
 		hitpoints = maxHitpoints;
+		poisoned = 0;
 		noDraw = false;
 	}
 }
