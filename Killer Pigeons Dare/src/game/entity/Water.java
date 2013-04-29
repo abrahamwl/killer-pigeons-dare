@@ -34,9 +34,6 @@ public class Water extends Entity {
 			if (a.type == Ability.Type.FLYING && a.active) {
 				return true;
 			}
-			if (a.type == Ability.Type.SWIMMING && a.active) {
-				return true;
-			}
 		}
 		
 		return false;

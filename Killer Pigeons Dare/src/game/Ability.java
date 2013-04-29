@@ -3,17 +3,16 @@ package game;
 public class Ability {
 	
 	public enum Type {
-		TOUGH(true), //Extra 50% HP.
-		QUICK(true), //Acts <power> extra times in a turn.
-		BLOCK(true), //Negates the first melee attack it would receive in a turn.
-		COUNTER_WAIT(false), //If it waits, the first <power> times it would be melee attacked in a turn,
-								//it attacks back instead.
-		FLYING(true),	//Can pass over water.
-		SWIMMING(true); //Can pass over water.
+		TOUGH(true, "This character has 50% more hitpoints."),
+		BLOCK(true, "This character blocks the first melee attack against it in a turn."),
+		COUNTER_WAIT(false, "When this character waits, it will stop the first attack against it in a turn and counter-attack."),
+		FLYING(true, "This character can move over water.");
 		
 		protected boolean activeByDefault;
+		public final String toolTip;
 		
-		private Type(boolean a) {
+		private Type(boolean a, String toolTip) {
+			this.toolTip = toolTip;
 			activeByDefault = a;
 		}
 	}
@@ -25,6 +24,7 @@ public class Ability {
 	public Ability (Type type) {
 		this.type = type;
 		active = type.activeByDefault;
+		
 	}
 	
 	public void reset() {
