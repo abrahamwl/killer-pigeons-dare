@@ -57,21 +57,7 @@ public class Game extends BasicGame {
 		
 		// If room files have been passed on the command line, load them all 
 		if(roomFiles != null) {
-			String[] roomStrings = new String[roomFiles.length];
-			for(int i = 0; i < roomFiles.length; i++) {
-				try {
-					BufferedReader br = new BufferedReader(new FileReader(roomFiles[i]));
-					roomStrings[i] = new String();
-					while(br.ready()) roomStrings[i] = roomStrings[i].concat(br.readLine());
-					br.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-
-			room = new Room(this, roomStrings); 
-			
-			room.init();
+			loadRoom(1);
 		} else {
 			room = new Room(this, new Random(random.nextLong()));
 			
@@ -80,7 +66,22 @@ public class Game extends BasicGame {
 	}
 
 	public void loadRoom(int roomNumber) {
+		roomFiles = (new File("./")).listFiles(new regexpFilter("room_" + roomNumber + "_.*"));
+		String[] roomStrings = new String[roomFiles.length];
+		for(int i = 0; i < roomFiles.length; i++) {
+			try {
+				BufferedReader br = new BufferedReader(new FileReader(roomFiles[i]));
+				roomStrings[i] = new String();
+				while(br.ready()) roomStrings[i] = roomStrings[i].concat(br.readLine());
+				br.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		room = new Room(this, roomStrings); 
 		
+		room.init();		
 	}
 	
 	@Override
@@ -93,7 +94,6 @@ public class Game extends BasicGame {
 		room.update(gc);
 		if(!musc.playing()) musc.play();
 	}
-
 }
 
 class regexpFilter implements FilenameFilter {

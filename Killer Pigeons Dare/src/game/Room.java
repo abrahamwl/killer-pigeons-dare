@@ -24,25 +24,19 @@ public class Room {
 
 	// This function is passed a series of class names representing entities.  Columns are broken up by commas, rows broken up by semicolons.
 	public Entity addEntity(String es, int ex, int ey) {
-		String cn = null;
-		Entity entity = null;
+		Entity entity = new Emptity();
 
-		cn = es; // Default behavior is to use the passed string as classname, unless a known shortname is used
-		if(es.equals("C")) cn = "Character";
-		if(es.equals("F")) cn = "Flameo";
-		if(es.equals("G")) cn = "Goblin";
-		if(es.equals("S")) cn = "Snake";
-		if(es.equals("K")) cn = "KillerPidgeon";
-		if(es.equals("R")) cn = "Wall";
-		if(es.equals("W")) cn = "Water";
-		if(es.equals("t")) cn = "Tree";
-		if(es.equals("g")) cn = "Grass";
-		if(es.equals("d")) cn = "Dirt";
-		try {
-			entity = (Entity) Class.forName("game.entity.".concat(cn)).newInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		if(es.equals("C")) entity = new Character();
+		if(es.equals("F")) entity = new Flameo();
+		if(es.equals("G")) entity = new Goblin();
+		if(es.equals("S")) entity = new Snake();
+		if(es.equals("K")) entity = new KillerPidgeon();
+		if(es.equals("R")) entity = new Wall();
+		if(es.equals("W")) entity = new Water();
+		if(es.equals("t")) entity = new Tree();
+		if(es.equals("g")) entity = new Grass();
+		if(es.equals("d")) entity = new Dirt();
+		if(es.matches("[0-9]+")) entity = new Door(new Integer(es));
 
 		entity.x = ex;
 		entity.y = ey;
