@@ -1,8 +1,12 @@
+
 eric's list
+- [ ] room linking
+- [ ] characters
+- [ ] music and sound
 - [X] flameo - follows player and tries to encircle with flame, will not directly attack player, but will not move when approached by player - player can defuse flame with wand, enemies get harmed by flame too
 - [X] make level editor useable by steve and scott
-- [I] add steve's music
-- [ ] add scenery classes (paths, trees, etc.)
+- [X] add steve's music
+- [X] add scenery classes (paths, trees, etc.)
 
 abe's list
 - [X] add KillerPidgeon, can fly over water
