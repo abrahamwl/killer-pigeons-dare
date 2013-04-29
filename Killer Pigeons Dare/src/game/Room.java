@@ -1,11 +1,10 @@
 package game;
 
+import game.controller.AttackController;
 import game.entity.*;
 import game.entity.Character;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 import org.newdawn.slick.*;
@@ -13,13 +12,13 @@ import org.newdawn.slick.geom.*;
 
 public class Room {
 	public Game game = null;
+	long roomNumber;
 	Random random;
 	ArrayList<Entity> ent;
-	HashMap<String,String> metadata = new HashMap<String, String>();
 	ArrayList<Entity> waiting = new ArrayList<Entity>();
 	GameContainer gc;
 	InfoPanel panel;
-
+	
 	enum State {
 		PLAYING,
 		LOST,
@@ -27,15 +26,36 @@ public class Room {
 		LEVEL_UP;
 	}
 	State state = State.PLAYING;
-
+	
 	int turnCount = 0;
 	int turnAllBaddiesKilled = -1;
 	int monsterCount = 0;
 	int totalMonsterLevels = 0;
-
+	
 	private Polygon moveCursor = new Polygon(new float[] {0, 0, -32, 16, -32, -16});
 	private Shape drawCursor = moveCursor;
-
+	
+	static final Image IMAGE_WIN;
+	static final Image IMAGE_LOST;
+	static {
+		Image temp = null;
+		try {
+			temp = new Image("res/text_room_complete.png");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		IMAGE_WIN = temp;
+		try {
+			temp = new Image("res/text_room_failed.png");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		IMAGE_LOST = temp;
+	}
+	
+	WinLoseScreen winLose = new WinLoseScreen();
 
 	// This function is passed a series of class names representing entities.  Columns are broken up by commas, rows broken up by semicolons.
 	public Entity addEntity(String es, int ex, int ey) {
@@ -51,14 +71,13 @@ public class Room {
 		if(es.equals("t")) entity = new Tree();
 		if(es.equals("g")) entity = new Grass();
 		if(es.equals("d")) entity = new Dirt();
-		if(es.matches("[0-9]+")) 
-			entity = new Door(new Integer(es));
+		if(es.matches("[0-9]+")) entity = new Door(new Integer(es));
 
 		entity.x = ex;
 		entity.y = ey;
-
+		
 		ent.add(entity);
-
+		
 		return entity;
 	}
 
@@ -66,29 +85,22 @@ public class Room {
 		if (game.hero == null) {
 			game.hero = new Character();
 		}
-
+		
 		return game.hero;
 	}
 
-	public Room (Game game, String[] roomStrings) {
+	public Room (Game game, String[] roomStrings, long roomNumber) {
+		this.roomNumber = roomNumber;
+		
 		//UI
 		panel = new InfoPanel(512, 0, Game.MARGIN, 512);
 
 		ent = new ArrayList<Entity>();
 		try {
 			for(String roomString : roomStrings) {
-				String mtdt = null;
 				String[][] roomGrid = null;
 				String[] roomRow = null;
 				this.game = game;
-
-				if(roomString.contains("|")) { // Room has metadata (before the "|" character, format is "key,value;", whitespace is not removed)
-					mtdt = roomString.split("[|]")[0];
-					roomString = roomString.split("[|]")[1];
-
-					for(String data : mtdt.split(";")) metadata.put(data.split(",")[0], data.split(",")[1]);
-				}
-
 				roomString = roomString.replaceAll("\\s", ""); // Remove all whitespace
 
 				roomRow = roomString.split(";");
@@ -110,7 +122,7 @@ public class Room {
 		this.game = game;
 		this.random = random;
 		ent = new ArrayList<Entity>();
-
+		
 		//UI
 		panel = new InfoPanel(512, 0, Game.MARGIN, 512);
 
@@ -161,28 +173,8 @@ public class Room {
 		water.y = 3;
 		ent.add(water);
 	}
-
-	Music musc = null;
+	
 	void init () {
-		// Metadata initiation
-
-		// Set up and play music
-		if(metadata.containsKey("music")) {
-			String musicName = metadata.get("music");
-			File[] f = (new File("./res/")).listFiles(new regexpFilter(musicName + ".aif"));
-			try {
-				if(f.length != 0) {
-					musc = new Music("res/" + musicName + ".aif");
-				}
-				else {
-					musc = new Music("res/" + musicName + ".ogg");
-				}
-			} catch (SlickException e1) {
-				e1.printStackTrace();
-			}
-			musc.play();			
-		}
-
 		for (Entity e : ent) {
 			e.init(this);
 			if (e instanceof Actor && !(e instanceof Character)) {
@@ -199,13 +191,18 @@ public class Room {
 		for (Entity e : ent) {
 			if (e instanceof Actor) e.render(gc, g);
 		}
-
+		
 		// UI
 		panel.render(gc, g);
-
+		
 		// Hero UI
 		game.hero.deferredRender(gc, g);
-
+		
+		// Win/Lose Screen
+		if (state == State.WON || state == State.LOST) {
+			winLose.render(gc, g);
+		}
+		
 		// Cursor
 		int x = gc.getInput().getMouseX();
 		int y = gc.getInput().getMouseY();
@@ -237,7 +234,7 @@ public class Room {
 				drawCursor = moveCursor.transform(Transform.createRotateTransform(-(float)(Math.PI *.625)));
 			}
 		}
-
+		
 		drawCursor = drawCursor.transform(Transform.createTranslateTransform(x,y));
 		g.setColor(Color.white);
 		g.fill(drawCursor);
@@ -245,11 +242,6 @@ public class Room {
 
 	public void update(GameContainer gc) {
 		this.gc = gc;
-
-		if (metadata.containsKey("music")) {
-			if(!musc.playing()) musc.play(); // loop music
-		}
-
 		if (state == State.PLAYING) {
 			if (waiting.isEmpty()) {
 				waiting = (ArrayList<Entity>)ent.clone();
@@ -258,7 +250,7 @@ public class Room {
 			if (waiting.get(waiting.size() - 1).execute(this)) {
 				waiting.remove(waiting.size() - 1);
 			}
-
+		
 
 			// Update the InfoPanel
 			int x = gc.getInput().getMouseX();
@@ -270,13 +262,13 @@ public class Room {
 					panel.triggerRedraw();
 				}
 			}
-
+		
 			// Check for loss.
 			if (game.hero.isDead()) {
 				state = State.LOST;
 				return;
 			}
-
+			
 			// Check for all baddies killed.
 			int baddyCount = 0;
 			for (Entity e : ent) {
@@ -294,17 +286,9 @@ public class Room {
 				state = State.WON;
 			}
 		} else if (state == State.LOST) {
-			//TODO: Hero died. Reset the room.
+			winLose.update(gc);
 		} else if (state == State.WON) {
-			//TODO: Add game won screen.
-
-			Door door = (Door)entitiesAt(game.hero.x, game.hero.y, Door.class).get(0);
-			state = state.LEVEL_UP;
-			if (turnAllBaddiesKilled == -1) {
-				game.hero.addXP(turnCount, door.getDistanceFromCharacterStart(), totalMonsterLevels / 2);
-			} else {
-				game.hero.addXP(turnAllBaddiesKilled, monsterCount, totalMonsterLevels);
-			}
+			winLose.update(gc);
 		} else if (state == State.LEVEL_UP) {
 			if (game.hero.doLevelUp(gc)) {
 				game.loadRoom(((Door)entitiesAt(game.hero.x, game.hero.y, Door.class).get(0)).roomNumber);
@@ -332,7 +316,7 @@ public class Room {
 
 		return out;
 	}
-
+	
 	public boolean checkForPassableAt (int x, int y, Actor a) {
 		for (Entity e : ent) {
 			if (e.x == x && e.y == y) {
@@ -343,5 +327,61 @@ public class Room {
 		}
 
 		return true;
+	}
+
+	class WinLoseScreen {
+		static final int IMAGE_WIDTH = 350;
+		static final int OUTER_WIDTH = IMAGE_WIDTH + 10;
+		static final int IMAGE_HEIGHT = 82;
+		static final int OUTER_HEIGHT = IMAGE_HEIGHT + 3 * 14 + 10;
+		static final int OUTER_LEFT = (800 - IMAGE_WIDTH) / 2;
+		static final int LEFT = OUTER_LEFT + 5;
+		static final int OUTER_TOP = 64;
+		static final int TOP = OUTER_TOP + 5;
+		
+		int selectsLeft;
+		ArrayList<Ability.Type> options;
+		
+		WinLoseScreen () {
+		}
+
+		public void render(GameContainer gc, Graphics g) {
+			g.setColor(InfoPanel.BROWN);
+			g.fillRoundRect(OUTER_LEFT, OUTER_TOP, OUTER_WIDTH, OUTER_HEIGHT, 5);
+			g.setColor(Color.lightGray);
+			g.drawRoundRect(OUTER_LEFT, OUTER_TOP, OUTER_WIDTH, OUTER_HEIGHT, 5);
+			
+			g.setColor(Color.black);
+			if (state == State.WON) {
+				IMAGE_WIN.draw(LEFT, TOP);
+				if (turnAllBaddiesKilled == -1) {
+					g.drawString("You escaped on turn " + turnCount, LEFT, TOP + IMAGE_HEIGHT + 14);
+				} else {
+					g.drawString("You defeated all the enemies on turn " + turnAllBaddiesKilled + ".", LEFT, TOP + IMAGE_HEIGHT + 14);
+				}
+			} else if (state == State.LOST) {
+				IMAGE_LOST.draw(LEFT, TOP);
+				g.drawString("You died on turn " + turnCount, LEFT, TOP + IMAGE_HEIGHT + 14);
+			}
+			g.drawString("Click to continue...", LEFT, TOP + IMAGE_HEIGHT + 28);
+		}
+
+		public void update(GameContainer gc) {
+			if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+				if (state == State.WON) {
+					Door door = (Door)entitiesAt(game.hero.x, game.hero.y, Door.class).get(0);
+					if (turnAllBaddiesKilled == -1) {
+						game.hero.addXP(turnCount, door.getDistanceFromCharacterStart(), totalMonsterLevels / 2);
+					} else {
+						game.hero.addXP(turnAllBaddiesKilled, monsterCount, totalMonsterLevels);
+					}
+					state = State.LEVEL_UP;
+				} else if (state == State.LOST){
+					game.hero.refresh();
+					game.loadRoom((int)roomNumber);
+				}
+			}
+		}
+		
 	}
 }
