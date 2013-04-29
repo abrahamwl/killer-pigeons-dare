@@ -6,6 +6,18 @@ import game.*;
 import org.newdawn.slick.*;
 
 public class Character extends Actor {
+	static final Image IMAGE_LEVEL_UP;
+	static {
+		Image temp = null;
+		try {
+			temp = new Image("res/text_level_up.png");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		IMAGE_LEVEL_UP = temp;
+	}
+	
 	int totalXP = 0;
 	
 	private int newLevel;
@@ -40,7 +52,7 @@ public class Character extends Actor {
 			boolean addingLevels = true;
 			while (addingLevels) {
 				int oldXP = (((newLevel * newLevel) + newLevel) / 2) * 5;
-				if (totalXP - oldXP >= (level + 1) * 5) {
+				if (totalXP - oldXP >= (newLevel + 1) * 5) {
 					newLevel = level + 1;
 				} else {
 					addingLevels = false;
@@ -71,9 +83,15 @@ public class Character extends Actor {
 	}
 	
 	class AbilitySelect {
-		static final int LEFT = 128 + 5;
-		static final int TOP = 64 + 5;
-		static final int LIST_TOP = TOP + 3 * 14;
+		static final int IMAGE_WIDTH = 350;
+		static final int OUTER_WIDTH = IMAGE_WIDTH + 10;
+		static final int IMAGE_HEIGHT = 82;
+		static final int OUTER_HEIGHT = 512 - 128;
+		static final int OUTER_LEFT = (800 - IMAGE_WIDTH) / 2;
+		static final int LEFT = OUTER_LEFT + 5;
+		static final int OUTER_TOP = 64;
+		static final int TOP = OUTER_TOP + 5;
+		static final int LIST_TOP = TOP + IMAGE_HEIGHT + 4 * 14;
 		
 		int selectsLeft;
 		ArrayList<Ability.Type> options;
@@ -98,16 +116,16 @@ public class Character extends Actor {
 					levelUpStep = 2;
 				}
 			} else if (levelUpStep == 2) {
-				int line = TOP;
 				
 				g.setColor(InfoPanel.BROWN);
-				g.fillRoundRect(128, 64, 800 - 256, 512 - 128, 5);
+				g.fillRoundRect(OUTER_LEFT, OUTER_TOP, OUTER_WIDTH, OUTER_HEIGHT, 5);
 				g.setColor(Color.lightGray);
-				g.drawRoundRect(128, 64, 800 - 256, 512 - 128, 5);
+				g.drawRoundRect(OUTER_LEFT, OUTER_TOP, OUTER_WIDTH, OUTER_HEIGHT, 5);
 				
+				IMAGE_LEVEL_UP.draw(LEFT, TOP);
+				
+				int line = TOP + IMAGE_HEIGHT + 14;
 				g.setColor(Color.black);
-				g.drawString("You have leveled up!", LEFT, TOP);
-				line += 14;
 				g.drawString("Welcome to level " + String.valueOf(newLevel) + "!", LEFT, line);
 				line += 14;
 

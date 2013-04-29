@@ -11,9 +11,9 @@ public class Ability {
 		protected boolean activeByDefault;
 		public final String toolTip;
 		
-		private Type(boolean a, String toolTip) {
+		private Type(boolean activeByDefault, String toolTip) {
 			this.toolTip = toolTip;
-			activeByDefault = a;
+			this.activeByDefault = activeByDefault;
 		}
 	}
 

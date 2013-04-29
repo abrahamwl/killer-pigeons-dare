@@ -7,8 +7,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
 public class Flameo extends Actor {
-	public Flameo () {
-		super("Flameo", 1);
+	public Flameo (int level) {
+		super("Flameo", level);
 		controller = new FlameoController(this);
 		SpriteSheet sheet;
 		try {

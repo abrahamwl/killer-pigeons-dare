@@ -3,7 +3,7 @@ package game.action;
 import game.*;
 import game.entity.Wall;
 
-public class ActionSpawn extends ActionAttack {
+public class ActionSpawn extends Action {
 	public Dir dir;
 	public String es;
 

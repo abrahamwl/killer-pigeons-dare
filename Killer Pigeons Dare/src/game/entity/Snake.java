@@ -7,8 +7,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
 public class Snake extends Actor {
-	public Snake () {
-		super("Snake", 1);
+	public Snake (int level) {
+		super("Snake", level);
 		controller = new AttackController(this);
 		SpriteSheet sheet;
 		try {

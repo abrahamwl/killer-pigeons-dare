@@ -14,8 +14,8 @@ public class Goblin extends Actor {
 	Image facingRight = null;
 	Image facingDown = null;
 	
-	public Goblin () {
-		super("Goblin", 1);
+	public Goblin (int level) {
+		super("Goblin", level);
 		controller = new AttackController(this);
 		abilities.add(new Ability(Ability.Type.TOUGH));
 		SpriteSheet sheet;

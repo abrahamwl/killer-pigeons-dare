@@ -7,7 +7,7 @@ import game.Room;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-public class Emptity extends Entity {
+public abstract class Emptity extends Entity {
 	private static SpriteSheet sheet = null;
 	
 	public Emptity () {

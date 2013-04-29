@@ -8,8 +8,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
 public class KillerPidgeon extends Actor {
-	public KillerPidgeon () {
-		super("Killer Pigeon", 1);
+	public KillerPidgeon (int level) {
+		super("Killer Pidgeon", level);
 		controller = new AttackController(this);
 		abilities.add(new Ability(Ability.Type.FLYING));
 		SpriteSheet sheet;

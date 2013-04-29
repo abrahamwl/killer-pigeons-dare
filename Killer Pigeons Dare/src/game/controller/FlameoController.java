@@ -77,7 +77,7 @@ public class FlameoController extends BasicController {
 			if(dirEquidist[i] && 
 					!room.checkForTypeAt(pointx[i], pointy[i], Flameo.class) && 
 					room.checkForPassableAt(pointx[i], pointy[i], a)) 
-				return new ActionSpawn(Dir.values()[i], "Flameo");
+				return new ActionSpawn(Dir.values()[i], "F");
 		
 		return new ActionWait();
 	}

@@ -20,6 +20,8 @@ public class Room {
 	ArrayList<Entity> waiting = new ArrayList<Entity>();
 	GameContainer gc;
 	InfoPanel panel;
+	
+	int enemyLevel = 1;
 
 	static Sound soundEffectLeaveRoom = null; 
 	
@@ -76,13 +78,13 @@ public class Room {
 
 	// This function is passed a series of class names representing entities.  Columns are broken up by commas, rows broken up by semicolons.
 	public Entity addEntity(String es, int ex, int ey) {
-		Entity entity = new Emptity();
+		Entity entity = null;
 
 		if(es.equals("C")) entity = getOrCreateCharacter();
-		if(es.equals("F")) entity = new Flameo();
-		if(es.equals("G")) entity = new Goblin();
-		if(es.equals("S")) entity = new Snake();
-		if(es.equals("K")) entity = new KillerPidgeon();
+		if(es.equals("F")) entity = new Flameo(enemyLevel);
+		if(es.equals("G")) entity = new Goblin(enemyLevel);
+		if(es.equals("S")) entity = new Snake(enemyLevel);
+		if(es.equals("K")) entity = new KillerPidgeon(enemyLevel);
 		if(es.equals("R")) entity = new Wall();
 		if(es.equals("W")) entity = new Water();
 		if(es.equals("t")) entity = new Tree();
@@ -92,6 +94,7 @@ public class Room {
 		if(es.matches("[0-9]+")) 
 			entity = new Door(new Integer(es));
 
+		//System.out.print("-" + es + "-");//DEBUG
 		entity.x = ex;
 		entity.y = ey;
 
@@ -128,6 +131,10 @@ public class Room {
 
 					for(String data : mtdt.split(";")) metadata.put(data.split(",")[0], data.split(",")[1]);
 				}
+				
+				if (metadata.containsKey("level")) {
+					enemyLevel = Integer.parseInt(metadata.get("level").toString());
+				}
 
 				roomString = roomString.replaceAll("\\s", ""); // Remove all whitespace
 
@@ -160,15 +167,15 @@ public class Room {
 		game.hero.x = 1;
 		game.hero.y = 1;
 
-		Goblin goblin = new Goblin();
+		Goblin goblin = new Goblin(1);
 		goblin.x = 6;
 		goblin.y = 6;
 		ent.add(goblin);
-		KillerPidgeon pidge = new KillerPidgeon();
+		KillerPidgeon pidge = new KillerPidgeon(1);
 		pidge.x = 5;
 		pidge.y = 6;
 		ent.add(pidge);
-		Snake snake = new Snake();
+		Snake snake = new Snake(1);
 		snake.x = 6;
 		snake.y = 5;
 		ent.add(snake);
