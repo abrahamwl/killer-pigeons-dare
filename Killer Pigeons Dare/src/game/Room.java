@@ -49,7 +49,8 @@ public class Room {
 		if(es.equals("t")) entity = new Tree();
 		if(es.equals("g")) entity = new Grass();
 		if(es.equals("d")) entity = new Dirt();
-		if(es.matches("[0-9]+")) entity = new Door(new Integer(es));
+		if(es.matches("[0-9]+")) 
+			entity = new Door(new Integer(es));
 
 		entity.x = ex;
 		entity.y = ey;

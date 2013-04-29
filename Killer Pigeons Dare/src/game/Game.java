@@ -52,7 +52,7 @@ public class Game extends BasicGame {
 		
 		// If room files have been passed on the command line, load them all 
 		if(roomFiles != null) {
-			loadRoom(1);
+			loadRoom(6);
 		} else {
 			room = new Room(this, new Random(random.nextLong()));
 			
