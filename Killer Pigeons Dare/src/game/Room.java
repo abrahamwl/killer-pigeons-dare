@@ -21,6 +21,20 @@ public class Room {
 	GameContainer gc;
 	InfoPanel panel;
 
+	static Sound soundEffectLeaveRoom = null; 
+	
+	{
+		String extension = "ogg";
+		File[] f = (new File("./res/")).listFiles(new RegexpFilter(".*aif"));
+		if(f.length != 0) extension = "aif";
+		
+		try {
+			soundEffectLeaveRoom = new Sound("res/sound_effect_leave_room." + extension);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+	}
+
 	enum State {
 		PLAYING,
 		LOST,
@@ -344,6 +358,7 @@ public class Room {
 		} else if (state == State.LEVEL_UP) {
 			if (game.hero.doLevelUp(gc)) {
 				game.loadRoom(((Door)entitiesAt(game.hero.x, game.hero.y, Door.class).get(0)).roomNumber);
+				soundEffectLeaveRoom.play();
 			}
 		}
 	}
