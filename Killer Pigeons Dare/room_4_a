@@ -1,10 +1,10 @@
-level,2;
+level,2;music,music_Hellish;
 |
-R,R,R,R,X,R,R,R;
-t, , ,g,C, , ,t;
-t, , , , , , ,t;
-t, , ,t,t, , ,t;
-t, , ,t,t, , ,t;
-t, , , , , , ,t;
-t, , , , , ,F,t;
-t,5,t,t,t,t,t,t;
+g,g,g,g,g,g,g,g;
+g,g,g,g,c,g,g,g;
+g,g,g,g,c,g,g,g;
+g,g,g,c,c,g,g,g;
+g,g,g,c,g,g,g,g;
+g,W,W,c,g,g,g,g;
+g,c,c,c,g,g,g,g;
+g,g,g,g,g,g,g,g;

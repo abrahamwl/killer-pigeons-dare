@@ -110,6 +110,8 @@ public class Room {
 		if(es.equals("t")) entity = new Tree();
 		if(es.equals("g")) entity = new Grass();
 		if(es.equals("d")) entity = new Dirt();
+		if(es.equals("c")) entity = new Cobblestone();
+		if(es.equals("h")) entity = new Hellstone();
 		if(es.equals("f")) entity = new Finish(-1); // -1 b/c doesn't go anywhere
 		if(es.equals("X")) entity = new ClosedDoor();
 		if(es.matches("[0-9]+")) 
