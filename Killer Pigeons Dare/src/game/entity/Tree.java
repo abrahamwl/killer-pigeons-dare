@@ -4,7 +4,6 @@ import game.Actor;
 import game.Entity;
 import game.Room;
 
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 

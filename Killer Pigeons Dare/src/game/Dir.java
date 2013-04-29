@@ -1,7 +1,5 @@
 package game;
 
-import game.action.ActionWait;
-
 public enum Dir {
 	NO_DIRECTION(null, null),
 	NORTH(0, -1),

@@ -3,7 +3,6 @@ package game.action;
 import java.io.File;
 import java.util.ArrayList;
 
-import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 

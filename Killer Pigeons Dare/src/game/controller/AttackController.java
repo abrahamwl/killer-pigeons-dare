@@ -6,8 +6,6 @@ import game.Dir;
 import game.Room;
 import game.action.*;
 import game.entity.Character;
-import game.entity.Wall;
-
 import org.newdawn.slick.GameContainer;
 
 public class AttackController extends BasicController {

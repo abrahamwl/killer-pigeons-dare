@@ -135,11 +135,8 @@ public class Room {
 				roomGrid = new String[roomRow.length][];
 				for(int r = 0; r < roomRow.length; r++) roomGrid[r] = roomRow[r].split(",");
 
-				for(int r = 0; r < roomGrid.length; r++) for(int c = 0; c < roomGrid[r].length; c++) {
-					Entity newEntity = null;
-					if(!roomGrid[r][c].equals("")) newEntity = addEntity(roomGrid[r][c], c, r);
-					//if(roomGrid[r][c].equals("C")) game.hero = (Character) newEntity; // TODO HACK to not instantiate multiple heroes
-				}
+				for(int r = 0; r < roomGrid.length; r++) for(int c = 0; c < roomGrid[r].length; c++)
+					if(!roomGrid[r][c].equals("")) addEntity(roomGrid[r][c], c, r);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -292,6 +289,7 @@ public class Room {
 		g.fill(drawCursor);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void update(GameContainer gc) {
 		this.gc = gc;
 

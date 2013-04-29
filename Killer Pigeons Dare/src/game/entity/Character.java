@@ -1,8 +1,6 @@
 package game.entity;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
-
 import game.*;
 
 import org.newdawn.slick.*;

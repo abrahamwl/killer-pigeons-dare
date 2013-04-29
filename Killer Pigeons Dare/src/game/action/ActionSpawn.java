@@ -1,7 +1,5 @@
 package game.action;
 
-import java.util.ArrayList;
-
 import game.*;
 import game.entity.Wall;
 
