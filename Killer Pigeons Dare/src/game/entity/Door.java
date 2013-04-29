@@ -45,7 +45,7 @@ public class Door extends Entity {
 	@Override
 	public void init (Room r) {
 		super.init(r);
-		distanceFromCharacterStart = (int)(Math.abs(x - r.game.hero.x) + Math.abs(y = r.game.hero.y));
+		distanceFromCharacterStart = (int)(Math.abs(x - r.game.hero.x) + Math.abs(y - r.game.hero.y));
 	}
 
 }
