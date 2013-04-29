@@ -1,10 +1,11 @@
 package game;
 
-import game.controller.AttackController;
 import game.entity.*;
 import game.entity.Character;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import org.newdawn.slick.*;
@@ -14,6 +15,7 @@ public class Room {
 	public Game game = null;
 	Random random;
 	ArrayList<Entity> ent;
+	HashMap<String,String> metadata = new HashMap<String, String>();
 	ArrayList<Entity> waiting = new ArrayList<Entity>();
 	GameContainer gc;
 	InfoPanel panel;
@@ -75,9 +77,18 @@ public class Room {
 		ent = new ArrayList<Entity>();
 		try {
 			for(String roomString : roomStrings) {
+				String mtdt = null;
 				String[][] roomGrid = null;
 				String[] roomRow = null;
 				this.game = game;
+				
+				if(roomString.contains("|")) { // Room has metadata (before the "|" character, format is "key,value;", whitespace is not removed)
+					mtdt = roomString.split("[|]")[0];
+					roomString = roomString.split("[|]")[1];
+					
+					for(String data : mtdt.split(";")) metadata.put(data.split(",")[0], data.split(",")[1]);
+				}
+
 				roomString = roomString.replaceAll("\\s", ""); // Remove all whitespace
 
 				roomRow = roomString.split(";");
@@ -151,7 +162,27 @@ public class Room {
 		ent.add(water);
 	}
 	
+	Music musc = null;
 	void init () {
+		// Metadata initiation
+		
+		// Set up and play music
+		if(metadata.containsKey("music")) {
+			String musicName = metadata.get("music");
+			File[] f = (new File("./res/")).listFiles(new regexpFilter(musicName + ".aif"));
+				try {
+					if(f.length != 0) {
+					musc = new Music("res/" + musicName + ".aif");
+					}
+					else {
+						musc = new Music("res/" + musicName + ".ogg");
+					}
+				} catch (SlickException e1) {
+					e1.printStackTrace();
+				}
+			musc.play();			
+		}
+		
 		for (Entity e : ent) {
 			e.init(this);
 			if (e instanceof Actor && !(e instanceof Character)) {
@@ -214,6 +245,11 @@ public class Room {
 
 	public void update(GameContainer gc) {
 		this.gc = gc;
+		
+		if (metadata.containsKey("music")) {
+			if(!musc.playing()) musc.play(); // loop music
+		}
+		
 		if (state == State.PLAYING) {
 			if (waiting.isEmpty()) {
 				waiting = (ArrayList<Entity>)ent.clone();

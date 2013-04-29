@@ -36,12 +36,6 @@ public class Game extends BasicGame {
 	
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-		// Set up and play music
-		File[] f = (new File("./res/")).listFiles(new regexpFilter("Medieval1.aif"));
-		if(f.length != 0) 
-			musc = new Music("res/Medieval1.aif");
-		else musc = new Music("res/Medieval1.ogg");
-		musc.play();
 		
 		//gc.setShowFPS(false);
 		//gc.setMouseGrabbed(true);
@@ -52,7 +46,7 @@ public class Game extends BasicGame {
 		
 		// If room files have been passed on the command line, load them all 
 		if(roomFiles != null) {
-			loadRoom(6);
+			loadRoom(1);
 		} else {
 			room = new Room(this, new Random(random.nextLong()));
 			
@@ -87,7 +81,6 @@ public class Game extends BasicGame {
 	@Override
 	public void update(GameContainer gc, int timePassed) throws SlickException {
 		room.update(gc);
-		if(!musc.playing()) musc.play();
 	}
 }
 
