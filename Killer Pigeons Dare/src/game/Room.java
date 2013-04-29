@@ -199,7 +199,7 @@ public class Room {
 		// Set up and play music
 		if(metadata.containsKey("music")) {
 			String musicName = metadata.get("music");
-			File[] f = (new File("./res/")).listFiles(new regexpFilter(musicName + ".aif"));
+			File[] f = (new File("./res/")).listFiles(new RegexpFilter(musicName + ".aif"));
 			try {
 				if(f.length != 0) {
 					musc = new Music("res/" + musicName + ".aif");

@@ -27,7 +27,7 @@ public class Game extends BasicGame {
 	// Can be passed multiple room files on the command line to create a complex room
 	public static void main(String[] args) throws SlickException {
 		// Scan directory for room files
-		roomFiles = (new File("./")).listFiles(new regexpFilter("room_0_.*"));
+		roomFiles = (new File("./")).listFiles(new RegexpFilter("room_0_.*"));
 		
 		AppGameContainer app = new AppGameContainer(new Game("Killer Pigeons RPG"));
 		app.setDisplayMode(512 + MARGIN, 512, false);
@@ -63,7 +63,7 @@ public class Game extends BasicGame {
 
 	private void loadRoomInternal() {
 		System.out.println("Loading room #" + String.valueOf(loadRoomNumber) + "..."); //DEBUG
-		roomFiles = (new File("./")).listFiles(new regexpFilter("room_" + loadRoomNumber + "_.*"));
+		roomFiles = (new File("./")).listFiles(new RegexpFilter("room_" + loadRoomNumber + "_.*"));
 		String[] roomStrings = new String[roomFiles.length];
 		for(int i = 0; i < roomFiles.length; i++) {
 			try {
@@ -95,18 +95,5 @@ public class Game extends BasicGame {
 		if (loadRoomNumber != -1) {
 			loadRoomInternal();
 		}
-	}
-}
-
-class regexpFilter implements FilenameFilter {
-	String regexp = null; 
-	
-	public regexpFilter(String regexp) {
-		this.regexp = regexp;
-	}
-	
-	@Override
-	public boolean accept(File arg0, String arg1) {
-		return arg1.matches(regexp);
 	}
 }
