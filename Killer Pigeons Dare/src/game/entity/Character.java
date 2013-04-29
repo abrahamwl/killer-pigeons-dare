@@ -2,6 +2,7 @@ package game.entity;
 
 import java.util.ArrayList;
 import game.*;
+import game.controller.UserController;
 
 import org.newdawn.slick.*;
 

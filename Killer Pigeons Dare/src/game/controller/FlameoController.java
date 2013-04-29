@@ -1,7 +1,6 @@
 package game.controller;
 
 import game.Actor;
-import game.BasicController;
 import game.Dir;
 import game.Room;
 import game.action.*;

@@ -1,5 +1,8 @@
-package game;
+package game.controller;
 
+import game.Dir;
+import game.Entity;
+import game.Room;
 import game.action.*;
 import game.entity.Character;
 

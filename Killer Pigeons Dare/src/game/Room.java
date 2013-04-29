@@ -23,7 +23,9 @@ public class Room {
 	
 	int enemyLevel = 1;
 
-	static Sound soundEffectLeaveRoom = null; 
+	static Sound soundEffectLeaveRoom = null;
+	private static Image IMAGE_FINISHED;
+	private static Image IMAGE_START; 
 	
 	{
 		String extension = "ogg";
@@ -41,7 +43,10 @@ public class Room {
 		PLAYING,
 		LOST,
 		WON,
-		LEVEL_UP;
+		LEVEL_UP,
+		GAMEOVER,
+		START,
+		FINISHED;
 	}
 	State state = State.PLAYING;
 
@@ -71,6 +76,20 @@ public class Room {
 			e.printStackTrace();
 		}
 		IMAGE_LOST = temp;
+		try {
+			temp = new Image("res/text_start_screen.png");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		IMAGE_START = temp;
+		try {
+			temp = new Image("res/text_win_screen.png");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		IMAGE_FINISHED = temp;
 	}
 	
 	WinLoseScreen winLose = new WinLoseScreen();
@@ -91,6 +110,7 @@ public class Room {
 		if(es.equals("t")) entity = new Tree();
 		if(es.equals("g")) entity = new Grass();
 		if(es.equals("d")) entity = new Dirt();
+		if(es.equals("f")) entity = new Finish(-1); // -1 b/c doesn't go anywhere
 		if(es.equals("X")) entity = new ClosedDoor();
 		if(es.matches("[0-9]+")) 
 			entity = new Door(new Integer(es));
@@ -218,18 +238,7 @@ public class Room {
 		// Set up and play music
 		if(metadata.containsKey("music")) {
 			String musicName = metadata.get("music");
-			File[] f = (new File("./res/")).listFiles(new RegexpFilter(musicName + ".aif"));
-			try {
-				if(f.length != 0) {
-					musc = new Music("res/" + musicName + ".aif");
-				}
-				else {
-					musc = new Music("res/" + musicName + ".ogg");
-				}
-			} catch (SlickException e1) {
-				e1.printStackTrace();
-			}
-			musc.play();			
+			playMusic(musicName, true);			
 		}
 
 		for (Entity e : ent) {
@@ -239,6 +248,25 @@ public class Room {
 				totalMonsterLevels += ((Actor)e).getLevel();
 			}
 		}
+	}
+	
+	boolean loopMusic = false;
+
+	private void playMusic(String musicName, boolean loop) {
+		File[] f = (new File("./res/")).listFiles(new RegexpFilter(musicName + ".aif"));
+		try {
+			if(f.length != 0) {
+				musc = new Music("res/" + musicName + ".aif");
+			}
+			else {
+				musc = new Music("res/" + musicName + ".ogg");
+			}
+		} catch (SlickException e1) {
+			e1.printStackTrace();
+		}
+		musc.stop();
+		musc.play();
+		loopMusic = loop;
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
@@ -302,7 +330,7 @@ public class Room {
 		this.gc = gc;
 
 		if (metadata.containsKey("music")) {
-			if(!musc.playing()) musc.play(); // loop music
+			if(!musc.playing() && loopMusic) musc.play(); // loop music
 		}
 
 		if (state == State.PLAYING) {
@@ -438,6 +466,17 @@ public class Room {
 			} else if (state == State.LOST) {
 				IMAGE_LOST.draw(LEFT, TOP);
 				g.drawString("You died on turn " + turnCount, LEFT, TOP + IMAGE_HEIGHT + 14);
+			} 
+			else if (state == State.START) {
+				IMAGE_START.draw(LEFT, TOP);
+				g.drawString("Your village has been ravaged by the Killer Pidgeons.", LEFT, TOP + IMAGE_HEIGHT + 2 * 14);
+				g.drawString("Seek your vengeance before they ravage again.", LEFT, TOP + IMAGE_HEIGHT + 2 * 14);
+			}
+			else if (state == State.FINISHED) {
+				playMusic("music_Win", false);
+				IMAGE_FINISHED.draw(LEFT, TOP);
+				g.drawString("You have defeated the Killer Pidgeons.", LEFT, TOP + IMAGE_HEIGHT + 2 * 14);				
+				g.drawString("They shall kill and destroy nevermore.", LEFT, TOP + IMAGE_HEIGHT + 2 * 14);				
 			}
 			g.drawString("Click to continue...", LEFT, TOP + IMAGE_HEIGHT + 3 * 14);
 		}
