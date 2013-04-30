@@ -14,7 +14,7 @@ public class Ability {
 		BLOCK(true, "This character blocks the first melee attack against it in a turn."),
 		COUNTER_WAIT(false, "When this character waits, it will stop the first attack against it in a turn and counter-attack."),
 		FLYING(true, "This character can move over water."),
-		POISONOUS(true, "This character's attacks cause you to lose their level x 2 life per turn.");
+		POISONOUS(true, "This character's attacks cause its level x 2 damage per turn.");
 		
 		protected boolean activeByDefault;
 		public final String tooltip;
