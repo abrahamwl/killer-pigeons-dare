@@ -56,7 +56,7 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 		
 		random = new Random();
 		
-		uiLayers.push(new RoomLayer(this));
+		pushUILayer(new RoomLayer(this));
 	}
 
 	@Override
@@ -110,6 +110,7 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 	
 	public void pushUILayer (UILayer layer) {
 		uiLayers.push(layer);
+		layer.setEnabled(true);
 		if (layer instanceof SuppliesMusic) {
 			if (music != null) music.stop();
 			musicSupplier = (SuppliesMusic)layer;
@@ -120,7 +121,7 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 		if (uiLayers.peek() instanceof SuppliesMusic) {
 			music.stop();
 		}
-		uiLayers.pop();
+		uiLayers.pop().setEnabled(false);
 		musicSupplier = null;
 		for (UILayer mLayer : uiLayers) {
 			if (mLayer instanceof SuppliesMusic) {

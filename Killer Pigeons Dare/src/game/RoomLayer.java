@@ -72,6 +72,7 @@ public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusi
 		// Check for loss.
 		if (game.hero.isDead()) {
 			winLoseScreen.state = WinLoseScreen.State.LOST;
+			
 			game.pushUILayer(winLoseScreen);
 			loadRoomNumber = (int)room.roomNumber;
 		}
@@ -96,11 +97,50 @@ public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusi
 		if (doors.size() > 0) {
 			Door door = (Door)doors.get(0);
 			winLoseScreen.state = WinLoseScreen.State.WON;
+			Character.Record r = game.hero.record.get((int)room.roomNumber);
 			if (winLoseScreen.turnAllBaddiesKilled == -1) {
 				winLoseScreen.expEarned = game.hero.calcXP(room.turnCount, door.getDistanceFromCharacterStart(), room.totalMonsterLevels / 2);
+				if (game.hero.record.get((int)room.roomNumber).getEscapeTurn() != null) {
+					int prevTurns = game.hero.record.get((int)room.roomNumber).getEscapeTurn();
+					if (room.turnCount >= prevTurns) {
+						winLoseScreen.expEarned = 0;
+					} else {
+						winLoseScreen.expEarned -= game.hero.calcXP(prevTurns, door.getDistanceFromCharacterStart(), room.totalMonsterLevels / 2);
+						if (r == null) {
+							game.hero.record.put((int)room.roomNumber, game.hero.new Record((int)room.roomNumber, room.turnCount, null));
+						} else {
+							r.set(room.turnCount, null);
+						}
+					}
+				} else {
+					if (r == null) {
+						game.hero.record.put((int)room.roomNumber, game.hero.new Record((int)room.roomNumber, room.turnCount, null));
+					} else {
+						r.set(room.turnCount, null);
+					}
+				}
 				game.hero.addXP(winLoseScreen.expEarned);
 			} else {
 				winLoseScreen.expEarned = game.hero.calcXP(winLoseScreen.turnAllBaddiesKilled, room.initialMonsterCount, room.totalMonsterLevels);
+				if (game.hero.record.get((int)room.roomNumber).getKillTurn() != null) {
+					int prevTurns = game.hero.record.get((int)room.roomNumber).getKillTurn();
+					if (winLoseScreen.turnAllBaddiesKilled >= prevTurns) {
+						winLoseScreen.expEarned = 0;
+					} else {
+						winLoseScreen.expEarned -= game.hero.calcXP(prevTurns, room.initialMonsterCount, room.totalMonsterLevels);
+						if (r == null) {
+							game.hero.record.put((int)room.roomNumber, game.hero.new Record((int)room.roomNumber, null, winLoseScreen.turnAllBaddiesKilled));
+						} else {
+							r.set(null, winLoseScreen.turnAllBaddiesKilled);
+						}
+					}
+				} else {
+					if (r == null) {
+						game.hero.record.put((int)room.roomNumber, game.hero.new Record((int)room.roomNumber, null, winLoseScreen.turnAllBaddiesKilled));
+					} else {
+						r.set(null, winLoseScreen.turnAllBaddiesKilled);
+					}
+				}
 				game.hero.addXP(winLoseScreen.expEarned);
 			}
 			game.pushUILayer(winLoseScreen);
@@ -129,6 +169,11 @@ public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusi
 		winLoseScreen.turnAllBaddiesKilled = -1;
 		
 		game.hero.refresh();
+		
+		Character.Record r = game.hero.record.get((int)room.roomNumber);
+		if (r == null) {
+			game.hero.record.put((int)room.roomNumber, game.hero.new Record((int)room.roomNumber, null, null));
+		}
 		
 		SOUND_ENTER_ROOM.play();
 		

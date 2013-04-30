@@ -43,10 +43,12 @@ public class Character extends Actor {
 	}
 	
 	public class Record {
+		public int roomNumber;
 		private Integer escapeTurn = null;
 		private Integer killTurn = null;
 		
-		public Record (int escapeTurn, int killTurn) {
+		public Record (int roomNumber, Integer escapeTurn, Integer killTurn) {
+			this.roomNumber = roomNumber;
 			this.escapeTurn = escapeTurn;
 			this.killTurn = killTurn;
 		}
@@ -61,12 +63,16 @@ public class Character extends Actor {
 
 		public void set(Integer escapeTurn, Integer killTurn) {
 			if (escapeTurn != null) { 
-				if (escapeTurn < this.escapeTurn) {
+				if (this.escapeTurn == null) {
+					this.escapeTurn = escapeTurn;
+				} else if (escapeTurn < this.escapeTurn) {
 					this.escapeTurn = escapeTurn;
 				}
 			}
 			if (killTurn != null) { 
-				if (killTurn < this.killTurn) {
+				if (this.killTurn == null) {
+					this.killTurn = killTurn;
+				} else if (killTurn < this.killTurn) {
 					this.killTurn = killTurn;
 				}
 			}
