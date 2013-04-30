@@ -13,8 +13,6 @@ public class InfoPanel extends UIElement {
 		private static final String CAPTION = "Room List";
 		private int width;
 		private int height;
-		private int x;
-		private int y;
 		
 		public RoomListButton (GameContainer gc) {
 			gc.getInput().addMouseListener(this);
@@ -22,17 +20,17 @@ public class InfoPanel extends UIElement {
 
 		@Override
 		public void draw(GameContainer gc, Graphics g) throws SlickException {
-			width = g.getFont().getWidth(CAPTION);
-			height = g.getFont().getLineHeight();
-			x = 800 - (Game.MARGIN + width) / 2;
-			y = 512 - 5 - 2 * 14;
+			width = g.getFont().getWidth(CAPTION) + 10;
+			height = g.getFont().getLineHeight() + 10;
+			x = (InfoPanel.this.width - width + 10) / 2;
+			y = 512 - 10 - 2 * 14;
 			
 			g.setColor(Color.lightGray);
-			g.fillRoundRect(x - 5, y - 5, width + 10, height + 10, 5);
+			g.fillRoundRect(0, 0, width, height, 5);
 			g.setColor(Color.blue);
-			g.drawRoundRect(x - 5, y - 5, width + 10, height + 10, 5);
+			g.drawRoundRect(0, 0, width, height, 5);
 			g.setColor(Color.black);
-			g.drawString(CAPTION, x, y);
+			g.drawString(CAPTION, 5, 5);
 		}
 
 		@Override
@@ -50,14 +48,12 @@ public class InfoPanel extends UIElement {
 
 		@Override
 		public void inputEnded() {
-			// TODO Auto-generated method stub
-			
+			layer.game.gc.getInput().setOffset(0, 0);
 		}
 
 		@Override
 		public void inputStarted() {
-			// TODO Auto-generated method stub
-			
+			layer.game.gc.getInput().setOffset(-(parentX + x), -(parentY + y));
 		}
 
 		@Override
@@ -75,7 +71,8 @@ public class InfoPanel extends UIElement {
 		@Override
 		public void mousePressed(int button, int mX, int mY) {
 			if (button == Input.MOUSE_LEFT_BUTTON) {
-				if (mX >= x - 5 && mX <= x + width + 10 && mY >= y - 5 && mY <= y + height + 10) {
+				//System.out.println("Click at " + mX + ", " + mY);//DEBUG
+				if (mX >= 0 && mX <= width && mY >= 0 && mY <= height) {
 					layer.game.pushUILayer(new RoomList(layer));
 				}
 			}
@@ -101,7 +98,7 @@ public class InfoPanel extends UIElement {
 
 	}
 
-	int x, y, width, height;
+	int width, height;
 	Actor target = null;
 	public static final Color BROWN = new Color(.7f, .4f, .2f);
 	private RoomLayer layer;
@@ -116,7 +113,6 @@ public class InfoPanel extends UIElement {
 	}
 	
 	public void draw(GameContainer gc, Graphics g) throws SlickException {
-		g.translate(x, y);
 		g.setColor(BROWN);
 		g.fillRoundRect(0, 0, width, height, 5);
 		
@@ -144,14 +140,13 @@ public class InfoPanel extends UIElement {
 				g.drawString(target.poisoned + " POISON", 5, y);
 			}
 		}
-		g.translate(-x, -y);
 	}
 	
 	@Override
 	public void process(GameContainer gc) throws SlickException {
 		// Update the InfoPanel
-		int x = gc.getInput().getMouseX();
-		int y = gc.getInput().getMouseY();
+		int x = gc.getInput().getMouseX() - this.x; // Adjust to the parent layer coordinates.
+		int y = gc.getInput().getMouseY() - this.y; // Adjust to the parent layer coordinates.
 		ArrayList<Entity> actors = layer.room.entitiesAt(x / Entity.CELL_SIZE, y / Entity.CELL_SIZE, Actor.class);
 		if (!actors.isEmpty()) {
 			if (target != (Actor)actors.get(0)) {
@@ -168,7 +163,7 @@ public class InfoPanel extends UIElement {
 				int lY = 10 + Entity.CELL_SIZE;
 				
 				for (Ability a : target.abilities) {
-					children.add(a.type.getDisplayElement(layer.game, this.x + 5, this.y + lY));
+					children.add(a.type.getDisplayElement(layer.game, 5, lY));
 					lY += 14;
 				}
 				

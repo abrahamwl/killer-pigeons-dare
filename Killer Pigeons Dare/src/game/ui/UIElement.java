@@ -4,10 +4,14 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 public abstract class UIElement {
 	protected boolean enabled = false;
+	
+	protected int parentX = 0, parentY = 0;
+	protected int x = 0, y = 0;
 	
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
@@ -16,22 +20,28 @@ public abstract class UIElement {
 		}
 	}
 	
+	private void addEffects(UIElement e) {
+		e.parentX = parentX + x;
+		e.parentY = parentY + y;
+		e.setEnabled(enabled);
+	}
+	
 	public class Children extends ArrayList<UIElement> {
 		@Override
 		public void add(int index, UIElement element) {
-			element.setEnabled(enabled);
+			addEffects(element);
 			super.add(index, element);
 		}
 		
 		@Override
 		public boolean add(UIElement e) {
-			e.setEnabled(enabled);
+			addEffects(e);
 			return super.add(e);
 		}
 		
 		@Override
 		public UIElement set(int index, UIElement element) {
-			element.setEnabled(enabled);
+			addEffects(element);
 			return super.set(index, element);
 		}
 	}
@@ -39,19 +49,24 @@ public abstract class UIElement {
 	public final Children children = new Children();
 
 	public final void render(GameContainer gc, Graphics g)  throws SlickException {
+		g.translate(x, y);
 		draw(gc, g);
 		
 		for (UIElement child : children) {
 			child.render(gc, g);
 		}
+		g.translate(-x, -y);
 	}
 
 	public final void update(GameContainer gc)  throws SlickException {
+		Input input = gc.getInput();
+		input.setOffset(-(parentX + x), -(parentY + y));
 		for (UIElement child : children) {
 			child.update(gc);
 		}
 
 		process(gc);
+		input.setOffset(parentX, parentY);
 	}
 
 	public abstract void draw(GameContainer gc, Graphics g) throws SlickException;
