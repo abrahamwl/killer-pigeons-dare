@@ -12,7 +12,7 @@ public class Ability {
 	public enum Type {
 		TOUGH(true, "This character has 50% more hitpoints."),
 		BLOCK(true, "This character blocks the first melee attack against it in a turn."),
-		COUNTER_WAIT(false, "When this character waits, it will stop the first attack against it in a turn and counter-attack."),
+		COUNTER_WAIT(false, "When this character waits, it will stop the first attack\nagainst it in a turn and counter-attack."),
 		FLYING(true, "This character can move over water."),
 		POISONOUS(true, "This character's attacks cause its level x 2 damage per turn.");
 		

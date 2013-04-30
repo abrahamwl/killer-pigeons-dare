@@ -77,8 +77,8 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 		}
 		
 		if (tooltip != null) {
-			int width = g.getFont().getWidth(tooltip) + 6;
-			int height = g.getFont().getLineHeight() + 2;
+			int width = g.getFont().getWidth(tooltip) + 8;
+			int height = g.getFont().getHeight(tooltip) + 2;
 			int x = gc.getInput().getMouseX() - width;
 			x = Math.min(Math.max(x,  0), 800 - width);
 			int y = gc.getInput().getMouseY();
