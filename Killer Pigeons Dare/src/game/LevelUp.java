@@ -14,7 +14,6 @@ import game.ui.UILayer;
 
 public class LevelUp extends UILayer {
 	private Character c;
-	private Game game;
 	private int newLevel;
 	private int levelUpStep = 0;
 	
@@ -22,10 +21,10 @@ public class LevelUp extends UILayer {
 	static final int OUTER_WIDTH = IMAGE_WIDTH + 10;
 	static final int IMAGE_HEIGHT = 82;
 	static final int OUTER_HEIGHT = 512 - 128;
-	static final int OUTER_LEFT = (800 - IMAGE_WIDTH) / 2;
-	static final int LEFT = OUTER_LEFT + 5;
+	static final int OUTER_LEFT = (800 - OUTER_WIDTH) / 2;
+	static final int LEFT = 5;
 	static final int OUTER_TOP = 64;
-	static final int TOP = OUTER_TOP + 5;
+	static final int TOP = 5;
 	static final int LIST_TOP = TOP + IMAGE_HEIGHT + 4 * 14;
 	
 	static final Image IMAGE_LEVEL_UP;
@@ -44,7 +43,7 @@ public class LevelUp extends UILayer {
 	ArrayList<Ability.Type> options;
 	
 	public LevelUp(Game game) {
-		this.game = game;
+		super(game, OUTER_LEFT, OUTER_TOP);
 		c = game.hero;
 		
 		newLevel = c.level;
@@ -70,9 +69,9 @@ public class LevelUp extends UILayer {
 	public void draw(GameContainer gc, Graphics g) {
 		if (levelUpStep > 0) {
 			g.setColor(InfoPanel.BROWN);
-			g.fillRoundRect(OUTER_LEFT, OUTER_TOP, OUTER_WIDTH, OUTER_HEIGHT, 5);
+			g.fillRoundRect(0, 0, OUTER_WIDTH, OUTER_HEIGHT, 5);
 			g.setColor(Color.lightGray);
-			g.drawRoundRect(OUTER_LEFT, OUTER_TOP, OUTER_WIDTH, OUTER_HEIGHT, 5);
+			g.drawRoundRect(0, 0, OUTER_WIDTH, OUTER_HEIGHT, 5);
 			
 			IMAGE_LEVEL_UP.draw(LEFT, TOP);
 			
@@ -117,7 +116,8 @@ public class LevelUp extends UILayer {
 			}
 			
 			if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-				if (mX >= LEFT && mX <= LEFT + 800 - 256 - 5 && mY >= LIST_TOP && mY <= LIST_TOP + options.size() * 14) {
+				//System.out.println("Mouse click at " + mX + ", " + mY); //DEBUG
+				if (mX >= LEFT && mX <= LEFT + IMAGE_WIDTH && mY >= LIST_TOP && mY <= LIST_TOP + options.size() * 14) {
 					int selection = (mY - LIST_TOP) / 14;
 					selectsLeft--;
 					c.abilities.add(new Ability(options.get(selection)));

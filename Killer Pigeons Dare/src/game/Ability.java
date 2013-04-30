@@ -25,13 +25,10 @@ public class Ability {
 		}
 		
 		public class DisplayElement extends UIElement {
-			private Game game;
-			private int x, y, width = 0, height = 0;
+			private int width = 0, height = 0;
 			
 			private DisplayElement (Game game, int x, int y) {
-				this.game = game;
-				this.x = x;
-				this.y = y;
+				super(game, x, y);
 			}
 			
 			@Override
@@ -39,7 +36,7 @@ public class Ability {
 					throws SlickException {
 				g.setColor(Color.blue);
 				String name = Type.this.toString();
-				g.drawString(name, x, y);
+				g.drawString(name, 0, 0);
 				width = g.getFont().getWidth(name);
 				height = g.getFont().getLineHeight();
 			}
@@ -49,7 +46,7 @@ public class Ability {
 				int mX = gc.getInput().getMouseX();
 				int mY = gc.getInput().getMouseY();
 				
-				if (mX >= x && mX <= x + width && mY >= y && mY <= y + height) {
+				if (mX >= 0 && mX <= width && mY >= 0 && mY <= height) {
 					game.tooltip = Type.this.tooltip;				}
 			}				
 		}

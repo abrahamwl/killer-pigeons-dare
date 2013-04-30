@@ -109,6 +109,7 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 	}
 	
 	public void pushUILayer (UILayer layer) {
+		if (uiLayers.size() > 0) uiLayers.peek().setEnabled(false);
 		uiLayers.push(layer);
 		layer.setEnabled(true);
 		if (layer instanceof SuppliesMusic) {
@@ -122,6 +123,7 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 			music.stop();
 		}
 		uiLayers.pop().setEnabled(false);
+		uiLayers.peek().setEnabled(true);
 		musicSupplier = null;
 		for (UILayer mLayer : uiLayers) {
 			if (mLayer instanceof SuppliesMusic) {

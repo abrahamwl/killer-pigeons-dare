@@ -64,6 +64,7 @@ public class Room {
 	// This function is passed a series of class names representing entities.  Columns are broken up by commas, rows broken up by semicolons.
 	public Room (Game game, String[] roomStrings, long roomNumber) {
 		this.roomNumber = roomNumber;
+		this.game = game;
 		
 		entities = new ArrayList<Entity>();
 		try {
@@ -71,7 +72,6 @@ public class Room {
 				String mtdt = null;
 				String[][] roomGrid = null;
 				String[] roomRow = null;
-				this.game = game;
 
 				if(roomString.contains("|")) { // Room has metadata (before the "|" character, format is "key,value;", whitespace is not removed)
 					mtdt = roomString.split("[|]")[0];

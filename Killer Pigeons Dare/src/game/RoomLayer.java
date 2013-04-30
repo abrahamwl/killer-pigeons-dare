@@ -51,7 +51,8 @@ public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusi
 	}
 
 	public RoomLayer(Game game) {
-		this.game = game;
+		super(game, 0, 0);
+		this.game = super.game;
 		winLoseScreen = new WinLoseScreen(this);
 		loadRoomNumber = 0;
 		loadRoomInternal();

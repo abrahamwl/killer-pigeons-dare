@@ -14,8 +14,9 @@ public class InfoPanel extends UIElement {
 		private int width;
 		private int height;
 		
-		public RoomListButton (GameContainer gc) {
-			gc.getInput().addMouseListener(this);
+		public RoomListButton (Game game, int x) {
+			super(game, x, 512 - 10 - 2 * 14);
+			game.gc.getInput().addMouseListener(this);
 		}
 
 		@Override
@@ -23,7 +24,6 @@ public class InfoPanel extends UIElement {
 			width = g.getFont().getWidth(CAPTION) + 10;
 			height = g.getFont().getLineHeight() + 10;
 			x = (InfoPanel.this.width - width + 10) / 2;
-			y = 512 - 10 - 2 * 14;
 			
 			g.setColor(Color.lightGray);
 			g.fillRoundRect(0, 0, width, height, 5);
@@ -44,16 +44,6 @@ public class InfoPanel extends UIElement {
 		@Override
 		public boolean isAcceptingInput() {
 			return enabled;
-		}
-
-		@Override
-		public void inputEnded() {
-			layer.game.gc.getInput().setOffset(0, 0);
-		}
-
-		@Override
-		public void inputStarted() {
-			layer.game.gc.getInput().setOffset(-(parentX + x), -(parentY + y));
 		}
 
 		@Override
@@ -104,12 +94,11 @@ public class InfoPanel extends UIElement {
 	private RoomLayer layer;
 	
 	InfoPanel (RoomLayer layer, int x, int y, int width, int height) {
+		super(layer.game, x, y);
 		this.layer = layer;
-		this.x = x;
-		this.y = y;
 		this.width = width;
 		this.height = height;
-		children.add(new RoomListButton(layer.game.gc));
+		children.add(new RoomListButton(game, width / 2 - 50));
 	}
 	
 	public void draw(GameContainer gc, Graphics g) throws SlickException {

@@ -64,9 +64,9 @@ class WinLoseScreen extends UILayer implements SuppliesMusic {
 	static final int IMAGE_HEIGHT = 82;
 	static final int OUTER_HEIGHT = IMAGE_HEIGHT + 4 * 14 + 10;
 	static final int OUTER_LEFT = (800 - IMAGE_WIDTH) / 2;
-	static final int LEFT = OUTER_LEFT + 5;
+	static final int LEFT = 5;
 	static final int OUTER_TOP = 64;
-	static final int TOP = OUTER_TOP + 5;
+	static final int TOP = 5;
 	
 	int turnAllBaddiesKilled = -1;
 	int expEarned;
@@ -75,14 +75,15 @@ class WinLoseScreen extends UILayer implements SuppliesMusic {
 	private RoomLayer rLayer;
 	
 	WinLoseScreen (RoomLayer rLayer) {
+		super(rLayer.game, OUTER_LEFT, OUTER_TOP);
 		this.rLayer = rLayer;
 	}
 
 	public void draw(GameContainer gc, Graphics g) {
 		g.setColor(InfoPanel.BROWN);
-		g.fillRoundRect(OUTER_LEFT, OUTER_TOP, OUTER_WIDTH, OUTER_HEIGHT, 5);
+		g.fillRoundRect(0, 0, OUTER_WIDTH, OUTER_HEIGHT, 5);
 		g.setColor(Color.lightGray);
-		g.drawRoundRect(OUTER_LEFT, OUTER_TOP, OUTER_WIDTH, OUTER_HEIGHT, 5);
+		g.drawRoundRect(0, 0, OUTER_WIDTH, OUTER_HEIGHT, 5);
 		
 		g.setColor(Color.black);
 		if (state == State.WON) {

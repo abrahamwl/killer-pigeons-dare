@@ -1,18 +1,30 @@
 package game.ui;
 
+import game.Game;
+
 import java.util.ArrayList;
 
+import org.newdawn.slick.ControlledInputReciever;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
-public abstract class UIElement {
+public abstract class UIElement implements ControlledInputReciever {
 	protected boolean enabled = false;
 	
 	protected int parentX = 0, parentY = 0;
 	protected int x = 0, y = 0;
 	
+	protected Game game;
+	
+	public UIElement(Game game, int x, int y) {
+		super();
+		this.x = x;
+		this.y = y;
+		this.game = game;
+	}
+
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 		for (UIElement child : children) {
@@ -66,10 +78,32 @@ public abstract class UIElement {
 		}
 
 		process(gc);
-		input.setOffset(parentX, parentY);
+		input.setOffset(-parentX, -parentY);
 	}
 
 	public abstract void draw(GameContainer gc, Graphics g) throws SlickException;
 
 	public abstract void process(GameContainer gc) throws SlickException;
+
+	@Override
+	public void inputEnded() {
+		game.gc.getInput().setOffset(0, 0);
+	}
+
+	@Override
+	public void inputStarted() {
+		game.gc.getInput().setOffset(-(parentX + x), -(parentY + y));
+	}
+	
+	@Override
+	public boolean isAcceptingInput() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public void setInput(Input input) {
+		// TODO Auto-generated method stub
+		
+	}
 }
