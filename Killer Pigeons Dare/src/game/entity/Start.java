@@ -5,11 +5,12 @@ import game.Room;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-public class Finish extends Entity {
+public class Start extends Entity {
 	private static SpriteSheet sheet = null;
+	public boolean started = false;
 
-	public Finish () {
-		super("Finish");
+	public Start () {
+		super("Start");
 		if (sheet == null) {
 			try {
 				sheet = new SpriteSheet("res/fancy_door.png", 64, 64, 0);

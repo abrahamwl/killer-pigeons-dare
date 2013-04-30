@@ -19,6 +19,8 @@ import game.entity.Actor;
 import game.entity.Character;
 import game.entity.Door;
 import game.entity.Entity;
+import game.entity.Finish;
+import game.entity.Start;
 import game.ui.*;
 
 public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusic {
@@ -92,7 +94,7 @@ public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusi
 			}
 		}
 		
-		//Check for win.
+		// Check for win.
 		ArrayList<Entity> doors = room.entitiesAt(game.hero.x, game.hero.y, Door.class);
 		if (doors.size() > 0) {
 			Door door = (Door)doors.get(0);
@@ -145,6 +147,20 @@ public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusi
 			}
 			game.pushUILayer(winLoseScreen);
 			loadRoomNumber = door.roomNumber;
+		}
+		
+		// Check for start.
+		ArrayList<Entity> start = room.allEntitiesOfType(Start.class);
+		if(start.size() > 0 && !((Start) start.get(0)).started) {
+			((Start) start.get(0)).started = true;
+			winLoseScreen.state = WinLoseScreen.State.START;
+			game.pushUILayer(winLoseScreen);
+		}
+		
+		// Check for finish.
+		if(room.checkForTypeAt(game.hero.x, game.hero.y, Finish.class)) {
+			winLoseScreen.state = WinLoseScreen.State.FINISHED;
+			game.pushUILayer(winLoseScreen);
 		}
 	}
 

@@ -40,7 +40,8 @@ public class Room {
 		if(es.equals("d")) entity = new Dirt();
 		if(es.equals("c")) entity = new Cobblestone();
 		if(es.equals("h")) entity = new Hellstone();
-		if(es.equals("f")) entity = new Finish(-1); // -1 b/c doesn't go anywhere
+		if(es.equals("s")) entity = new Start();
+		if(es.equals("f")) entity = new Finish();
 		if(es.equals("X")) entity = new ClosedDoor();
 		if(es.matches("[0-9]+")) 
 			entity = new Door(new Integer(es));
@@ -133,6 +134,23 @@ public class Room {
 		if (waiting.get(waiting.size() - 1).execute(this)) {
 			waiting.remove(waiting.size() - 1);
 		}
+	}
+
+	public boolean containsType(Class<? extends Entity> type) {
+		for (Entity e : entities) {
+			if (type.isInstance(e)) return true;
+		}
+
+		return false;
+	}
+	
+	public ArrayList<Entity> allEntitiesOfType (Class<? extends Entity> type) {
+		ArrayList<Entity> out = new ArrayList<Entity>();
+		for (Entity e : entities) {
+				if (type.isInstance(e)) out.add(e);
+		}
+
+		return out;
 	}
 
 	public boolean checkForTypeAt (int x, int y, Class<? extends Entity> type) {

@@ -100,12 +100,12 @@ class WinLoseScreen extends UILayer implements SuppliesMusic {
 		} 
 		else if (state == State.START) {
 			IMAGE_START.draw(LEFT, TOP);
-			g.drawString("Your village has been ravaged by the Killer Pidgeons.", LEFT, TOP + IMAGE_HEIGHT + 2 * 14);
-			g.drawString("Seek your vengeance before they ravage again.", LEFT, TOP + IMAGE_HEIGHT + 2 * 14);
+			g.drawString("Killer Pidgeons ravaged your village.", LEFT, TOP + IMAGE_HEIGHT + 14);
+			g.drawString("Avenge the dead. Eliminate the birds.", LEFT, TOP + IMAGE_HEIGHT + 2 * 14);
 		}
 		else if (state == State.FINISHED) {
 			IMAGE_FINISHED.draw(LEFT, TOP);
-			g.drawString("You have defeated the Killer Pidgeons.", LEFT, TOP + IMAGE_HEIGHT + 2 * 14);				
+			g.drawString("You have defeated the Killer Pidgeons.", LEFT, TOP + IMAGE_HEIGHT + 14);				
 			g.drawString("They shall kill and destroy nevermore.", LEFT, TOP + IMAGE_HEIGHT + 2 * 14);				
 		}
 		g.drawString("Click to continue...", LEFT, TOP + IMAGE_HEIGHT + 3 * 14);
