@@ -44,7 +44,7 @@ public class Room {
 				entity = new Door(new Integer(es));
 		}
 
-		System.out.print("-" + es + "-");//DEBUG
+		//System.out.print("-" + es + "-");//DEBUG
 		entity.x = ex;
 		entity.y = ey;
 

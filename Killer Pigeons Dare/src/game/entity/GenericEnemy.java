@@ -30,18 +30,11 @@ public class GenericEnemy extends Actor {
 		case 'S': return new GenericEnemy(level, "Snake", 0, Ability.Type.POISONOUS, 7, 0, SoundLibrary.getSound("res/sound_effect_attack_snake"));
 		case 'K': return new GenericEnemy(level, "Killer Pidgeon", 0, Ability.Type.FLYING, 4, 0, SoundLibrary.getSound("res/sound_effect_killer_pidgeon"));
 		case 'O': return new GenericEnemy(level, "Goblin", 2, null, 8, 5, null);
-		case 'F': GenericEnemy e = new GenericEnemy(level, "Flameo", 0, null, 6, 0, SoundLibrary.getSound("res/sound_effect_flameo"));
+		case 'F': GenericEnemy e = new GenericEnemy(level, "Flameo", 0, null, 6, 0, SoundLibrary.getSound("res/sound_effect_attack_flameo"));
 			e.controller = new FlameoController(e);
 			return e;
 		default:
 			return null;
 		}
-		
-		/*soundEffectAttackSnake = new Sound("res/sound_effect_attack_snake." + extension);
-		soundEffectAttackGoblin = new Sound("res/sound_effect_attack_goblin." + extension);
-		soundEffectAttackKillerPidgeon = new Sound("res/sound_effect_attack_killer_pidgeon." + extension);
-		soundEffectAttackCharacter= new Sound("res/sound_effect_attack_character." + extension);
-		soundEffectAttackFlameo = new Sound("res/sound_effect_attack_flameo." + extension)	*/
-
 	}
 }
