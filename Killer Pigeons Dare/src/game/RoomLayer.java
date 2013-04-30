@@ -97,9 +97,11 @@ public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusi
 			Door door = (Door)doors.get(0);
 			winLoseScreen.state = WinLoseScreen.State.WON;
 			if (winLoseScreen.turnAllBaddiesKilled == -1) {
-				winLoseScreen.expEarned = game.hero.addXP(room.turnCount, door.getDistanceFromCharacterStart(), room.totalMonsterLevels / 2);
+				winLoseScreen.expEarned = game.hero.calcXP(room.turnCount, door.getDistanceFromCharacterStart(), room.totalMonsterLevels / 2);
+				game.hero.addXP(winLoseScreen.expEarned);
 			} else {
-				winLoseScreen.expEarned = game.hero.addXP(winLoseScreen.turnAllBaddiesKilled, room.initialMonsterCount, room.totalMonsterLevels);
+				winLoseScreen.expEarned = game.hero.calcXP(winLoseScreen.turnAllBaddiesKilled, room.initialMonsterCount, room.totalMonsterLevels);
+				game.hero.addXP(winLoseScreen.expEarned);
 			}
 			game.pushUILayer(winLoseScreen);
 			loadRoomNumber = door.roomNumber;
