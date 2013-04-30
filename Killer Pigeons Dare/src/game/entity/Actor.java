@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Sound;
 
 import game.Ability;
 import game.Room;
@@ -16,6 +17,8 @@ import game.controller.Controller;
 // and other NPCs.
 public class Actor extends Entity {
 	public Controller controller;
+	
+	public Sound attackSound = null;
 	
 	public ArrayList<Ability> abilities = new ArrayList<Ability>();
 	

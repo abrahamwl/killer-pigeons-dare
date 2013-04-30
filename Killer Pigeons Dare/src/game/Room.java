@@ -27,24 +27,21 @@ public class Room {
 	public Entity addEntity(String es, int ex, int ey) {
 		Entity entity = null;
 
-		if(es.equals("C")) entity = getOrCreateCharacter();
-		if(es.equals("F")) entity = new Flameo(enemyLevel);
-		if(es.equals("G")) entity = new Golem(enemyLevel);
-		if(es.equals("O")) entity = new Goblin(enemyLevel);
-		if(es.equals("S")) entity = new Snake(enemyLevel);
-		if(es.equals("K")) entity = new KillerPidgeon(enemyLevel);
-		if(es.equals("R")) entity = new Wall();
-		if(es.equals("W")) entity = new Water();
-		if(es.equals("t")) entity = new Tree();
-		if(es.equals("g")) entity = new Grass();
-		if(es.equals("d")) entity = new Dirt();
-		if(es.equals("c")) entity = new Cobblestone();
-		if(es.equals("h")) entity = new Hellstone();
-		if(es.equals("s")) entity = new Start();
-		if(es.equals("f")) entity = new Finish();
-		if(es.equals("X")) entity = new ClosedDoor();
-		if(es.matches("[0-9]+")) 
-			entity = new Door(new Integer(es));
+		entity = GenericEnemy.newEnemyFromCharacter(es.charAt(0), enemyLevel);
+		if (entity == null) {
+			if(es.equals("C")) entity = getOrCreateCharacter();
+			if(es.equals("R")) entity = new Wall();
+			if(es.equals("W")) entity = new Water();
+			if(es.equals("t")) entity = new Tree();
+			if(es.equals("g")) entity = new Grass();
+			if(es.equals("d")) entity = new Dirt();
+			if(es.equals("c")) entity = new Cobblestone();
+			if(es.equals("h")) entity = new Hellstone();
+			if(es.equals("f")) entity = new Finish(-1); // -1 b/c doesn't go anywhere
+			if(es.equals("X")) entity = new ClosedDoor();
+			if(es.matches("[0-9]+")) 
+				entity = new Door(new Integer(es));
+		}
 
 		//System.out.print("-" + es + "-");//DEBUG
 		entity.x = ex;

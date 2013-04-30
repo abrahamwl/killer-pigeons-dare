@@ -22,7 +22,7 @@ public class Character extends Actor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		attackSound = SoundLibrary.getSound("res/sound_effect_attack_character");
 	}
 	
 	public void addXP (int xp) {

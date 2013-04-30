@@ -14,28 +14,6 @@ public class ActionMeleeAttack extends ActionAttack {
 	public static final int DAMAGE_PER_LEVEL = 5;
 	public Dir dir;
 
-	static Sound soundEffectAttackSnake = null;
-	static Sound soundEffectAttackGoblin = null;
-	static Sound soundEffectAttackKillerPidgeon = null;
-	static Sound soundEffectAttackCharacter= null;
-	static Sound soundEffectAttackFlameo = null;
-	
-	{
-		String extension = "ogg";
-		File[] f = (new File("./res/")).listFiles(new RegexpFilter(".*aif"));
-		if(f.length != 0) extension = "aif";
-		
-		try {
-			soundEffectAttackSnake = new Sound("res/sound_effect_attack_snake." + extension);
-			soundEffectAttackGoblin = new Sound("res/sound_effect_attack_goblin." + extension);
-			soundEffectAttackKillerPidgeon = new Sound("res/sound_effect_attack_killer_pidgeon." + extension);
-			soundEffectAttackCharacter= new Sound("res/sound_effect_attack_character." + extension);
-			soundEffectAttackFlameo = new Sound("res/sound_effect_attack_flameo." + extension);
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public ActionMeleeAttack(Dir dir) {
 		this.dir = dir;
 	}
@@ -67,11 +45,9 @@ public class ActionMeleeAttack extends ActionAttack {
 				}
 			}
 			
-			if(a instanceof Snake) soundEffectAttackSnake.play();
-			if(a instanceof Golem) soundEffectAttackGoblin.play();
-			if(a instanceof KillerPidgeon) soundEffectAttackKillerPidgeon.play();
-			if(a instanceof Character) soundEffectAttackCharacter.play();
-			if(a instanceof Flameo) soundEffectAttackFlameo.play();
+			if(a.attackSound != null) {
+				a.attackSound.play();
+			}
 		}
 	}
 }

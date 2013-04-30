@@ -4,7 +4,6 @@ import game.Dir;
 import game.Room;
 import game.action.*;
 import game.entity.Actor;
-import game.entity.Flameo;
 import org.newdawn.slick.GameContainer;
 
 public class FlameoController extends BasicController {
@@ -74,7 +73,6 @@ public class FlameoController extends BasicController {
 		// Spawn flame in first equidistance point that doesn't have flame
 		for(int i = 0; i < 9; i++)
 			if(dirEquidist[i] && 
-					!room.checkForTypeAt(pointx[i], pointy[i], Flameo.class) && 
 					room.checkForPassableAt(pointx[i], pointy[i], a)) 
 				return new ActionSpawn(Dir.values()[i], "F");
 		
