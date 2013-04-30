@@ -1,5 +1,6 @@
 package game;
 
+import game.effect.Effect;
 import game.entity.Character;
 import game.ui.DrawsMouseCursor;
 import game.ui.SuppliesMusic;
@@ -16,6 +17,13 @@ import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 
 public class Game extends BasicGame implements DrawsMouseCursor {
+	enum LogicState {
+		ALL_LOGIC,
+		EFFECTS_ONLY;
+	}
+	
+	LogicState logicState = LogicState.ALL_LOGIC;
+	
 	public static final int MARGIN = 800 - 512;
 	Random random = null;
 	
@@ -30,6 +38,8 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 	public GameContainer gc;
 
 	private LinkedList<UILayer> uiLayers = new LinkedList<UILayer>();
+
+	public LinkedList<Effect> effects = new LinkedList<Effect>();
 	
 	public Character hero = null;
 
@@ -70,6 +80,11 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 			last = layer;
 		}
 		
+		//Effects
+		for (Effect effect : effects) {
+			effect.render(gc, g);
+		}
+		
 		if (last instanceof DrawsMouseCursor) {
 			((DrawsMouseCursor)last).renderCursor(gc, g);
 		} else {
@@ -94,9 +109,18 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 	
 	@Override
 	public void update(GameContainer gc, int timePassed) throws SlickException {
-		this.gc = gc;
-		tooltip = null;
-		uiLayers.peek().update(gc);
+		if (logicState == LogicState.ALL_LOGIC) {
+			this.gc = gc;
+			tooltip = null;
+			uiLayers.peek().update(gc);
+		}
+		
+		//Effects
+		logicState = LogicState.ALL_LOGIC;
+		for (Effect effect : effects) {
+			effect.update(gc, timePassed);
+			if (!effect.allowGameLogicToContinue()) logicState = LogicState.EFFECTS_ONLY;
+		}
 		
 		if (musicSupplier != null) {
 			if (musicSupplier.musicToPlay() != currentMusicName || music == null) {
