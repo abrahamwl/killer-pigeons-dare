@@ -37,13 +37,14 @@ public class Room {
 			if(es.equals("d")) entity = new Dirt();
 			if(es.equals("c")) entity = new Cobblestone();
 			if(es.equals("h")) entity = new Hellstone();
+			if(es.equals("s")) entity = new Start();
 			if(es.equals("f")) entity = new Finish();
 			if(es.equals("X")) entity = new ClosedDoor();
 			if(es.matches("[0-9]+")) 
 				entity = new Door(new Integer(es));
 		}
 
-		//System.out.print("-" + es + "-");//DEBUG
+		System.out.print("-" + es + "-");//DEBUG
 		entity.x = ex;
 		entity.y = ey;
 
