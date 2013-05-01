@@ -26,7 +26,7 @@ public class RisingTextEffect extends Effect {
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		System.out.println("RisingTextEffect render. " + x + " " + y);//DEBUG
+		//System.out.println("RisingTextEffect render. " + x + " " + y);//DEBUG
 		Font f = g.getFont();
 		if (image == null) {
 			width = f.getWidth(text);

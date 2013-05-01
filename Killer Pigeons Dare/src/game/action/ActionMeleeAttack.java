@@ -8,6 +8,7 @@ import org.newdawn.slick.Sound;
 
 import game.*;
 import game.effect.RisingTextEffect;
+import game.effect.SoundEffect;
 import game.entity.*;
 import game.entity.Character;
 
@@ -49,9 +50,7 @@ public class ActionMeleeAttack extends ActionAttack {
 				}
 			}
 			
-			if(a.attackSound != null) {
-				a.attackSound.play();
-			}
+			r.game.effects.add(new SoundEffect(a.attackSound));
 		}
 	}
 }

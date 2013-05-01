@@ -15,6 +15,7 @@ import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 
+import game.effect.SoundEffect;
 import game.entity.Actor;
 import game.entity.Character;
 import game.entity.Door;
@@ -26,7 +27,6 @@ import game.ui.*;
 public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusic {
 	Game game;
 	Room room;
-	private Music musc = null;
 	private InfoPanel panel;
 	private WinLoseScreen winLoseScreen;
 	private String musicToPlay;
@@ -192,7 +192,7 @@ public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusi
 			game.hero.record.put((int)room.roomNumber, game.hero.new Record((int)room.roomNumber, null, null));
 		}
 		
-		SOUND_ENTER_ROOM.play();
+		game.effects.add(new SoundEffect(SOUND_ENTER_ROOM));
 		
 		if (room.metadata.containsKey("music")) {
 			musicToPlay = room.metadata.get("music");
