@@ -19,7 +19,9 @@ public class SoundEffect extends Effect {
 
 	@Override
 	public void update(GameContainer gc, int timePassed) throws SlickException {
-		if (!sound.playing()) sound.play();
+		if (sound != null){
+			if (!sound.playing()) sound.play();
+		}
 	}
 
 	@Override
