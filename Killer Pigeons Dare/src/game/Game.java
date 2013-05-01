@@ -17,6 +17,8 @@ import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 
 public class Game extends BasicGame implements DrawsMouseCursor {
+	public static SpriteSheet iconSheet;
+	
 	enum LogicState {
 		ALL_LOGIC,
 		EFFECTS_ONLY;
@@ -72,6 +74,8 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 		gc.setMaximumLogicUpdateInterval(1);
 		
 		random = new Random();
+		
+		iconSheet = new SpriteSheet(new Image("res/420__Pixel_Art__Icons_for_RPG_by_Ails.png"), 32, 32, 2, 1);
 		
 		pushUILayer(new RoomLayer(this));
 	}

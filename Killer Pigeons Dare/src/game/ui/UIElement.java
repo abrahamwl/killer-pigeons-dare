@@ -13,8 +13,24 @@ import org.newdawn.slick.SlickException;
 public abstract class UIElement implements ControlledInputReciever {
 	protected boolean enabled = false;
 	
-	protected int parentX = 0, parentY = 0;
+	private UIElement parent = null;
 	protected int x = 0, y = 0;
+	
+	protected int getAbsoluteX() {
+		if (parent != null) {
+			return parent.getAbsoluteX() + x;
+		} else {
+			return x;
+		}
+	}
+	
+	protected int getAbsoluteY() {
+		if (parent != null) {
+			return parent.getAbsoluteY() + y;
+		} else {
+			return y;
+		}
+	}
 	
 	protected Game game;
 	
@@ -33,8 +49,7 @@ public abstract class UIElement implements ControlledInputReciever {
 	}
 	
 	private void addEffects(UIElement e) {
-		e.parentX = parentX + x;
-		e.parentY = parentY + y;
+		e.parent = this;
 		e.setEnabled(enabled);
 	}
 	
@@ -71,14 +86,18 @@ public abstract class UIElement implements ControlledInputReciever {
 	}
 
 	public final void update(GameContainer gc)  throws SlickException {
-		Input input = gc.getInput();
-		input.setOffset(-(parentX + x), -(parentY + y));
 		for (UIElement child : children) {
 			child.update(gc);
 		}
 
+		Input input = gc.getInput();
+		input.setOffset(-getAbsoluteX(), -getAbsoluteY());
 		process(gc);
-		input.setOffset(-parentX, -parentY);
+		if (parent == null) {
+			input.setOffset(0, 0);
+		} else {
+			input.setOffset(-parent.getAbsoluteX(), -parent.getAbsoluteY());
+		}
 	}
 
 	public abstract void draw(GameContainer gc, Graphics g) throws SlickException;
@@ -92,7 +111,7 @@ public abstract class UIElement implements ControlledInputReciever {
 
 	@Override
 	public void inputStarted() {
-		game.gc.getInput().setOffset(-(parentX + x), -(parentY + y));
+		game.gc.getInput().setOffset(-getAbsoluteX(), -getAbsoluteY());
 	}
 	
 	@Override

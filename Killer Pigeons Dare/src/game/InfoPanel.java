@@ -61,7 +61,7 @@ public class InfoPanel extends UIElement {
 		@Override
 		public void mousePressed(int button, int mX, int mY) {
 			if (button == Input.MOUSE_LEFT_BUTTON) {
-				//System.out.println("Click at " + mX + ", " + mY);//DEBUG
+				//System.out.println("Click: " + mX + ", " + mY + " Absolute: " + getAbsoluteX() + ", " + getAbsoluteY() + " Button: " + x + ", " + y + " InfoPanel: " + InfoPanel.this.x + ", " + InfoPanel.this.y);//DEBUG
 				if (mX >= 0 && mX <= width && mY >= 0 && mY <= height) {
 					layer.game.pushUILayer(new RoomList(layer));
 				}
@@ -134,8 +134,9 @@ public class InfoPanel extends UIElement {
 	@Override
 	public void process(GameContainer gc) throws SlickException {
 		// Update the InfoPanel
-		int x = gc.getInput().getMouseX() - this.x; // Adjust to the parent layer coordinates.
-		int y = gc.getInput().getMouseY() - this.y; // Adjust to the parent layer coordinates.
+		int x = gc.getInput().getMouseX() + this.x; // Adjust to the parent layer coordinates.
+		int y = gc.getInput().getMouseY() + this.y; // Adjust to the parent layer coordinates.
+		//System.out.println("Mouse: " + x + ", " + y + ", InfoPanel: " + this.x + ", " + this.y);//DEBUG
 		ArrayList<Entity> actors = layer.room.entitiesAt(x / Entity.CELL_SIZE, y / Entity.CELL_SIZE, Actor.class);
 		if (!actors.isEmpty()) {
 			if (target != (Actor)actors.get(0)) {

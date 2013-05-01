@@ -105,20 +105,22 @@ public class LevelUp extends UILayer {
 			int mX = input.getMouseX();
 			int mY = input.getMouseY();
 			
+			
 			if (children.size() == 0) {
 				int line = LIST_TOP;
 				for (Ability.Type type : options) {
 					if (c.getAbility(type) == null) {
-						children.add(type.getDisplayElement(game, LEFT, line));
-						line += 14;
+						Ability.Type.DisplayElement e = type.getDisplayElement(game, LEFT, line);
+						children.add(e);
+						line += e.getHeight();
 					}
 				}
 			}
 			
 			if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-				//System.out.println("Mouse click at " + mX + ", " + mY); //DEBUG
-				if (mX >= LEFT && mX <= LEFT + IMAGE_WIDTH && mY >= LIST_TOP && mY <= LIST_TOP + options.size() * 14) {
-					int selection = (mY - LIST_TOP) / 14;
+				System.out.println("Mouse click at " + mX + ", " + mY); //DEBUG
+				if (mX >= LEFT && mX <= LEFT + IMAGE_WIDTH && mY >= LIST_TOP && mY <= LIST_TOP + options.size() * 32) {
+					int selection = (mY - LIST_TOP) / 32;
 					selectsLeft--;
 					c.abilities.add(new Ability(options.get(selection)));
 					c.maxHitpoints = (int)(newLevel * 10.0 * (c.getAbility(Ability.Type.TOUGH) == null ? 1.0 : 1.5));

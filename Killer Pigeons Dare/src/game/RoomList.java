@@ -58,6 +58,7 @@ class RoomList extends UILayer {
 		if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			int x = gc.getInput().getMouseX();
 			int y = gc.getInput().getMouseY();
+			System.out.println("Click: " + x + ", " + y + " Absolute: " + getAbsoluteX() + ", " + getAbsoluteY() + " RoomList: " + this.x + ", " + this.y);//DEBUG
 			int count = rLayer.game.hero.record.size();
 			if (x >= LEFT && x <= LEFT + IMAGE_WIDTH && y >= listTop && y <= listTop + count * 14) {
 				rLayer.loadRoom(rLayer.game.hero.record.get((y - listTop) / 14).roomNumber);

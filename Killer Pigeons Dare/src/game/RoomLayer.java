@@ -198,6 +198,8 @@ public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusi
 			musicToPlay = room.metadata.get("music");
 		}
 		
+		if (panel != null) panel.target = null;
+		
 		loadRoomNumber = -1;
 	}
 
