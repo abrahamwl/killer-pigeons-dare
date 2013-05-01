@@ -24,6 +24,8 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 	
 	LogicState logicState = LogicState.ALL_LOGIC;
 	
+	public static final int FPS = 60;
+	
 	public static final int MARGIN = 800 - 512;
 	Random random = null;
 	
@@ -40,6 +42,7 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 	private LinkedList<UILayer> uiLayers = new LinkedList<UILayer>();
 
 	public LinkedList<Effect> effects = new LinkedList<Effect>();
+	private LinkedList<Effect> removeEffects = new LinkedList<Effect>();
 	
 	public Character hero = null;
 
@@ -63,6 +66,10 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 		//gc.setMouseGrabbed(true);
 		Image image = new Image(1, 1);
 		gc.setMouseCursor(image, 0, 0);
+		
+		gc.setTargetFrameRate(FPS);
+		gc.setMinimumLogicUpdateInterval(1);
+		gc.setMaximumLogicUpdateInterval(1);
 		
 		random = new Random();
 		
@@ -119,8 +126,15 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 		logicState = LogicState.ALL_LOGIC;
 		for (Effect effect : effects) {
 			effect.update(gc, timePassed);
-			if (!effect.allowGameLogicToContinue()) logicState = LogicState.EFFECTS_ONLY;
+			Effect.LogicStep step = effect.getLogicStep();
+			if (step == Effect.LogicStep.DONE) {
+				removeEffects.add(effect);
+			} else if (step == Effect.LogicStep.PREVENT_LOGIC) {
+				logicState = LogicState.EFFECTS_ONLY;
+			}
 		}
+		effects.removeAll(removeEffects);
+		removeEffects.clear();
 		
 		if (musicSupplier != null) {
 			if (musicSupplier.musicToPlay() != currentMusicName || music == null) {
@@ -140,6 +154,9 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 			if (music != null) music.stop();
 			musicSupplier = (SuppliesMusic)layer;
 		}
+		gc.getInput().clearControlPressedRecord();
+		gc.getInput().clearKeyPressedRecord();
+		gc.getInput().clearMousePressedRecord();
 	}
 	
 	public void popUILayer() {
@@ -154,6 +171,9 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 				musicSupplier = (SuppliesMusic)mLayer;
 			}
 		}
+		gc.getInput().clearControlPressedRecord();
+		gc.getInput().clearKeyPressedRecord();
+		gc.getInput().clearMousePressedRecord();
 	}
 
 	private void playMusic(String musicName) {

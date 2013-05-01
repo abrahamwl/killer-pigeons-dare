@@ -7,6 +7,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 import game.*;
+import game.effect.RisingTextEffect;
 import game.entity.*;
 import game.entity.Character;
 
@@ -37,6 +38,9 @@ public class ActionMeleeAttack extends ActionAttack {
 					}
 				}
 			}
+			r.game.effects.add(new RisingTextEffect(String.valueOf(a.getLevel() * DAMAGE_PER_LEVEL),
+					victim.x * Entity.CELL_SIZE + Entity.CELL_SIZE / 2,
+					victim.y * Entity.CELL_SIZE + Entity.CELL_SIZE / 2));
 			victim.applyDamage(a.getLevel() * DAMAGE_PER_LEVEL);
 			Ability abi = a.getAbility(Ability.Type.POISONOUS);
 			if (abi != null) {

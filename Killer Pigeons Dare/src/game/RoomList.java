@@ -22,7 +22,6 @@ class RoomList extends UILayer {
 	RoomList (RoomLayer rLayer) {
 		super(rLayer.game, OUTER_LEFT, OUTER_TOP);
 		this.rLayer = rLayer;
-		rLayer.game.gc.getInput().clearMousePressedRecord();
 	}
 
 	public void draw(GameContainer gc, Graphics g) {
