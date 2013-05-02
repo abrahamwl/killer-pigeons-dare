@@ -17,11 +17,17 @@ public class RisingTextEffect extends Effect {
 	private static final float MOVE_SPEED = (float)Entity.CELL_SIZE / (float)Game.FPS;
 	final String text;
 	Image image = null;
+	Color color;
 	
 	public RisingTextEffect (String text, int x, int y) {
+		this(text, x, y, Color.red);
+	}
+
+	public RisingTextEffect (String text, int x, int y, Color color) {
 		this.text = text;
 		this.x = x;
 		this.y = y;
+		this.color = color;
 	}
 
 	@Override
@@ -33,7 +39,7 @@ public class RisingTextEffect extends Effect {
 			height = f.getHeight(text);
 			image = new Image(width, f.getHeight(text));
 			Graphics iGraphics = image.getGraphics();
-			iGraphics.setColor(Color.red);
+			iGraphics.setColor(color);
 			iGraphics.drawString(text, 0, 0);
 			x -= width / 2;
 			y -= height / 2;
