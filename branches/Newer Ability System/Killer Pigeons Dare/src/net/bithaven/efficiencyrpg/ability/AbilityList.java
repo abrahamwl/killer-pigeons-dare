@@ -1,15 +1,17 @@
 package net.bithaven.efficiencyrpg.ability;
 
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.TreeSet;
 
-public class AbilityList extends HashSet<Ability> {
+public class AbilityList extends LinkedHashSet<Ability> {
 	public <H extends Hooked> H getFirst(Class<H> c) {
-		Ability out = null;
+		AbilityInterface out = null;
 		int priority = Integer.MIN_VALUE;
-		for (Ability ability : this) {
+		for (AbilityInterface ability : this) {
 			if (c.isInstance(ability)) {
 				if (c.cast(ability).getPriority(c) > priority)
 				out = ability;
@@ -18,10 +20,21 @@ public class AbilityList extends HashSet<Ability> {
 		return c.cast(out);
 	}
 
+	public <H extends AbilityInterface> ArrayList<H> getAll(Class<H> c) {
+		ArrayList<H> out = new ArrayList<H>();
+
+		for (AbilityInterface ability : this) {
+			if (c.isInstance(ability)) {
+				out.add(c.cast(ability));
+			}
+		}
+		return out;
+	}
+	
 	public <H extends Hooked> TreeSet<H> getPrioritizedSet(Class<H> c) {
 		TreeSet<H> out = new TreeSet<H>(PriorityComparator.getComparator(c));
 
-		for (Ability ability : this) {
+		for (AbilityInterface ability : this) {
 			if (c.isInstance(ability)) {
 				out.add(c.cast(ability));
 			}

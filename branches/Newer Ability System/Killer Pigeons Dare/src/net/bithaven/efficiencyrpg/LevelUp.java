@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 import net.bithaven.efficiencyrpg.ability.Ability;
+import net.bithaven.efficiencyrpg.ability.AbilityInterface;
 import net.bithaven.efficiencyrpg.ability.AbilityList;
 import net.bithaven.efficiencyrpg.entity.Actor;
 import net.bithaven.efficiencyrpg.entity.Character;
@@ -40,14 +41,13 @@ public class LevelUp extends UILayer {
 		try {
 			temp = new Image("res/text_level_up.png");
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		IMAGE_LEVEL_UP = temp;
 	}
 
 	int selectsLeft;
-	LinkedList<Class<? extends Ability>> options;
+	LinkedList<Ability> options;
 	
 	public LevelUp(Game game) {
 		super(game, OUTER_LEFT, OUTER_TOP);
@@ -92,11 +92,11 @@ public class LevelUp extends UILayer {
 
 	public void process(GameContainer gc) {
 		if (selectsLeft > 0) {
-			options = new LinkedList<Class<? extends Ability>>();
-			for (Class<? extends Ability> type : Ability.getAbilityTypes()) {
-				System.out.println("Checking: " + type.getName());
-				if (c.getAbility(type) == null) {
-					options.add(type);
+			options = new LinkedList<Ability>();
+			for (Ability ability : Ability.abilityTypes) {
+				//System.out.println("Checking: " + type.getName());//DEBUG
+				if (!c.abilities.contains(ability)) {
+					options.add(ability);
 				}
 			}
 			
@@ -113,12 +113,10 @@ public class LevelUp extends UILayer {
 			
 			if (children.size() == 0) {
 				int line = LIST_TOP;
-				for (Class<? extends Ability> type : options) {
-					if (c.getAbility(type) == null) {
-						Ability.DisplayElement e = Ability.getDisplayElement(type, game, LEFT, line);
-						children.add(e);
-						line += e.getHeight();
-					}
+				for (AbilityInterface ability : options) {
+					Ability.DisplayElement e = ability.getDisplayElement(game, LEFT, line);
+					children.add(e);
+					line += e.getHeight();
 				}
 			}
 			
@@ -127,7 +125,7 @@ public class LevelUp extends UILayer {
 				if (mX >= LEFT && mX <= LEFT + IMAGE_WIDTH && mY >= LIST_TOP && mY <= LIST_TOP + options.size() * 32) {
 					int selection = (mY - LIST_TOP) / 32;
 					selectsLeft--;
-					c.abilities.add(Ability.getNew(options.get(selection), c));
+					c.abilities.add(options.get(selection));
 					levelUpStep = 1;
 					children.clear();
 				}

@@ -12,6 +12,8 @@ public abstract class Entity {
 	public static final int CELL_SIZE = 32;
 	public boolean noDraw = false;
 	
+	public Room room;
+	
 	public String name;
 
 	public Image image = null;
@@ -26,10 +28,14 @@ public abstract class Entity {
 		}
 	}
 	
-	abstract public boolean execute(Room r);
+	abstract public boolean execute();
 	
 	public void init (Room r) {
+		room = r;
 	}
 	
 	public abstract boolean passableFor(Actor a);
+
+	public void cleanup() {
+	}
 }

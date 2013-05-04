@@ -49,6 +49,7 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 	private LinkedList<UILayer> uiLayers = new LinkedList<UILayer>();
 
 	public LinkedList<Effect> effects = new LinkedList<Effect>();
+	private LinkedList<Effect> doEffects = new LinkedList<Effect>();
 	private LinkedList<Effect> removeEffects = new LinkedList<Effect>();
 	
 	public Character hero = null;
@@ -96,8 +97,8 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 		}
 		
 		//Effects
-		for (Effect effect : effects) {
-			effect.render(gc, g);
+		for (Effect effect : doEffects) {
+			effect.render(this, g);
 		}
 		
 		if (last instanceof DrawsMouseCursor) {
@@ -139,9 +140,11 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 		}
 		
 		//Effects
+		doEffects.addAll(effects);
+		effects.clear();
 		logicState = LogicState.ALL_LOGIC;
-		for (Effect effect : effects) {
-			effect.update(gc, timePassed);
+		for (Effect effect : doEffects) {
+			effect.update(this, timePassed);
 			Effect.LogicStep step = effect.getLogicStep();
 			if (step == Effect.LogicStep.DONE) {
 				removeEffects.add(effect);
@@ -149,7 +152,7 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 				logicState = LogicState.EFFECTS_ONLY;
 			}
 		}
-		effects.removeAll(removeEffects);
+		doEffects.removeAll(removeEffects);
 		removeEffects.clear();
 		
 		if (musicSupplier != null) {

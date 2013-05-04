@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 
 import net.bithaven.efficiencyrpg.ability.Ability;
+import net.bithaven.efficiencyrpg.ability.AbilityInterface;
 import net.bithaven.efficiencyrpg.entity.Actor;
 import net.bithaven.efficiencyrpg.entity.Entity;
 import net.bithaven.efficiencyrpg.ui.UIElement;
@@ -124,7 +125,7 @@ public class InfoPanel extends UIElement {
 		int x = gc.getInput().getMouseX() + this.x; // Adjust to the parent layer coordinates.
 		int y = gc.getInput().getMouseY() + this.y; // Adjust to the parent layer coordinates.
 		//System.out.println("Mouse: " + x + ", " + y + ", InfoPanel: " + this.x + ", " + this.y);//DEBUG
-		ArrayList<Entity> actors = layer.room.entitiesAt(x / Entity.CELL_SIZE, y / Entity.CELL_SIZE, Actor.class);
+		ArrayList<Actor> actors = layer.room.entitiesAt(x / Entity.CELL_SIZE, y / Entity.CELL_SIZE, Actor.class);
 		if (!actors.isEmpty()) {
 			if (target != (Actor)actors.get(0)) {
 				target = (Actor)actors.get(0);
@@ -139,7 +140,7 @@ public class InfoPanel extends UIElement {
 
 				int lY = 10 + Entity.CELL_SIZE;
 				
-				for (Ability a : target.abilities) {
+				for (AbilityInterface a : target.abilities) {
 					children.add(a.getDisplayElement(layer.game, 5, lY));
 					lY += 14;
 				}

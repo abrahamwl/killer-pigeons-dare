@@ -8,32 +8,36 @@ import net.bithaven.efficiencyrpg.ability.TriggersOnMeleeHit;
 import net.bithaven.efficiencyrpg.action.ActionMeleeAttack;
 import net.bithaven.efficiencyrpg.entity.Actor;
 
-import org.newdawn.slick.Image;
-
 
 public class AbilityPoisonous extends Ability implements TriggersOnMeleeHit {
-	public static final String name = "Poisonous";
-	public static final String generalDescription = "'s melee attacks cause its level x 2 damage per turn.";
-	public static final Image icon = Game.iconSheet.getSprite(2, 24);
-	
-	static {
-		Ability.getAbilityTypes().add(AbilityPoisonous.class);
-	}
-
-	public AbilityPoisonous(Actor a) {
-		super(a);
+	public AbilityPoisonous() {
+		super(	"Poisonous",
+				"'s melee attacks cause its level x 2 damage per turn.",
+				Game.iconSheet.getSprite(2, 24));
 	}
 
 	public int getPriority(Class<? extends Hooked> c) {
 		return 0;
 	}
 
-	public void hit(ActionMeleeAttack attack, Room r, Actor victim) {
+	public void hit(Actor a, ActionMeleeAttack attack, Actor victim) {
 		victim.poisoned += a.getLevel() * 2;
 	}
 
+	public class Instance extends Ability.Instance {
+		public Instance(Actor a) {
+			super(a);
+		}
+
+		@Override
+		public String getDescription() {
+			return a.name + "'s melee attacks cause " + a.level * 2 + " damage per turn.";
+		}
+	}
+
 	@Override
-	public String getDescription() {
-		return a.name + "'s melee attacks cause " + a.level * 2 + " damage per turn.";
+	protected net.bithaven.efficiencyrpg.ability.Ability.Instance getNewInstance(
+			Actor a) {
+		return new Instance(a);
 	}
 }

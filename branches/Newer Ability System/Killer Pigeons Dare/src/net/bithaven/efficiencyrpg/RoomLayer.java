@@ -97,7 +97,7 @@ public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusi
 		}
 		
 		// Check for win.
-		ArrayList<Entity> doors = room.entitiesAt(game.hero.x, game.hero.y, Door.class);
+		ArrayList<Door> doors = room.entitiesAt(game.hero.x, game.hero.y, Door.class);
 		if (doors.size() > 0) {
 			Door door = (Door)doors.get(0);
 			winLoseScreen.state = WinLoseScreen.State.WON;
@@ -181,7 +181,10 @@ public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusi
 				e.printStackTrace();
 			}
 		}
-
+		
+		if (room != null) {
+			room.cleanup();
+		}
 		room = new Room(game, roomStrings, (long)loadRoomNumber);
 		
 		winLoseScreen.turnAllBaddiesKilled = -1;

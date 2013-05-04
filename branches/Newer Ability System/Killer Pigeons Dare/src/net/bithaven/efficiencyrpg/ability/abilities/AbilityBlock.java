@@ -14,26 +14,25 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
 
-public class AbilityBlock extends Ability implements ConsumesMeleeAttacked {
-	public static final String name = "Block";
-	public static final String generalDescription = " prevents the first melee attack against it in a turn.\nThis stacks with other abilities that prevent melee attacks.";
-	public static final Image icon = Game.iconSheet.getSprite(2, 12);
-	
-	static {
-		Ability.getAbilityTypes().add(AbilityBlock.class);
-	}
-
-	public AbilityBlock(Actor a) {
-		super(a);
+public class AbilityBlock extends Ability implements ConsumesMeleeAttacked {	
+	public AbilityBlock() {
+		super(	"Block",
+				" prevents the first melee attack against it in a turn.\nThis stacks with other abilities that prevent melee attacks.",
+				Game.iconSheet.getSprite(2, 12));
 	}
 
 	public int getPriority(Class<? extends Hooked> c) {
 		return 0;
 	}
+	
+	public void attacked(Actor a, ActionMeleeAttack attack, Actor attacker) {
+		attack.generateEffects(attacker);
+		a.room.game.effects.add(new RisingTextEffect("BLOCK", a.getCenterX(), a.getCenterY(), Color.blue));
+		on(a).setEnabled(false);
+	}
 
-	public void attacked(ActionMeleeAttack attack, Room r, Actor attacker) {
-		attack.generateEffects(r, attacker);
-		r.game.effects.add(new RisingTextEffect("BLOCK", a.getCenterX(), a.getCenterY(), Color.blue));
-		setEnabled(false);
+	@Override
+	protected Instance getNewInstance(Actor a) {
+		return new Instance(a);
 	}
 }

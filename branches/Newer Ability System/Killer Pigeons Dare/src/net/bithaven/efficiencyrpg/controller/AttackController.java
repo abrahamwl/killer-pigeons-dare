@@ -21,8 +21,8 @@ public class AttackController extends BasicController {
 		a = monster;
 	}
 	
-	public Action chooseNextAction(Room room, GameContainer gc) {
-		Character h = room.game.hero;
+	public Action chooseNextAction() {
+		Character h = a.room.game.hero;
 		
 		int dist = Math.max(Math.abs(a.x - h.x), Math.abs(a.y - h.y));
 		
@@ -34,7 +34,7 @@ public class AttackController extends BasicController {
 			return new ActionWait();
 		}
 	
-		return chooseMovement(room, a, h);
+		return chooseMovement(a.room, a, h);
 	}
 
 	static protected Action chooseMovement(Room room, Actor a, Actor t) {
