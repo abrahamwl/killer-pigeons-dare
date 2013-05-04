@@ -18,7 +18,7 @@ public class GenericEnemy extends Actor {
 	public GenericEnemy (int level, String name, int waitRange, Class<? extends Ability> ability, String image, Sound attackSound) {
 		super(name, level);
 		this.controller = new AttackController(this, waitRange);
-		if (ability != null) abilities.add(Ability.getNew(ability, this));
+		if (ability != null) abilities.add(Ability.getAbility(ability));
 		try {
 			this.image = new Image(image);
 		} catch (SlickException e) {

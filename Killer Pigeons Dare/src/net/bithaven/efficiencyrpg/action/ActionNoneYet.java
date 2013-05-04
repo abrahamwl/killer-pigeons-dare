@@ -14,7 +14,7 @@ final public class ActionNoneYet extends Action {
 	}
 
 	@Override
-	public void execute(Room r, Actor a) {
+	public void execute(Actor a) {
 		return;
 	}
 

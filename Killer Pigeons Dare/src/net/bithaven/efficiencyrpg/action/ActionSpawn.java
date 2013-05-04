@@ -14,11 +14,11 @@ public class ActionSpawn extends Action {
 	}
 
 	@Override
-	public void execute(Room r, Actor a) {
+	public void execute(Actor a) {
 		int newx = a.x + dir.x;
 		int newy = a.y + dir.y;
-		if(!r.checkForTypeAt(newx, newy, Wall.class)) {
-			r.addEntity(es, newx, newy);
+		if(!a.room.checkForTypeAt(newx, newy, Wall.class)) {
+			a.room.addEntity(es, newx, newy);
 		}
 		
 		

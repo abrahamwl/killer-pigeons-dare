@@ -9,16 +9,16 @@ import org.newdawn.slick.Image;
 
 
 public class AbilityFlying extends Ability {
-	public static final String name = "Flying";
-	public static final String generalDescription = " may move over water.";
-	public static final Image icon = Game.iconSheet.getSprite(2, 16);
 	
-	static {
-		Ability.getAbilityTypes().add(AbilityFlying.class);
+	public AbilityFlying() {
+		super(	"Flying",
+				" may move over water.",
+				Game.iconSheet.getSprite(2, 16));
+		movementPassabilityModifier = MovementPassabilityModifier.FLYING;
 	}
 
-	public AbilityFlying(Actor a) {
-		super(a);
-		movementPassabilityModifier = MovementPassabilityModifier.FLYING;
+	@Override
+	protected Instance getNewInstance(Actor a) {
+		return new Instance(a);
 	}
 }
