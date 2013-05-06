@@ -34,5 +34,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/libraries/lib/commons-lang3-3.1.jar"/>
+	<classpathentry kind="lib" path="/libraries/lib/reflections-0.9.9-RC1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

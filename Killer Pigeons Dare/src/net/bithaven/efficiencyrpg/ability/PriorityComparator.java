@@ -21,6 +21,6 @@ public class PriorityComparator implements Comparator<Hooked> {
 	}
 
 	public int compare(Hooked o1, Hooked o2) {
-		return Integer.compare(-o1.getPriority(c), -o2.getPriority(c));
+		return Double.compare(-o1.getPriority(c), -o2.getPriority(c));
 	}
 }
