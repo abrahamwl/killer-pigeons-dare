@@ -8,6 +8,7 @@ import net.bithaven.efficiencyrpg.ability.Ability;
 import net.bithaven.efficiencyrpg.ability.ConsumesMeleeAttacked;
 import net.bithaven.efficiencyrpg.ability.TriggersOnMeleeHit;
 import net.bithaven.efficiencyrpg.entity.*;
+import net.bithaven.efficiencyrpg.event.DamageEvent;
 import net.bithaven.efficiencyrpg.event.effect.RisingTextEffect;
 import net.bithaven.efficiencyrpg.event.effect.SoundEffect;
 
@@ -18,6 +19,8 @@ import org.newdawn.slick.Sound;
 public class ActionMeleeAttack extends ActionAttack {
 	public static final int DAMAGE_PER_LEVEL = 5;
 	public Dir dir;
+	
+	private DamageEvent damageEvent = null;
 
 	public ActionMeleeAttack(Dir dir) {
 		this.dir = dir;
@@ -34,22 +37,16 @@ public class ActionMeleeAttack extends ActionAttack {
 				response.attacked(victim, this, a);
 				return;
 			}
-			a.room.game.effects.add(new RisingTextEffect(String.valueOf(a.getLevel() * DAMAGE_PER_LEVEL),
-					victim.x * Entity.CELL_SIZE + Entity.CELL_SIZE / 2,
-					victim.y * Entity.CELL_SIZE + Entity.CELL_SIZE / 2));
-			victim.applyDamage(a.getLevel() * DAMAGE_PER_LEVEL);
-
-			for (TriggersOnMeleeHit trigger : a.activeAbilities.getPrioritizedSet(TriggersOnMeleeHit.class)) {
-				trigger.hit(a, this, victim);
-			}
 			
-			generateEffects(a);
+			damageEvent = new DamageEvent(a, this, victim, a.getLevel() * DAMAGE_PER_LEVEL, a.attackSound);
+
+			generateEvents(a);
 		}
 	}
 	
 	@Override
-	public void generateEffects(Actor a) {
-		super.generateEffects(a);
-		a.room.game.effects.add(new SoundEffect(a.attackSound));
+	public void generateEvents(Actor a) {
+		super.generateEvents(a);
+		if (damageEvent != null) a.room.game.events.add(damageEvent);
 	}
 }

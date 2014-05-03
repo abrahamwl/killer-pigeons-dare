@@ -27,7 +27,7 @@ public class SoundEffect extends Effect {
 	}
 
 	@Override
-	public LogicStep getMyLogicStep() {
-		return LogicStep.DONE;
+	public EventState getMyEventState() {
+		return EventState.DONE;
 	}
 }

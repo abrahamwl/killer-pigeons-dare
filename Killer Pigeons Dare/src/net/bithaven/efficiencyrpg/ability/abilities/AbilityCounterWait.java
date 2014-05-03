@@ -27,8 +27,8 @@ public class AbilityCounterWait extends Ability implements ConsumesMeleeAttacked
 	}
 
 	public void attacked(Actor a, ActionMeleeAttack attack, Actor attacker) {
-		attack.generateEffects(attacker);
-		a.room.game.effects.add(new RisingTextEffect("COUNTER", a.getCenterX(), a.getCenterY(), Color.blue));
+		attack.generateEvents(attacker);
+		a.room.game.events.add(new RisingTextEffect("COUNTER", a.getCenterX(), a.getCenterY(), Color.blue));
 		on(a).setEnabled(false);
 		ActionMeleeAttack counter = new ActionMeleeAttack(attack.dir.flip());
 		counter.execute(a);

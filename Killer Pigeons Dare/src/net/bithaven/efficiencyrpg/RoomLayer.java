@@ -194,7 +194,7 @@ public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusi
 			game.hero.record.put((int)room.roomNumber, game.hero.new Record((int)room.roomNumber, null, null));
 		}
 		
-		game.effects.add(new SoundEffect(SOUND_ENTER_ROOM));
+		game.events.add(new SoundEffect(SOUND_ENTER_ROOM));
 		
 		if (room.metadata.containsKey("music")) {
 			musicToPlay = room.metadata.get("music");
