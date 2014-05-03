@@ -18,15 +18,15 @@ public class FlameoController extends BasicController {
 	int moveDistThreshold = 6;
 	int spawnDistThreshold = 4;
 	
-	public Action chooseNextAction(Room room, GameContainer gc) {	
-		Actor t = room.game.hero;
+	public Action chooseNextAction() {	
+		Actor t = a.room.game.hero;
 
 		int distToHero = Math.abs(a.x - t.x) + Math.abs(a.y - t.y);
 		
-		if(distToHero > moveDistThreshold) return AttackController.chooseMovement(room, a, t); // TODO Shouldn't use MoveAttack...
+		if(distToHero > moveDistThreshold) return AttackController.chooseMovement(a.room, a, t); // TODO Shouldn't use MoveAttack...
 		
 		spawnTick = (spawnTick + 1) % spawnDistThreshold;
-		if(distToHero > spawnDistThreshold && spawnTick == 0) return spawnFlame(room, t);
+		if(distToHero > spawnDistThreshold && spawnTick == 0) return spawnFlame(a.room, t);
 		
 		return new ActionBurn();
 	}

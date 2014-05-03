@@ -32,7 +32,7 @@ public class RisingTextEffect extends Effect {
 	}
 
 	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException {
+	public void render(Game game, Graphics g) throws SlickException {
 		//System.out.println("RisingTextEffect render. " + x + " " + y);//DEBUG
 		Font f = g.getFont();
 		if (image == null) {
@@ -51,7 +51,7 @@ public class RisingTextEffect extends Effect {
 	}
 
 	@Override
-	public void update(GameContainer gc, int timePassed) throws SlickException {
+	public void update(Game game, int timePassed) throws SlickException {
 		this.timePassed += timePassed;
 	}
 

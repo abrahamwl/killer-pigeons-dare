@@ -24,32 +24,32 @@ public class ActionMeleeAttack extends ActionAttack {
 	}
 
 	@Override
-	public void execute(Room r, Actor a) {
-		ArrayList<Entity> target = r.entitiesAt(a.x + dir.x, a.y + dir.y, Actor.class);
+	public void execute(Actor a) {
+		ArrayList<Actor> target = a.room.entitiesAt(a.x + dir.x, a.y + dir.y, Actor.class);
 
 		if (target.size() > 0) {
 			Actor victim = (Actor)(target.get(0));
 			ConsumesMeleeAttacked response = victim.activeAbilities.getFirst(ConsumesMeleeAttacked.class);
 			if (response != null) {
-				response.attacked(this, r, a);
+				response.attacked(victim, this, a);
 				return;
 			}
-			r.game.effects.add(new RisingTextEffect(String.valueOf(a.getLevel() * DAMAGE_PER_LEVEL),
+			a.room.game.effects.add(new RisingTextEffect(String.valueOf(a.getLevel() * DAMAGE_PER_LEVEL),
 					victim.x * Entity.CELL_SIZE + Entity.CELL_SIZE / 2,
 					victim.y * Entity.CELL_SIZE + Entity.CELL_SIZE / 2));
 			victim.applyDamage(a.getLevel() * DAMAGE_PER_LEVEL);
 
 			for (TriggersOnMeleeHit trigger : a.activeAbilities.getPrioritizedSet(TriggersOnMeleeHit.class)) {
-				trigger.hit(this, r, victim);
+				trigger.hit(a, this, victim);
 			}
 			
-			generateEffects(r, a);
+			generateEffects(a);
 		}
 	}
 	
 	@Override
-	public void generateEffects(Room r, Actor a) {
-		super.generateEffects(r, a);
-		r.game.effects.add(new SoundEffect(a.attackSound));
+	public void generateEffects(Actor a) {
+		super.generateEffects(a);
+		a.room.game.effects.add(new SoundEffect(a.attackSound));
 	}
 }

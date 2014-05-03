@@ -16,39 +16,44 @@ import org.newdawn.slick.Image;
 
 
 public class AbilityCounterWait extends Ability implements ConsumesMeleeAttacked {
-	public static final String name = "Counter Wait";
-	public static final String generalDescription = " prevents the first melee attack against it in a turn and makes a melee attack back against the attacker.\nThis stacks with other abilities that prevent melee attacks.";
-	public static final Image icon = Game.iconSheet.getSprite(5, 25);
-	
-	static {
-		Ability.getAbilityTypes().add(AbilityCounterWait.class);
-	}
-
-	public AbilityCounterWait(Actor a) {
-		super(a);
+	public AbilityCounterWait() {
+		super(	"Counter Wait",
+				" prevents the first melee attack against it in a turn and makes a melee attack back against the attacker.\nThis stacks with other abilities that prevent melee attacks.",
+				Game.iconSheet.getSprite(5, 25));
 	}
 
 	public int getPriority(Class<? extends Hooked> c) {
 		return 1;
 	}
 
-	public void attacked(ActionMeleeAttack attack, Room r, Actor attacker) {
-		attack.generateEffects(r, attacker);
-		r.game.effects.add(new RisingTextEffect("COUNTER", a.getCenterX(), a.getCenterY(), Color.blue));
-		setEnabled(false);
+	public void attacked(Actor a, ActionMeleeAttack attack, Actor attacker) {
+		attack.generateEffects(attacker);
+		a.room.game.effects.add(new RisingTextEffect("COUNTER", a.getCenterX(), a.getCenterY(), Color.blue));
+		on(a).setEnabled(false);
 		ActionMeleeAttack counter = new ActionMeleeAttack(attack.dir.flip());
-		counter.execute(r, a);
+		counter.execute(a);
 	}
 	
-	@Override
-	public void doNewTurn() {
-		setEnabled(false);
+	public class Instance extends Ability.Instance {
+		public Instance(Actor a) {
+			super(a);
+		}
+
+		@Override
+		public void doNewTurn() {
+			setEnabled(false);
+		}
+
+		@Override
+		public void doWait() {
+			super.doWait();
+			setEnabled(true);
+		}
 	}
 
 	@Override
-	public void doWait() {
-		super.doWait();
-		setEnabled(true);
+	protected net.bithaven.efficiencyrpg.ability.Ability.Instance getNewInstance(
+			Actor a) {
+		return new Instance(a);
 	}
-
 }

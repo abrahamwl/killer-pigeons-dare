@@ -15,8 +15,8 @@ public class ActionBurn extends ActionAttack {
 	}
 
 	@Override
-	public void execute(Room r, Actor a) {
-		ArrayList<Entity> target = r.entitiesAt(a.x, a.y, Actor.class);
+	public void execute(Actor a) {
+		ArrayList<Actor> target = a.room.entitiesAt(a.x, a.y, Actor.class);
 
 		if (target.size() > 0) {
 			for(Entity actr : target)

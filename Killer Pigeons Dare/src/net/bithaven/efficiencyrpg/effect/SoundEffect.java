@@ -1,5 +1,7 @@
 package net.bithaven.efficiencyrpg.effect;
 
+import net.bithaven.efficiencyrpg.Game;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -13,12 +15,12 @@ public class SoundEffect extends Effect {
 	}
 
 	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException {
+	public void render(Game game, Graphics g) throws SlickException {
 		return;
 	}
 
 	@Override
-	public void update(GameContainer gc, int timePassed) throws SlickException {
+	public void update(Game game, int timePassed) throws SlickException {
 		if (sound != null){
 			if (!sound.playing()) sound.play();
 		}

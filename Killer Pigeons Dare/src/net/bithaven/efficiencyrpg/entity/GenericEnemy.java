@@ -17,7 +17,7 @@ public class GenericEnemy extends Actor {
 	public GenericEnemy (int level, String name, int waitRange, Class<? extends Ability> ability, int spriteX, int spriteY, Sound attackSound) {
 		super(name, level);
 		this.controller = new AttackController(this, waitRange);
-		if (ability != null) abilities.add(Ability.getNew(ability, this));
+		if (ability != null) abilities.add(Ability.getAbility(ability));
 		SpriteSheet sheet;
 		try {
 			sheet = new SpriteSheet("res/game.png", 63, 63, 1);

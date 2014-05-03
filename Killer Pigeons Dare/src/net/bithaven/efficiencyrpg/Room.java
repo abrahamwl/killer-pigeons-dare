@@ -45,6 +45,7 @@ public class Room {
 		//System.out.print("-" + es + "-");//DEBUG
 		entity.x = ex;
 		entity.y = ey;
+		entity.room = this;
 
 		entities.add(entity);
 
@@ -127,7 +128,7 @@ public class Room {
 			waiting = (ArrayList<Entity>)entities.clone();
 			turnCount++;
 		}
-		if (waiting.get(waiting.size() - 1).execute(this)) {
+		if (waiting.get(waiting.size() - 1).execute()) {
 			waiting.remove(waiting.size() - 1);
 		}
 	}
@@ -159,11 +160,12 @@ public class Room {
 		return false;
 	}
 
-	public ArrayList<Entity> entitiesAt (int x, int y, Class<? extends Entity> type) {
-		ArrayList<Entity> out = new ArrayList<Entity>();
+	@SuppressWarnings("unchecked")
+	public <E extends Entity> ArrayList<E> entitiesAt (int x, int y, Class<E> type) {
+		ArrayList<E> out = new ArrayList<E>();
 		for (Entity e : entities) {
 			if (e.x == x && e.y == y) {
-				if (type.isInstance(e)) out.add(e);
+				if (type.isInstance(e)) out.add((E)e);
 			}
 		}
 
@@ -180,5 +182,11 @@ public class Room {
 		}
 
 		return true;
+	}
+
+	public void cleanup() {
+		for (Entity e : entities) {
+			if (!(e instanceof Character)) e.cleanup();
+		}
 	}
 }
