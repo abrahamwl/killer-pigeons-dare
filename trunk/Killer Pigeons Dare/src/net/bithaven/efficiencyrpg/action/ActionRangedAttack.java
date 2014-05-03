@@ -9,8 +9,8 @@ import net.bithaven.efficiencyrpg.ability.ConsumesMeleeAttacked;
 import net.bithaven.efficiencyrpg.ability.ConsumesRangedAttacked;
 import net.bithaven.efficiencyrpg.ability.TriggersOnMeleeHit;
 import net.bithaven.efficiencyrpg.ability.TriggersOnRangedHit;
-import net.bithaven.efficiencyrpg.effect.*;
 import net.bithaven.efficiencyrpg.entity.*;
+import net.bithaven.efficiencyrpg.event.effect.*;
 
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;

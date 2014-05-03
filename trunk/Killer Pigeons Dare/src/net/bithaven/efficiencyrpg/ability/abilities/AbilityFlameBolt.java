@@ -11,7 +11,7 @@ import net.bithaven.efficiencyrpg.ability.*;
 import net.bithaven.efficiencyrpg.action.ActionRangedAttack;
 import net.bithaven.efficiencyrpg.entity.*;
 import net.bithaven.efficiencyrpg.entity.Character;
-import net.bithaven.efficiencyrpg.effect.*;
+import net.bithaven.efficiencyrpg.event.effect.*;
 
 
 public class AbilityFlameBolt extends Ability implements ActivatedAbility {

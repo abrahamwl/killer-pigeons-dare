@@ -6,8 +6,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
-import net.bithaven.efficiencyrpg.effect.Effect;
 import net.bithaven.efficiencyrpg.entity.Character;
+import net.bithaven.efficiencyrpg.event.effect.Effect;
 import net.bithaven.efficiencyrpg.ui.DrawsMouseCursor;
 import net.bithaven.efficiencyrpg.ui.SuppliesMusic;
 import net.bithaven.efficiencyrpg.ui.UILayer;
