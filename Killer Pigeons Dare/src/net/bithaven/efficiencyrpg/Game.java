@@ -38,6 +38,7 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 	private String oldTooltip = null;
 	private String tooltipToDisplay = null;
 	
+	boolean musicOn = false;
 	Music music = null;
 	String currentMusicName = null;
 	SuppliesMusic musicSupplier = null;
@@ -152,7 +153,7 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 		effects.removeAll(removeEffects);
 		removeEffects.clear();
 		
-		if (musicSupplier != null) {
+		if (musicOn && musicSupplier != null) {
 			if (musicSupplier.musicToPlay() != currentMusicName || music == null) {
 				currentMusicName = musicSupplier.musicToPlay();
 				playMusic(currentMusicName);
@@ -167,7 +168,7 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 		uiLayers.push(layer);
 		layer.setEnabled(true);
 		if (layer instanceof SuppliesMusic) {
-			if (music != null) music.stop();
+			if (musicOn && music != null) music.stop();
 			musicSupplier = (SuppliesMusic)layer;
 		}
 		gc.getInput().clearControlPressedRecord();
@@ -176,7 +177,7 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 	}
 	
 	public void popUILayer() {
-		if (uiLayers.peek() instanceof SuppliesMusic) {
+		if (musicOn && uiLayers.peek() instanceof SuppliesMusic) {
 			music.stop();
 		}
 		uiLayers.pop().setEnabled(false);
