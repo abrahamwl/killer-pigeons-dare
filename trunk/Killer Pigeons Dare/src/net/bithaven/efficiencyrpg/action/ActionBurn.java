@@ -16,15 +16,11 @@ public class ActionBurn extends ActionAttack {
 
 	@Override
 	public void execute(Actor a) {
-		ArrayList<Actor> target = a.room.entitiesAt(a.x, a.y, Actor.class);
-
-		if (target.size() > 0) {
-			for(Entity actr : target)
-			if (!actr.equals(a)){
-				((Actor)(target.get(0))).applyDamage(a.getLevel() * DAMAGE_PER_LEVEL);
-				return;
-			}
-			a.applyDamage(DAMAGE_PER_LEVEL); // If no other actor on flameo square, flameo burns himself to death 
-		}
+		Room r = a.room;
+		// Burn everything within a 1 block radius, including the burner
+		for(Dir d : Dir.values())
+			if(d != Dir.NO_DIRECTION) 
+				for(Entity e : r.entitiesAt(a.x + d.x, a.y + d.y, Actor.class))
+					((Actor)e).applyDamage(a.getLevel() * DAMAGE_PER_LEVEL);
 	}
 }
