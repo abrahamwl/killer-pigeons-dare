@@ -1,4 +1,4 @@
-package net.bithaven.efficiencyrpg.effect;
+package net.bithaven.efficiencyrpg.event.effect;
 
 
 import net.bithaven.efficiencyrpg.Game;

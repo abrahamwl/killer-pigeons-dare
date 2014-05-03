@@ -5,13 +5,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-import net.bithaven.efficiencyrpg.effect.SoundEffect;
 import net.bithaven.efficiencyrpg.entity.Actor;
 import net.bithaven.efficiencyrpg.entity.Character;
 import net.bithaven.efficiencyrpg.entity.Door;
 import net.bithaven.efficiencyrpg.entity.Entity;
 import net.bithaven.efficiencyrpg.entity.Finish;
 import net.bithaven.efficiencyrpg.entity.Start;
+import net.bithaven.efficiencyrpg.event.effect.SoundEffect;
 import net.bithaven.efficiencyrpg.ui.*;
 
 import org.newdawn.slick.Color;
