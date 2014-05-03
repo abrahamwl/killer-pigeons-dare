@@ -5,8 +5,6 @@ import net.bithaven.efficiencyrpg.Room;
 import net.bithaven.efficiencyrpg.action.*;
 import net.bithaven.efficiencyrpg.entity.Actor;
 
-import org.newdawn.slick.GameContainer;
-
 public class FlameoController extends BasicController {
 	public FlameoController(Actor monster) {
 		a = monster;
@@ -16,7 +14,7 @@ public class FlameoController extends BasicController {
 	int spawnTick = 0;
 	
 	int moveDistThreshold = 6;
-	int spawnDistThreshold = 4;
+	int spawnDistThreshold = 1;
 	
 	public Action chooseNextAction() {	
 		Actor t = a.room.game.hero;
@@ -25,7 +23,7 @@ public class FlameoController extends BasicController {
 		
 		if(distToHero > moveDistThreshold) return AttackController.chooseMovement(a.room, a, t); // TODO Shouldn't use MoveAttack...
 		
-		spawnTick = (spawnTick + 1) % spawnDistThreshold;
+		spawnTick = (spawnTick + 1) % (spawnDistThreshold + spawnTickThreshold);
 		if(distToHero > spawnDistThreshold && spawnTick == 0) return spawnFlame(a.room, t);
 		
 		return new ActionBurn();
@@ -43,38 +41,25 @@ public class FlameoController extends BasicController {
 		int pointx[] = new int[9];
 		int pointy[] = new int[9];
 		
-		System.out.println("------"); // DEBUG
-		System.out.println(t.x); // DEBUG
-		System.out.println(t.y); // DEBUG
-		System.out.println(distx); // DEBUG
-		System.out.println(disty); // DEBUG
-		System.out.println(distToTarget); // DEBUG
-		
 		// Find equidistance directions
 		for(int i = 0; i < Dir.values().length; i++, currpoint++) {
 			currDir = Dir.values()[i]; 
 			if(currDir == Dir.NO_DIRECTION) continue;
-				pointx[i] = a.x + currDir.x;
-				pointy[i] = a.y + currDir.y;
-
-				System.out.println(currDir); // DEBUG
-				System.out.println(pointx[i]); // DEBUG
-				System.out.println(pointy[i]); // DEBUG
-				
-				testDist = Math.abs(pointx[i] - t.x) + Math.abs(pointy[i] - t.y);
-				
-				System.out.println(testDist); // DEBUG
-				
-				dirEquidist[currpoint] = false;
-				if(testDist == distToTarget) 
-					dirEquidist[currpoint] = true;
-			}				
+			pointx[i] = a.x + currDir.x;
+			pointy[i] = a.y + currDir.y;
+			
+			testDist = Math.abs(pointx[i] - t.x) + Math.abs(pointy[i] - t.y);
+			
+			dirEquidist[currpoint] = false;
+			if(testDist == distToTarget) 
+				dirEquidist[currpoint] = true;
+		}				
 		
 		// Spawn flame in first equidistance point that doesn't have flame
 		for(int i = 0; i < 9; i++)
 			if(dirEquidist[i] && 
 					room.checkForPassableAt(pointx[i], pointy[i], a)) 
-				return new ActionSpawn(Dir.values()[i], "F");
+				return new ActionSpawnFlameo(Dir.values()[i]);
 		
 		return new ActionWait();
 	}

@@ -42,7 +42,6 @@ public class Room {
 				entity = new Door(new Integer(es));
 		}
 
-		//System.out.print("-" + es + "-");//DEBUG
 		entity.x = ex;
 		entity.y = ey;
 		entity.room = this;
@@ -72,7 +71,8 @@ public class Room {
 				String[][] roomGrid = null;
 				String[] roomRow = null;
 
-				if(roomString.contains("|")) { // Room has metadata (before the "|" character, format is "key,value;", whitespace is not removed)
+				// Room has metadata (before the "|" character, format is "key,value;", whitespace is not removed)
+				if(roomString.contains("|")) { 
 					mtdt = roomString.split("[|]")[0];
 					roomString = roomString.split("[|]")[1];
 
