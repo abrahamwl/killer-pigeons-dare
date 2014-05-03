@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import net.bithaven.efficiencyrpg.Room;
-import net.bithaven.efficiencyrpg.ability.Ability;
+import net.bithaven.efficiencyrpg.ability.AbilityInterface;
 import net.bithaven.efficiencyrpg.ability.AbilityList;
 import net.bithaven.efficiencyrpg.ability.TriggersAfterInit;
 import net.bithaven.efficiencyrpg.action.*;
@@ -65,16 +65,18 @@ public class Actor extends Entity {
 	
 	@Override
 	public void init (Room r) {
+		super.init(r);
 		dead = false;
 		poisoned = 0;
 		noDraw = false;
 		maxHitpoints = level * 10;
 		hitpoints = maxHitpoints;
-		for (Ability ability : abilities) {
-			ability.doNewTurn();
+		for (AbilityInterface ability : abilities) {
+			System.out.println(ability.toString());//DEBUG
+			ability.on(this).doNewTurn();
 			Set<TriggersAfterInit> set = activeAbilities.getPrioritizedSet(TriggersAfterInit.class);
 			for (TriggersAfterInit trigger : set) {
-				trigger.afterInit();
+				trigger.afterInit(this);
 			}
 		}
 	}
@@ -102,19 +104,19 @@ public class Actor extends Entity {
 	}
 	
 	@Override
-	public boolean execute(Room r) {
+	public boolean execute() {
 		if (dead) {
 			return true;
 		}
-		for (Ability ability : abilities) {
-			ability.doNewTurn();
+		for (AbilityInterface ability : abilities) {
+			ability.on(this).doNewTurn();
 		}
-		Action a = controller.chooseNextAction(r, r.game.gc);
+		Action a = controller.chooseNextAction();
 		
 		if (a instanceof ActionNoneYet) {
 			return false;
 		} else {
-			a.execute(r, this);
+			a.execute(this);
 			applyDamage(poisoned);
 			return true;
 		}
@@ -125,20 +127,20 @@ public class Actor extends Entity {
 		return false;
 	}
 	
-	public Ability getAbility(Class<? extends Ability> type) {
-		for (Ability a : abilities) {
-			if (type.isInstance(a)) {
-				return a;
-			}
-		}
-		return null;
-	}
-	
 	public int getCenterX() {
 		return x * CELL_SIZE + CELL_SIZE / 2;
 	}
 
 	public int getCenterY() {
 		return y * CELL_SIZE + CELL_SIZE / 2;
+	}
+	
+	@Override
+	public void cleanup() {
+		for (AbilityInterface ability : abilities) {
+			ability.remove(this);
+		}
+		abilities.clear();
+		super.cleanup();
 	}
 }

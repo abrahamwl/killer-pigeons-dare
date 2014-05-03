@@ -3,7 +3,9 @@ package net.bithaven.efficiencyrpg.ability;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import net.bithaven.efficiencyrpg.Game;
@@ -17,158 +19,96 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.reflections.Reflections;
 
-public abstract class Ability {
-	private static HashSet<Class<? extends Ability>> abilityTypes;
+public abstract class Ability implements AbilityInterface {
+	public static LinkedHashSet<Ability> abilityTypes;
 	static {
+		abilityTypes = new LinkedHashSet<Ability>();
 		Reflections reflections = new Reflections("net.bithaven.efficiencyrpg.ability.abilities");
 
 		 Set<Class<? extends Ability>> allClasses = 
 		     reflections.getSubTypesOf(Ability.class);
 		 
-		 HashSet<Class<? extends Ability>> abilityTypes = getAbilityTypes();
-		 
-		 for (Class<? extends Ability> c : allClasses) {
-			 abilityTypes.add(c);
-		 }
-	}
-
-	
-	public static final HashSet<Class<? extends Ability>> getAbilityTypes() {
-		if (abilityTypes == null){
-			 abilityTypes = new HashSet<Class<? extends Ability>>();
+		try {
+			for (Class<? extends Ability> c : allClasses) {
+				c.newInstance();
+			}
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return abilityTypes;
 	}
+	
+	public class Instance {
+		protected Actor a;
+		boolean enabled;
 
-	public Actor a;
+		public Instance(Actor a) {
+			this.a = a;
+		}
+
+		public void doNewTurn() {
+			setEnabled(true);
+		}
+		
+		public void doWait() {
+		}
+		
+		public final void setEnabled(boolean enabled) {
+			this.enabled = enabled;
+			if (enabled) {
+				a.activeAbilities.add(Ability.this);
+			} else {
+				a.activeAbilities.remove(Ability.this);
+			}
+		}
+
+		public String getDescription() {
+			return a.name + generalDescription;
+		}
+	}
+	public HashMap<Actor,Instance> instances = new HashMap<Actor,Instance>();
+	/* (non-Javadoc)
+	 * @see net.bithaven.efficiencyrpg.ability.AbilityInterface#on(net.bithaven.efficiencyrpg.entity.Actor)
+	 */
+	public Instance on(Actor a) {
+		Instance out = instances.get(a);
+		if (out == null) {
+			out = getNewInstance(a);
+			instances.put(a, out);
+		}
+		return out;
+	}
 	
-	public static final String name = "Unnamed Ability";
-	public static final String generalDescription = "";
-	public static final Image icon = null;
-	
-	private boolean enabled;
-	
+	protected abstract Instance getNewInstance(Actor a);
+
+	public final String name;
+	public final Image icon;
+	protected final String generalDescription;
+
 	public MovementPassabilityModifier movementPassabilityModifier = null;
 	
-	public static final Ability getNew(Class<? extends Ability> c, Actor a) {
-		System.out.println(c.getSimpleName());
-		try {
-			return c.getConstructor(Actor.class).newInstance(a);
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-			return null;
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-			return null;
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			return null;
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-			return null;
-		} catch (SecurityException e) {
-			e.printStackTrace();
-			return null;
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-			return null;
-		}
+	protected Ability (String name, String description, Image icon) {
+		this.name = name;
+		generalDescription = description;
+		this.icon = icon;
+		abilityTypes.add(this);
 	}
 	
-	public final void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-		if (enabled) {
-			a.activeAbilities.add(this);
-		} else {
-			a.activeAbilities.remove(this);
-		}
-	}
-
-	protected Ability (Actor a) {
-		this.a = a;
+	/* (non-Javadoc)
+	 * @see net.bithaven.efficiencyrpg.ability.AbilityInterface#getGeneralDescription()
+	 */
+	public String getGeneralDescription() {
+		return "A character with " + name + generalDescription;
 	}
 	
-	public void doNewTurn() {
-		setEnabled(true);
-	}
-	
-	public void doWait() {
-	}
-	
-	public static String getGeneralDescription(Class<? extends Ability> c) {
-		try {
-			return "A character with " + (String)c.getField("name").get(null) + (String)c.getField("generalDescription").get(null);
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		}
-		return generalDescription;
-	}
-	
-	public String getDescription() {
-		try {
-			return a.name + (String)this.getClass().getField("generalDescription").get(null);
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		}
-		return getGeneralDescription(getClass());
-	}
-
-	public static Image getIcon(Class<? extends Ability> c) {
-		try {
-			return (Image)c.getField("icon").get(null);
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public Image getIcon() {
-		return getIcon(getClass());
-	}
-	
-	public static String getName(Class<? extends Ability> c) {
-		try {
-			return (String)c.getField("name").get(null);
-		} catch (NoSuchFieldException e) {
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public String getName() {
-		return getName(getClass());
-	}
-	
-	public static class DisplayElement extends UIElement {
-		private Ability ability = null;
-		private Class<? extends Ability> clazz = null;
+	public class DisplayElement extends UIElement {
 		private int width = 0, height = 0;
-		private Image icon;
-		private String description;
-		private String name;
-		
+		private int targetX, targetY;
+		private Actor a = null;
+
 		public int getWidth() {
 			return width;
 		}
@@ -177,35 +117,46 @@ public abstract class Ability {
 			return height;
 		}
 
-		private DisplayElement (Game game, int x, int y, Ability ability) {
+		private DisplayElement (Game game, int x, int y) {
 			super(game, x, y);
 			height = 32;
-			this.ability = ability;
-			description = ability.getDescription();
-			icon = ability.getIcon();
-			name = ability.getName();
 		}
 		
-		public DisplayElement(Game game, int x, int y, Class<? extends Ability> c) {
-			super(game, x, y);
-			height = 32;
-			this.clazz = c;
-			description = getGeneralDescription(c);
-			icon = getIcon(c);
-			name = getName(c);
+		public DisplayElement(Game game, int x, int y, Actor a) {
+			this(game, x, y, a, Integer.MIN_VALUE, Integer.MIN_VALUE);
+		}
+		
+		public DisplayElement(Game game, int x, int y, Actor a, int targetX, int targetY) {
+			this(game, x, y);
+			this.a = a;
+			this.targetX = targetX;
+			this.targetY = targetY;
 		}
 
 		@Override
 		public void draw(GameContainer gc, Graphics g)
 				throws SlickException {
 			g.drawImage(icon, 0, 0);
-			if (ability == null) {
+			if (a == null) {
 				g.setColor(Color.blue);
 			} else {
-				if (ability.enabled) {
-					g.setColor(Color.blue);
+				if (targetX == Integer.MIN_VALUE || !(this instanceof ActivatedAbility)) {
+					if (on(a).enabled) {
+						g.setColor(Color.blue);
+					} else {
+						g.setColor(Color.darkGray);
+					}
 				} else {
-					g.setColor(Color.darkGray);
+					switch (((ActivatedAbility)this).getStatusOf(a, targetX, targetY)) {
+					case INVALID:
+						g.setColor(Color.lightGray);
+						break;
+					case NOT_RECOMMENDED:
+						g.setColor(Color.red);
+						break;
+					case OKAY:
+						g.setColor(Color.blue);
+					}
 				}
 			}
 			g.drawString(name, icon.getWidth() + 2, (icon.getHeight() - g.getFont().getLineHeight()) / 2);
@@ -218,16 +169,49 @@ public abstract class Ability {
 			int mY = gc.getInput().getMouseY();
 			
 			if (mX >= 0 && mX <= width && mY >= 0 && mY <= height) {
-				game.tooltip = description;
+				if (a == null) {
+					game.tooltip = getGeneralDescription();
+				} else {
+					game.tooltip = on(a).getDescription();
+				}
 			}
 		}				
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.bithaven.efficiencyrpg.ability.AbilityInterface#getDisplayElement(net.bithaven.efficiencyrpg.Game, int, int)
+	 */
 	public DisplayElement getDisplayElement (Game game, int x, int y) {
-		return new DisplayElement(game, x, y, this);
+		return new DisplayElement(game, x, y);
 	}
 
-	public static DisplayElement getDisplayElement (Class <? extends Ability> c, Game game, int x, int y) {
-		return new DisplayElement(game, x, y, c);
+	/* (non-Javadoc)
+	 * @see net.bithaven.efficiencyrpg.ability.AbilityInterface#getDisplayElement(net.bithaven.efficiencyrpg.entity.Actor, net.bithaven.efficiencyrpg.Game, int, int)
+	 */
+	public DisplayElement getDisplayElement (Actor a, Game game, int x, int y, int targetX, int targetY) {
+		return new DisplayElement(game, x, y, a, targetX, targetY);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.bithaven.efficiencyrpg.ability.AbilityInterface#remove(net.bithaven.efficiencyrpg.entity.Actor)
+	 */
+	public void remove(Actor actor) {
+		instances.remove(actor);
+	}
+
+	public static Ability getAbility(Class<? extends Ability> type) {
+		for (Ability ability : abilityTypes) {
+			if (type.isInstance(ability)) return ability;
+		}
+		
+		throw (new Error());
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Image getIcon() {
+		return icon;
 	}
 }

@@ -44,7 +44,7 @@ public class Dirt extends Entity {
 	}
 
 	@Override
-	public boolean execute(Room r) {
+	public boolean execute() {
 		return true; //Doesn't do anything.
 	}
 

@@ -7,5 +7,5 @@ import net.bithaven.efficiencyrpg.action.Action;
 import org.newdawn.slick.GameContainer;
 
 public interface Controller {
-	public Action chooseNextAction (Room room, GameContainer gc);
+	public Action chooseNextAction ();
 }

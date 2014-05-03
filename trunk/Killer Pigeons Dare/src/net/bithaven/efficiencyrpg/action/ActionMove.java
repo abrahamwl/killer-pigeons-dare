@@ -11,8 +11,8 @@ public class ActionMove extends Action {
 	}
 
 	@Override
-	public void execute(Room r, Actor a) {
-		if (r.checkForPassableAt(a.x + dir.x, a.y + dir.y, a)) {
+	public void execute(Actor a) {
+		if (a.room.checkForPassableAt(a.x + dir.x, a.y + dir.y, a)) {
 			a.x += dir.x;
 			a.y += dir.y;
 		}

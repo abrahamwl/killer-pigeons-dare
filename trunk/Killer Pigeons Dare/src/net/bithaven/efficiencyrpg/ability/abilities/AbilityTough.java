@@ -10,20 +10,23 @@ import org.newdawn.slick.Image;
 
 
 public class AbilityTough extends Ability implements TriggersAfterInit {
-	public static final String name = "Tough";
-	public static final String generalDescription = " has 50% more hitpoints.";
-	public static final Image icon = Game.iconSheet.getSprite(9, 18);
-	
-	public AbilityTough(Actor a) {
-		super(a);
+	public AbilityTough() {
+		super(	"Tough",
+				" has 50% more hitpoints.",
+				Game.iconSheet.getSprite(9, 18));
 	}
 
-	public void afterInit() {
+	public void afterInit(Actor a) {
 		a.maxHitpoints *= 1.5;
 		a.hitpoints = a.maxHitpoints;
 	}
 
 	public int getPriority(Class<? extends Hooked> c) {
 		return 0;
+	}
+
+	@Override
+	protected Instance getNewInstance(Actor a) {
+		return new Instance(a);
 	}
 }
