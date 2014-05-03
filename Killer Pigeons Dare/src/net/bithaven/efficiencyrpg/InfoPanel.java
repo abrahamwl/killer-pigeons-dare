@@ -103,18 +103,9 @@ public class InfoPanel extends UIElement {
 		g.fillRoundRect(0, 0, width, height, 5);
 		
 		if (target != null) {
-			g.drawImage(target.image, 5, 5);
+			target.renderAt(g, 5, 5);
 			g.setColor(Color.black);
-			g.drawString(target.name, 10 + Entity.CELL_SIZE, 5);
-			g.setColor(Color.red);
-			g.fillRect(5, 65, 64, 3);
-			if (!target.isDead()) {
-				g.setColor(Color.green);
-				g.fillRect(5, 65, 64 * target.getHitpoints() / target.getMaxHitpoints(), 3);
-			}
-			
-			g.setColor(Color.white);
-			g.drawString(String.valueOf(target.getLevel()), 5, 5);
+			g.drawString(target.name, 5 + Entity.CELL_SIZE, 5);
 			
 			int y = 10 + Entity.CELL_SIZE;
 			

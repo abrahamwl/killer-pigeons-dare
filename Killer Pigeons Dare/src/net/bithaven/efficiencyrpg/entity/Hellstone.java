@@ -3,22 +3,18 @@ package net.bithaven.efficiencyrpg.entity;
 
 import net.bithaven.efficiencyrpg.Room;
 
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
 public class Hellstone extends Entity {
-	private static SpriteSheet sheet = null;
-	
 	public Hellstone () {
 		super("Hellstone");
-		if (sheet == null) {
-			try {
-				sheet = new SpriteSheet("res/game.png", 63, 63, 1);
-			} catch (SlickException e) {
-				e.printStackTrace();
-			}
+		try {
+			image = new Image("res/open1/dc-dngn/floor/rough_red0.png");
+		} catch (SlickException e) {
+			e.printStackTrace();
 		}
-		image = sheet.getSubImage(2, 9);
 	}
 
 	@Override

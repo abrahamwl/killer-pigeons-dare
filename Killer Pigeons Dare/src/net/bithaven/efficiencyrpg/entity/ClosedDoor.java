@@ -6,18 +6,13 @@ import net.bithaven.efficiencyrpg.Room;
 import org.newdawn.slick.*;
 
 public class ClosedDoor extends Entity {
-	private static SpriteSheet sheet = null;
-	
 	public ClosedDoor () {
 		super("Wall");
-		if (sheet == null) {
-			try {
-				sheet = new SpriteSheet("res/game.png", 63, 63, 1);
-			} catch (SlickException e) {
-				e.printStackTrace();
-			}
+		try {
+			image = new Image("res/open1/dc-dngn/dngn_closed_door.png");
+		} catch (SlickException e) {
+			e.printStackTrace();
 		}
-		image = sheet.getSubImage(1, 5);
 	}
 
 	@Override

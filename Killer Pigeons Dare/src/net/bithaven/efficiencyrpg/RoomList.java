@@ -11,7 +11,6 @@ class RoomList extends UILayer {
 	static final int IMAGE_WIDTH = 350;
 	static final int OUTER_WIDTH = IMAGE_WIDTH + 10;
 	static final int IMAGE_HEIGHT = 82;
-	static final int OUTER_HEIGHT = IMAGE_HEIGHT + 4 * 14 + 10;
 	static final int OUTER_LEFT = (800 - IMAGE_WIDTH) / 2;
 	static final int LEFT = 5;
 	static final int OUTER_TOP = 64;
@@ -26,6 +25,8 @@ class RoomList extends UILayer {
 	}
 
 	public void draw(GameContainer gc, Graphics g) {
+		final int OUTER_HEIGHT = (4 + rLayer.game.hero.record.size()) * 14 + 10;
+		
 		g.setColor(InfoPanel.BROWN);
 		g.fillRoundRect(0, 0, OUTER_WIDTH, OUTER_HEIGHT, 5);
 		g.setColor(Color.lightGray);
