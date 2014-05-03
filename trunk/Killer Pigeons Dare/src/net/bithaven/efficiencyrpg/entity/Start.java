@@ -3,23 +3,20 @@ package net.bithaven.efficiencyrpg.entity;
 
 import net.bithaven.efficiencyrpg.Room;
 
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
 public class Start extends Entity {
-	private static SpriteSheet sheet = null;
 	public boolean started = false;
 
 	public Start () {
 		super("Start");
-		if (sheet == null) {
-			try {
-				sheet = new SpriteSheet("res/fancy_door.png", 64, 64, 0);
-			} catch (SlickException e) {
-				e.printStackTrace();
-			}
+		try {
+			image = new Image("res/open1/dc-dngn/gateways/dngn_enter_zot_closed.png");
+		} catch (SlickException e) {
+			e.printStackTrace();
 		}
-		image = sheet.getSubImage(0, 0); 
 	}
 
 	@Override

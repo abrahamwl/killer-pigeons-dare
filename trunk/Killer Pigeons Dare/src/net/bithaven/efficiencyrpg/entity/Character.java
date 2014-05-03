@@ -15,12 +15,9 @@ public class Character extends Actor {
 	public Character () {
 		super("Hero", 1);
 		this.controller = new UserController(this);
-		SpriteSheet sheet;
 		try {
-			sheet = new SpriteSheet("res/game.png", 63, 63, 1);
-			image = sheet.getSubImage(0, 0);
+			image = new Image("res/open1/dc-mon/human.png");
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		attackSound = SoundLibrary.getSound("res/sound_effect_attack_character");
