@@ -28,9 +28,7 @@ public class DamageEvent extends Event {
 		this.action = action;
 		this.target = target;
 		this.damage = damage;
-		nextEvents.addFirst(new RisingTextEffect(String.valueOf(damage),
-				target.x * Entity.CELL_SIZE + Entity.CELL_SIZE / 2,
-				target.y * Entity.CELL_SIZE + Entity.CELL_SIZE / 2));
+		nextEvents.addFirst(new RisingTextEffect(String.valueOf(damage), target));
 		if (sound != null) nextEvents.addFirst(new SoundEffect(sound));
 	}
 

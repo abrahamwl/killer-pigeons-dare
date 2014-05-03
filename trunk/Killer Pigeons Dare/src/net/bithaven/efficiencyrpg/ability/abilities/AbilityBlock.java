@@ -27,7 +27,7 @@ public class AbilityBlock extends Ability implements ConsumesMeleeAttacked {
 	
 	public void attacked(Actor a, ActionMeleeAttack attack, Actor attacker) {
 		attack.generateEvents(attacker);
-		a.room.game.events.add(new RisingTextEffect("BLOCK", a.getCenterX(), a.getCenterY(), Color.blue));
+		a.room.game.events.add(new RisingTextEffect("BLOCK", a, Color.blue));
 		on(a).setEnabled(false);
 	}
 
