@@ -45,13 +45,15 @@ public class AbilityFlameBolt extends Ability implements ActivatedAbility {
 	public void activate(Actor actor, int x, int y) {
 		if (getStatusOf(actor, x, y) != Status.INVALID) {
 			Actor target = actor.room.entitiesAt(x, y, Actor.class).get(0);
-			ActionRangedAttack attack = new ActionRangedAttack(target, actor.level * 3);
+			ActionRangedAttack attack;
 			try {
-				attack.projectileEffect = new ProjectileEffect(new Image("res/open1/effect/bolt04.png"), actor.getCenterX(), actor.getCenterY(), target.getCenterX(), target.getCenterY());
-				attack.projectileEffect.fireEffects.add(new SoundEffect(new Sound("res/fire_bolt.wav")));
+				ProjectileEffect projectileEffect = new ProjectileEffect(new Image("res/open1/effect/bolt04.png"), actor.getCenterX(), actor.getCenterY(), target.getCenterX(), target.getCenterY());
+				projectileEffect.fireEffects.add(new SoundEffect(new Sound("res/fire_bolt.wav")));
+				attack = new ActionRangedAttack(target, actor.level * 3, projectileEffect);
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				attack = new ActionRangedAttack(target, actor.level * 3, null);
 			}
 			attack.execute(actor);
 		}

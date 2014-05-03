@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import net.bithaven.efficiencyrpg.entity.Character;
+import net.bithaven.efficiencyrpg.event.Event;
 import net.bithaven.efficiencyrpg.event.effect.Effect;
 import net.bithaven.efficiencyrpg.ui.DrawsMouseCursor;
 import net.bithaven.efficiencyrpg.ui.SuppliesMusic;
@@ -24,7 +25,7 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 	
 	enum LogicState {
 		ALL_LOGIC,
-		EFFECTS_ONLY;
+		NO_TURNS;
 	}
 	
 	LogicState logicState = LogicState.ALL_LOGIC;
@@ -49,9 +50,11 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 
 	private LinkedList<UILayer> uiLayers = new LinkedList<UILayer>();
 
-	public LinkedList<Effect> effects = new LinkedList<Effect>();
-	private LinkedList<Effect> doEffects = new LinkedList<Effect>();
-	private LinkedList<Effect> removeEffects = new LinkedList<Effect>();
+	public LinkedList<Event> events = new LinkedList<Event>();
+	private LinkedList<Event> doEvents = new LinkedList<Event>();
+	private LinkedList<Event> doNowEvents = new LinkedList<Event>();
+	private LinkedList<Event> removeEvents = new LinkedList<Event>();
+	private LinkedList<Event> addEvents = new LinkedList<Event>();
 	
 	public Character hero = null;
 
@@ -98,8 +101,8 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 		}
 		
 		//Effects
-		for (Effect effect : doEffects) {
-			effect.render(this, g);
+		for (Event event : doEvents) {
+			event.render(this, g);
 		}
 		
 		if (last instanceof DrawsMouseCursor) {
@@ -134,6 +137,7 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 	
 	@Override
 	public void update(GameContainer gc, int timePassed) throws SlickException {
+		//Turn Logic
 		if (logicState == LogicState.ALL_LOGIC) {
 			this.gc = gc;
 			tooltip = null;
@@ -141,21 +145,30 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 		}
 		
 		//Effects
-		doEffects.addAll(effects);
-		effects.clear();
+		doEvents.addAll(events);
+		events.clear();
+		doNowEvents.addAll(doEvents);
 		logicState = LogicState.ALL_LOGIC;
-		for (Effect effect : doEffects) {
-			effect.update(this, timePassed);
-			Effect.LogicStep step = effect.getLogicStep();
-			if (step == Effect.LogicStep.DONE) {
-				removeEffects.add(effect);
-			} else if (step == Effect.LogicStep.PREVENT_LOGIC) {
-				logicState = LogicState.EFFECTS_ONLY;
+		while (!doNowEvents.isEmpty()) {
+			for (Event event : doNowEvents) {
+				event.update(this, timePassed);
+				Effect.EventState step = event.getEventState();
+				if (step == Effect.EventState.DONE) {
+					removeEvents.add(event);
+					addEvents.addAll(event.nextEvents);
+				} else if (step == Effect.EventState.PREVENT_TURN) {
+					logicState = LogicState.NO_TURNS;
+				}
 			}
-		}
-		doEffects.removeAll(removeEffects);
-		removeEffects.clear();
+			doEvents.removeAll(removeEvents);
+			removeEvents.clear();
+			doNowEvents.clear();
+			doNowEvents.addAll(addEvents);
+			doEvents.addAll(addEvents);
+			addEvents.clear();
+		}	
 		
+		//Music
 		if (musicOn && musicSupplier != null) {
 			if (musicSupplier.musicToPlay() != currentMusicName || music == null) {
 				currentMusicName = musicSupplier.musicToPlay();

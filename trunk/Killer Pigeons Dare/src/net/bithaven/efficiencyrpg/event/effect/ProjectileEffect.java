@@ -44,18 +44,18 @@ public class ProjectileEffect extends Effect {
 	@Override
 	public void update(Game game, int timePassed) throws SlickException {
 		if (this.timePassed == 0 && fireEffects.size() > 0) {
-			game.effects.addAll(fireEffects);
+			game.events.addAll(fireEffects);
 		}
 		this.timePassed += timePassed;
 		System.out.println(String.valueOf(timePassed));//DEBUG
 		if (this.timePassed >= 1000 * TRAVEL_SECONDS && hitEffects.size() > 0) {
-			game.effects.addAll(hitEffects);
+			game.events.addAll(hitEffects);
 		}
 	}
 
 	@Override
-	public LogicStep getMyLogicStep() {
-		if (timePassed < 1000 * TRAVEL_SECONDS) return LogicStep.PREVENT_LOGIC;
-		return LogicStep.DONE;
+	public EventState getMyEventState() {
+		if (timePassed < 1000 * TRAVEL_SECONDS) return EventState.PREVENT_TURN;
+		return EventState.DONE;
 	}
 }

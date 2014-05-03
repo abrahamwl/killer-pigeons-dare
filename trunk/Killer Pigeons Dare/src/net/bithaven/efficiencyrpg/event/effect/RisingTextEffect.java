@@ -56,9 +56,9 @@ public class RisingTextEffect extends Effect {
 	}
 
 	@Override
-	public LogicStep getMyLogicStep() {
-		if (timePassed < 100) return LogicStep.PREVENT_LOGIC;
-		if (timePassed < 1000) return LogicStep.ALLOW_LOGIC;
-		return LogicStep.DONE;
+	public EventState getMyEventState() {
+		if (timePassed < 100) return EventState.PREVENT_TURN;
+		if (timePassed < 1000) return EventState.ALLOW_TURN;
+		return EventState.DONE;
 	}
 }

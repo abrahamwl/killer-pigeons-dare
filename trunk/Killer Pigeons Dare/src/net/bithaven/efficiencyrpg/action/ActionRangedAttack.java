@@ -1,18 +1,11 @@
 package net.bithaven.efficiencyrpg.action;
 
-import java.io.File;
-import java.util.ArrayList;
-
-import net.bithaven.efficiencyrpg.*;
-import net.bithaven.efficiencyrpg.ability.Ability;
-import net.bithaven.efficiencyrpg.ability.ConsumesMeleeAttacked;
 import net.bithaven.efficiencyrpg.ability.ConsumesRangedAttacked;
-import net.bithaven.efficiencyrpg.ability.TriggersOnMeleeHit;
-import net.bithaven.efficiencyrpg.ability.TriggersOnRangedHit;
 import net.bithaven.efficiencyrpg.entity.*;
+import net.bithaven.efficiencyrpg.event.DamageEvent;
+import net.bithaven.efficiencyrpg.event.Event;
 import net.bithaven.efficiencyrpg.event.effect.*;
 
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 
@@ -22,11 +15,12 @@ public class ActionRangedAttack extends ActionAttack {
 	public Actor target;
 	public Sound fireSound;
 	public Sound hitSound;
-	public ProjectileEffect projectileEffect = null;
+	private Event projectileEvent = null;
 
-	public ActionRangedAttack(Actor target, int damage) {
+	public ActionRangedAttack(Actor target, int damage, ProjectileEffect effect) {
 		this.damage = damage;
 		this.target = target;
+		this.projectileEvent = effect;
 	}
 
 	@Override
@@ -37,26 +31,20 @@ public class ActionRangedAttack extends ActionAttack {
 			return;
 		}
 
-		projectileEffect.hitEffects.add(new RisingTextEffect(
-				String.valueOf(damage),
-				target.getCenterX(),
-				target.getCenterY()));
-
-		generateEffects(a);
-
-		target.applyDamage(damage);
-
-		for (TriggersOnRangedHit trigger : a.activeAbilities.getPrioritizedSet(TriggersOnRangedHit.class)) {
-			trigger.hit(a, this, target);
+		if (projectileEvent != null) {
+			projectileEvent.nextEvents.addFirst(new DamageEvent(a, this, target, damage, null));
+		} else {
+			projectileEvent = new DamageEvent(a, this, target, damage, null);
 		}
-		
+
+		generateEvents(a);
 	}
 	
 	@Override
-	public void generateEffects(Actor a) {
-		super.generateEffects(a);
-		if (projectileEffect != null) {
-			a.room.game.effects.add(projectileEffect);
+	public void generateEvents(Actor a) {
+		super.generateEvents(a);
+		if (projectileEvent != null) {
+			a.room.game.events.add(projectileEvent);
 		}
 	}
 }
