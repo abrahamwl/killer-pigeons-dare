@@ -4,13 +4,12 @@ import net.bithaven.efficiencyrpg.*;
 import net.bithaven.efficiencyrpg.entity.Actor;
 import net.bithaven.efficiencyrpg.entity.Wall;
 
-public class ActionSpawn extends Action {
+public class ActionSpawnFlameo extends Action {
 	public Dir dir;
-	public String es;
+	public String es = "F";
 
-	public ActionSpawn(Dir dir, String es) {
+	public ActionSpawnFlameo(Dir dir) {
 		this.dir = dir;
-		this.es = es;
 	}
 
 	@Override
@@ -20,7 +19,5 @@ public class ActionSpawn extends Action {
 		if(!a.room.checkForTypeAt(newx, newy, Wall.class)) {
 			a.room.addEntity(es, newx, newy);
 		}
-		
-		
 	}
 }

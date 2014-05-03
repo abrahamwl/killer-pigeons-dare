@@ -16,11 +16,10 @@ public class ActionBurn extends ActionAttack {
 
 	@Override
 	public void execute(Actor a) {
-		Room r = a.room;
 		// Burn everything within a 1 block radius, including the burner
 		for(Dir d : Dir.values())
 			if(d != Dir.NO_DIRECTION) 
-				for(Entity e : r.entitiesAt(a.x + d.x, a.y + d.y, Actor.class))
+				for(Entity e : a.room.entitiesAt(a.x + d.x, a.y + d.y, Actor.class))
 					((Actor)e).applyDamage(a.getLevel() * DAMAGE_PER_LEVEL);
 	}
 }
