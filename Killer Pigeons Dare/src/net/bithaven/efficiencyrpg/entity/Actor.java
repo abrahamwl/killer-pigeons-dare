@@ -76,6 +76,13 @@ public class Actor extends Entity {
 		return damage;
 	}
 	
+	public void applyHealth(int health) {
+		hitpoints += health;
+		if (hitpoints > maxHitpoints) {
+			hitpoints = maxHitpoints;
+		}
+	}
+	
 	@Override
 	public void init (Room r) {
 		super.init(r);

@@ -65,7 +65,7 @@ public class LevelGenerator {
 		}
 
 		// Initial level generation parameters
-		long seed = 11; // Change to create a different level set
+		long seed = new Random().nextLong(); // Change to create a different level set
 		int journey = 100; // Make this longer to create more levels
 		
 		if(args.length == 2) {
@@ -79,8 +79,11 @@ public class LevelGenerator {
 		int searchDepth = 1000;
 
 		// Parameters to make gameplay interesting
-		float forestDensity = 0.2f;
+		float forestDensity = 0.3f;
 		float enemyDensity = 0.01f;
+
+		float badLandObstacleDensity = 0.3f;
+		float badLandEnemyDensity= 0.3f;
 
 		// Variables to track the journey
 		int prior = 0; // Previous location
@@ -164,10 +167,20 @@ public class LevelGenerator {
 				}
 	
 				// Place obstacles
-				int trees = (int) Math.round((r * c) * forestDensity);
-				Util.forest(entities, trees, seed);
-				int enemies = (int) Math.round((r * c) * enemyDensity);
-				Util.enemies(entities, enemies, seed);
+				int enemies = 0;
+				if(journey - distTravelled > 15 || journey < 40) {
+					int trees = (int) Math.round((r * c) * forestDensity);
+					Util.forest(entities, trees, seed);
+					int forestEnemies = (int) Math.round((r * c) * enemyDensity);
+					Util.forestEnemies(entities, forestEnemies, seed);
+					enemies = forestEnemies;
+				} else {
+					int badLandObstacles = (int) Math.round((r * c) * badLandObstacleDensity);
+					Util.badLand(entities, badLandObstacles, seed);
+					int badLandEnemies = (int) Math.round((r * c) * badLandEnemyDensity);
+					Util.badLandEnemies(entities, badLandEnemies, seed);
+					enemies = badLandEnemies;
+				}
 				
 				// Clear the doors and start positions on the grid
 				for(Coord door : doors) {
@@ -208,17 +221,18 @@ public class LevelGenerator {
 					
 					if(pathLength > goodPathLength) {
 						goodLevel = true;
+						
+						// The room is labeled by how far it takes the player
 						int totalDistTravelled = distTravelled + pathLength;
+						
+						// Make sure doors never lead somewhere already visited
+						while(visited.contains(totalDistTravelled)) totalDistTravelled++; 
+						visited.add(totalDistTravelled);
+
 						if(totalDistTravelled < journey) {
 							// Set the room number door on the map
 							environment[door.x][door.y] = new Integer(totalDistTravelled).toString();
-
-							// If the location hasn't been visited yet, 
-							// then add it to the level generation list.
-							if(!visited.contains(totalDistTravelled)) {
-								destinations.add(totalDistTravelled);
-								visited.add(totalDistTravelled);
-							}
+							destinations.add(totalDistTravelled);
 						} else {
 							// The player has found the end!
 							environment[door.x][door.y] = "f";

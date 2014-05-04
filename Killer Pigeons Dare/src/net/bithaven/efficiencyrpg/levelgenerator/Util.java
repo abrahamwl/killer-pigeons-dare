@@ -72,16 +72,98 @@ public class Util {
 		Random r = new Random(seed);
 		int w = grid.length;
 		int h = grid[0].length;
-		for(int i = 0; i < count; i++)
-			grid[r.nextInt(w)][r.nextInt(h)] = new String[]{"t", "t", "g", "W"}[r.nextInt(4)];
+		int x = 0;
+		int newx = 0;
+		int y = 0;
+		int newy = 0;
+		String item = "";
+		for(int i = 0; i < count; i++) {
+			if(grid[x][y].equals("W") && r.nextFloat() < 0.75f) {
+				item = "W";
+				
+				do {
+					newx = r.nextInt(w);
+					newy = r.nextInt(h);
+				} while(Math.hypot(x - newx, y - newy) > 1.0 || (newx == x && newy == y));
+			} else {
+				newx = r.nextInt(w);
+				newy = r.nextInt(h);
+				item =  new String[]{"t", "W"}[r.nextInt(2)];
+			}
+			grid[newx][newy] = item;
+			x = newx;
+			y = newy;
+		}
 	}
 	
-	public static void enemies(String[][] grid, int count, long seed) {
+	public static void forestEnemies(String[][] grid, int count, long seed) {
 		Random r = new Random(seed);
 		int w = grid.length;
 		int h = grid[0].length;
 		for(int i = 0; i < count; i++)
-			grid[r.nextInt(w)][r.nextInt(h)] = new String[]{"F", "G", "S", "O"}[r.nextInt(4)];
+			grid[r.nextInt(w)][r.nextInt(h)] = new String[]{"S","O","K"}[r.nextInt(3)];
+	}
+	
+	
+	public static void badLand(String[][] grid, int count, long seed) {
+		Random r = new Random(seed);
+		int w = grid.length;
+		int h = grid[0].length;
+		int x = 0;
+		int newx = 0;
+		int y = 0;
+		int newy = 0;
+		String item = "";
+		
+		for(int i = 0; i < count; i++) {
+			if(grid[x][y].equals("h") && r.nextFloat() < 0.75f) {
+				item = "h";
+				
+				do {
+					newx = r.nextInt(w);
+					newy = r.nextInt(h);
+				} while(Math.hypot(x - newx, y - newy) > 1.0 || (newx == x && newy == y));
+			} else if(grid[x][y].equals("R") && r.nextFloat() < 0.75f) {
+				item = "R";
+				
+				boolean adjacent = true;
+				boolean noSquare = true;
+				do {
+					newx = r.nextInt(w);
+					newy = r.nextInt(h);
+					if(Math.hypot(x - newx, y - newy) > 1.0) adjacent = false;
+					for(int i2 = 1; i2 < Dir.values().length; i2 += 2) {
+						int x1 = newx + Dir.values()[(i2 + 0) % (Dir.values().length - 1) + 1].x;
+						int y1 = newy + Dir.values()[(i2 + 0) % (Dir.values().length - 1) + 1].y;
+						int x2 = newx + Dir.values()[(i2 + 1) % (Dir.values().length - 1) + 1].x;
+						int y2 = newy + Dir.values()[(i2 + 1) % (Dir.values().length - 1) + 1].y;
+						int x3 = newx + Dir.values()[(i2 + 2) % (Dir.values().length - 1) + 1].x;
+						int y3 = newy + Dir.values()[(i2 + 2) % (Dir.values().length - 1) + 1].y;
+						int x4 = newx + Dir.values()[(i2 + 3) % (Dir.values().length - 1) + 1].x;
+						int y4 = newy + Dir.values()[(i2 + 3) % (Dir.values().length - 1) + 1].y;
+						if(		grid[x1][y1].equals("R") && 
+								grid[x2][y2].equals("R") && 
+								grid[x3][y3].equals("R") && 
+								grid[x4][y4].equals("R")) noSquare = false;
+					}
+				} while(!adjacent || !noSquare || (newx == x && newy == y));
+			} else {
+				newx = r.nextInt(w);
+				newy = r.nextInt(h);
+				item =  new String[]{"c", "h", "R"}[r.nextInt(3)];
+			}
+			grid[newx][newy] = item;
+			x = newx;
+			y = newy;
+		}
+	}
+	
+	public static void badLandEnemies(String[][] grid, int count, long seed) {
+		Random r = new Random(seed);
+		int w = grid.length;
+		int h = grid[0].length;
+		for(int i = 0; i < count; i++)
+			grid[r.nextInt(w)][r.nextInt(h)] = new String[]{"F","G","K"}[r.nextInt(3)];
 	}
 	
 	public static Coord pathCheck(int sx, int sy, int ex, int ey, Room room,
