@@ -1,5 +1,7 @@
 package net.bithaven.efficiencyrpg;
 
+import java.util.TreeMap;
+
 import net.bithaven.efficiencyrpg.entity.Character;
 import net.bithaven.efficiencyrpg.ui.UILayer;
 
@@ -63,7 +65,14 @@ class RoomList extends UILayer {
 			System.out.println("Click: " + x + ", " + y + " Absolute: " + getAbsoluteX() + ", " + getAbsoluteY() + " RoomList: " + this.x + ", " + this.y);//DEBUG
 			int count = rLayer.game.hero.record.size();
 			if (x >= LEFT && x <= LEFT + IMAGE_WIDTH && y >= listTop && y <= listTop + count * 14) {
-				rLayer.loadRoom(rLayer.game.hero.record.get((y - listTop) / 14).roomNumber);
+				int number = (y - listTop) / 14;
+				int i = 0;
+				for (Character.Record r : rLayer.game.hero.record.values()) {
+					if (i == number) {
+						rLayer.loadRoom(r.roomNumber);
+					}
+					i++;
+				}
 			}
 			rLayer.game.popUILayer();
 		}
