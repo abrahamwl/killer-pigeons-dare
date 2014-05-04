@@ -54,6 +54,13 @@ public class Util {
 				grid[r][c] = item;
 	}
 	
+	public static void randomFill(String[][] grid, String[] items, long seed) {
+		Random rand = new Random(seed);
+		for(int r = 0; r < grid.length; r++)
+			for(int c = 0; c < grid[r].length; c++)
+				grid[r][c] = items[rand.nextInt(items.length)];
+	}
+	
 	public static void copy(String[][] dest, String[][] source) {
 		for(int r = 0; r < dest.length; r++)
 			for(int c = 0; c < dest[r].length; c++)
@@ -117,17 +124,29 @@ public class Util {
 		
 		for(int i = 0; i < count; i++) {
 			if(grid[x][y].equals("h") && r.nextFloat() < 0.75f) {
+				// Make HellStone paths
 				item = "h";
 				
 				do {
 					newx = r.nextInt(w);
 					newy = r.nextInt(h);
 				} while(Math.hypot(x - newx, y - newy) > 1.0 || (newx == x && newy == y));
-			} else if(grid[x][y].equals("R") && r.nextFloat() < 0.75f) {
+			} if(grid[x][y].equals("W") && r.nextFloat() < 0.25f) {
+				item = "W";
+				
+				do {
+					newx = r.nextInt(w);
+					newy = r.nextInt(h);
+				} while(Math.hypot(x - newx, y - newy) > 1.0 || (newx == x && newy == y));
+			} else if(grid[x][y].equals("R") && r.nextFloat() < 1.0f) {
 				item = "R";
 				
+				// Tries to keep walls from forming clumps.
+				// Give it a good college try, but otherwise 
+				// just place randomly.
 				boolean adjacent = true;
-				boolean noSquare = true;
+				boolean noSquare = false;
+				int placementTries = 5; 
 				do {
 					newx = r.nextInt(w);
 					newy = r.nextInt(h);
@@ -135,22 +154,22 @@ public class Util {
 					for(int i2 = 1; i2 < Dir.values().length; i2 += 2) {
 						int x1 = newx + Dir.values()[(i2 + 0) % (Dir.values().length - 1) + 1].x;
 						int y1 = newy + Dir.values()[(i2 + 0) % (Dir.values().length - 1) + 1].y;
+						if(!(x1 < 0 || x1 >= w || y1 < 0 || y1 >=h) && !grid[x1][y1].equals("R")) noSquare = true;
 						int x2 = newx + Dir.values()[(i2 + 1) % (Dir.values().length - 1) + 1].x;
 						int y2 = newy + Dir.values()[(i2 + 1) % (Dir.values().length - 1) + 1].y;
+						if(!(x2 < 0 || x2 >= w || y2 < 0 || y2 >=h) && !grid[x2][y2].equals("R")) noSquare = true;
 						int x3 = newx + Dir.values()[(i2 + 2) % (Dir.values().length - 1) + 1].x;
 						int y3 = newy + Dir.values()[(i2 + 2) % (Dir.values().length - 1) + 1].y;
+						if(!(x3 < 0 || x3 >= w || y3 < 0 || y3 >=h) && !grid[x3][y3].equals("R")) noSquare = true;
 						int x4 = newx + Dir.values()[(i2 + 3) % (Dir.values().length - 1) + 1].x;
 						int y4 = newy + Dir.values()[(i2 + 3) % (Dir.values().length - 1) + 1].y;
-						if(		grid[x1][y1].equals("R") && 
-								grid[x2][y2].equals("R") && 
-								grid[x3][y3].equals("R") && 
-								grid[x4][y4].equals("R")) noSquare = false;
+						if(!(x4 < 0 || x4 >= w || y4 < 0 || y4 >=h) && !grid[x4][y4].equals("R")) noSquare = true;
 					}
-				} while(!adjacent || !noSquare || (newx == x && newy == y));
+				} while((!adjacent || !noSquare || (newx == x && newy == y)) && placementTries-- > 0);
 			} else {
 				newx = r.nextInt(w);
 				newy = r.nextInt(h);
-				item =  new String[]{"c", "h", "R"}[r.nextInt(3)];
+				item =  new String[]{"h", "h", "R", "W"}[r.nextInt(4)];
 			}
 			grid[newx][newy] = item;
 			x = newx;
