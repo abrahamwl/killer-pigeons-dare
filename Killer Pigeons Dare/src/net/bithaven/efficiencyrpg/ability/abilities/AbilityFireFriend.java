@@ -11,14 +11,11 @@ import net.bithaven.efficiencyrpg.ability.Hooked;
 import net.bithaven.efficiencyrpg.entity.Actor;
 import net.bithaven.efficiencyrpg.other.Damage;
 
-public class AbilityDamageTypeFriend extends Ability implements HandlesDamage {
-	private Damage.Type damageType;
-	
-	public AbilityDamageTypeFriend(Damage.Type type) {
-		super(	type.toString() + " Friend",
-				type.toString() + " damage heals.",
+public class AbilityFireFriend extends Ability implements HandlesDamage {
+	public AbilityFireFriend() {
+		super(	"Fire Friend",
+				" is healed by fire.",
 				0, 26);
-		damageType = type;
 	}
 
 	public int getPriority(Class<? extends Hooked> c) {
@@ -26,7 +23,7 @@ public class AbilityDamageTypeFriend extends Ability implements HandlesDamage {
 	}
 
 	public Damage modifyDamage(Damage damage) {
-		if (damage.type == damageType) {
+		if (damage.type == Damage.Type.FIRE) {
 			return new Damage(-1 * Math.abs(damage.amount), damage.type);
 		}
 		
