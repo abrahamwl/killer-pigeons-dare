@@ -13,14 +13,26 @@ import net.bithaven.efficiencyrpg.Room;
 import net.bithaven.efficiencyrpg.entity.Character;
 
 public class Util {
+	public static String[][] wallOffGrid(String[][] grid, String wall) {
+		String[][] walledGrid = new String[grid.length + 2][grid[0].length + 2];
+		copy(walledGrid, grid, 1, 1);
+		for(int i = 0; i < walledGrid.length; i++) {
+			walledGrid[i][0] = wall;
+			walledGrid[i][walledGrid[0].length-1] = wall;
+		}
+		for(int i = 0; i < walledGrid[0].length; i++) {
+			walledGrid[0][i] = wall;
+			walledGrid[walledGrid.length-1][i] = wall;
+		}
+		return walledGrid;
+	}
+	
 	public static String convertGridToRoomString(String[][] grid) {
 		String roomString = "";
 		
 		for(int i = 0; i < grid.length; i++) { 
-			for(int j = 0; j < grid[i].length; j++) {
+			for(int j = 0; j < grid[i].length; j++)
 				roomString += grid[i][j] + ",";
-			}
-			
 			roomString += ";";
 		}
 				
@@ -49,12 +61,19 @@ public class Util {
 					dest[r][c] = source[r][c];
 	}
 	
+	public static void copy(String[][] dest, String[][] source, int x, int y) {
+		for(int r = 0; r < source.length; r++)
+			for(int c = 0; c < source[r].length; c++)
+				if(source[r][c] != "") 
+					dest[x + r][y + c] = source[r][c];
+	}
+	
 	public static void forest(String[][] grid, int count, long seed) {
 		Random r = new Random(seed);
 		int w = grid.length;
 		int h = grid[0].length;
 		for(int i = 0; i < count; i++)
-			grid[r.nextInt(w)][r.nextInt(h)] = "t";
+			grid[r.nextInt(w)][r.nextInt(h)] = new String[]{"t", "t", "g", "W"}[r.nextInt(4)];
 	}
 	
 	public static void enemies(String[][] grid, int count, long seed) {
@@ -108,5 +127,12 @@ public class Util {
 		// depth has been exceeded, mark the destination 
 		// unreachable.
 		return null;
+	}
+	
+	public static void main(String[] args) {
+		String[][] test = 
+				{{" ", " "},
+				 {" ", " "}};
+		System.out.println(convertGridToRoomString(wallOffGrid(test, "R")).replace(";", ";\n"));
 	}
 }

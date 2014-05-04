@@ -1,7 +1,12 @@
 package net.bithaven.efficiencyrpg.levelgenerator;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +14,7 @@ import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
+import java.util.Set;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
@@ -59,36 +65,48 @@ public class LevelGenerator {
 		}
 
 		// Initial level generation parameters
-		long seed = 5;
-		int journey = 100;
-		int chunks = 2;
+		long seed = 11; // Change to create a different level set
+		int journey = 100; // Make this longer to create more levels
 		
-		if(args.length == 3) {
+		if(args.length == 2) {
 			// Allow the values to be set from the command line
 			seed = new Long(args[0]);
 			journey = new Integer(args[1]);
-			chunks = new Integer(args[2]);
 		}
 		
 		// How much effort we want to put into level generation
-		int tries = 30;
-		int searchDepth = 20;
+		int tries = 1000;
+		int searchDepth = 1000;
 
 		// Parameters to make gameplay interesting
 		float forestDensity = 0.2f;
-		float enemyDensity = 0.05f;
+		float enemyDensity = 0.01f;
 
 		// Variables to track the journey
 		int prior = 0; // Previous location
 		
 		// id is the distance travelled to get to this room
 		int distTravelled = 0;		
-		int id = distTravelled; 
+		int id = distTravelled;
 		
-		// The random variable that generates it all
-		Random rand = new Random(seed);
+		// Create a room for each destination 
+		// until there are none left
+		LinkedList<Integer> destinations = new LinkedList<Integer>();
+		destinations.add(id);
+		Set<Integer> visited = new HashSet<Integer>(); // Tracks where we've been, so no endless revisits
+		visited.add(id);
 		
-		while (distTravelled < journey) {
+		while (destinations.size() > 0) {
+			// The random variable that generates it all
+			id = destinations.pop();
+			distTravelled = id;
+			Random rand = new Random(seed + id);
+			
+			// Farther you go the harder the enemies
+			enemyDensity = distTravelled * 0.0025f;
+			
+			System.out.println("Current id: " + id); // DEBUG
+			
 			String[][] environment = null;
 			String[][] entities = null;
 			boolean goodLevel = true;
@@ -96,10 +114,9 @@ public class LevelGenerator {
 			do {
 				// Init level size parameters
 				Coord start = null;
-				int avgDist = journey/(2 * chunks);
-				int distance = Math.max(5, rand.nextInt(avgDist) + avgDist);
-				int r = Math.max(2, rand.nextInt(distance));
-				int c = Math.max(2, rand.nextInt(distance - r));
+				int r = Math.max(8, rand.nextInt(12));
+				int c = Math.max(10, rand.nextInt(15));
+				System.out.println("c: " + c + " r: " + r); // DEBUG
 				
 				// Set up the grids
 				environment = new String[c + 1][r + 1];
@@ -114,7 +131,7 @@ public class LevelGenerator {
 				
 				do {
 					// Create entrance door and exit doors
-					int maxDoors = Math.max((c * r) / distance, 1);
+					int maxDoors = (r * c * 2) / (r + c);
 					int doorCount = rand.nextInt(maxDoors) + 1;
 					doors = new ArrayList<Coord>();
 					entrance = new Coord(rand.nextInt(c), rand.nextInt(r), null);
@@ -148,7 +165,7 @@ public class LevelGenerator {
 	
 				// Place obstacles
 				int trees = (int) Math.round((r * c) * forestDensity);
-				Util.forest(environment, trees, seed);
+				Util.forest(entities, trees, seed);
 				int enemies = (int) Math.round((r * c) * enemyDensity);
 				Util.enemies(entities, enemies, seed);
 				
@@ -167,6 +184,7 @@ public class LevelGenerator {
 				HashMap<Coord, Integer> doorDist = new HashMap<Coord, Integer>();
 				goodLevel = true;
 				Coord path = null;
+				
 				for(Coord door : doors) {
 					path = Util.pathCheck(start.x, start.y, door.x, door.y, room, test.hero, searchDepth);
 					
@@ -177,27 +195,51 @@ public class LevelGenerator {
 					} else {
 						// Door is reachable, potentially a good level
 						Util.copy(environment, createPathGrid(environment, path, "d"));
-						doorDist.put(door, prior + pathLength);
+						doorDist.put(door, pathLength);
 					}
 				}
 				
 				// Place the door destinations;
 				// Make sure there's at least one good length path;
 				goodLevel = false;
-				int goodPathLength = (r + c) / 2;
+				int goodPathLength = Math.max(4, (r + c) / 6);
 				for(Coord door : doors) {
 					int pathLength = doorDist.get(door);
-					System.out.println("pathLength: " + pathLength + "/" + goodPathLength); // DEBUG
-					if(pathLength > goodPathLength) goodLevel = true;
-					environment[door.x][door.y] = new Integer(pathLength).toString();
+					
+					if(pathLength > goodPathLength) {
+						goodLevel = true;
+						int totalDistTravelled = distTravelled + pathLength;
+						if(totalDistTravelled < journey) {
+							// Set the room number door on the map
+							environment[door.x][door.y] = new Integer(totalDistTravelled).toString();
+
+							// If the location hasn't been visited yet, 
+							// then add it to the level generation list.
+							if(!visited.contains(totalDistTravelled)) {
+								destinations.add(totalDistTravelled);
+								visited.add(totalDistTravelled);
+							}
+						} else {
+							// The player has found the end!
+							environment[door.x][door.y] = "f";
+						}
+					}
 				}
 				
 				// Allow the player to return to the previous level through the entrance door
 				environment[entrance.x][entrance.y] = new Long(prior).toString();
+				
+				// Or not
+				environment[entrance.x][entrance.y] = "X";
+				
+				// Put in walls
+				environment = Util.wallOffGrid(environment, "R");
+				entities = Util.wallOffGrid(entities, "R");
 					
 				// Print out the level
 				if(goodLevel) {
-					System.out.println("Well done."); // DEBUG
+					int enemyLevel = Math.max(1, (distTravelled - (enemies)) / 10);
+					System.out.println("Enemy level: " + enemyLevel); // DEBUG
 					levelMap.put(id, 
 							Level.newBuilder()
 							.id(id)
@@ -206,18 +248,46 @@ public class LevelGenerator {
 							.environment(environment)
 							.entities(entities)
 							.exits(doorDist.values().toArray(new Integer[0]))
-							.mtdt(new HashMap<String,String>(mtdt))
+							// Increment the enemy level formula
+							.enemyLevel(enemyLevel)
 							.create());
-				}
-				else 
-					System.out.println("No bueno, senor."); // DEBUG
+
+					System.out.println(Util.convertGridToRoomString(environment).replace(";", ";\n").replace("-1", "X")); // DEBUG
+					System.out.println(Util.convertGridToRoomString(entities).replace(";", ";\n")); // DEBUG
+				} 
 				
-				System.out.println(Util.convertGridToRoomString(environment).replace(";", ";\n").replace("-1", "X")); // DEBUG
-				System.out.println(Util.convertGridToRoomString(entities).replace(";", ";\n")); // DEBUG
-	
 				if(!goodLevel) tries--; else break;
 	
 			} while (!goodLevel && tries > 0);
+		}
+		
+		int farthest = 0;
+		for(Integer dist : visited) farthest = Math.max(farthest, dist);
+		System.out.println("Farthest distance seen: " + farthest); // DEBUG
+		
+		for(Integer dist : levelMap.keySet()) farthest = Math.max(farthest, dist);
+		System.out.println("Farthest actually travelled: " + farthest); // DEBUG
+		
+		// Delete previous levels
+		for(File file : new File("./").listFiles())
+			if(file.toString().contains("room"))
+				file.delete();
+		
+		// Create new levels
+		for(Level level : levelMap.values()) {
+			try {
+				PrintWriter envpw = new PrintWriter(new File("room_" + level.id + "_a"));
+				envpw.print("level," + level.enemyLevel + ";");
+				envpw.print("|");
+				envpw.print(Util.convertGridToRoomString(level.environment).replace(";", ";\n").replace("-1", "X"));
+				envpw.close();
+				
+				PrintWriter entpw = new PrintWriter(new File("room_" + level.id + "_b"));
+				entpw.print(Util.convertGridToRoomString(level.entities).replace(";", ";\n"));
+				entpw.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
