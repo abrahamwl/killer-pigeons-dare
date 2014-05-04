@@ -87,6 +87,7 @@ public abstract class Ability implements AbilityInterface {
 
 	public final String name;
 	public final Image icon;
+	public static final int ICON_SIZE = 32;
 	protected final String generalDescription;
 
 	public MovementPassabilityModifier movementPassabilityModifier = null;
