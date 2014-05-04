@@ -13,6 +13,7 @@ import net.bithaven.efficiencyrpg.event.effect.RisingTextEffect;
 import net.bithaven.efficiencyrpg.event.effect.SoundEffect;
 import net.bithaven.efficiencyrpg.other.Damage;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
@@ -23,6 +24,7 @@ public class DamageEvent extends Event {
 	private Actor target;
 	private Damage damage;
 	private EventState state = EventState.PREVENT_TURN;
+	private RisingTextEffect textEffect;
 	
 	public DamageEvent (Actor actor, Action action, Actor target, int damage, Sound sound) {
 		this(actor, action, target, new Damage(damage), sound);
@@ -33,7 +35,8 @@ public class DamageEvent extends Event {
 		this.action = action;
 		this.target = target;
 		this.damage = damage;
-		nextEvents.addFirst(new RisingTextEffect(String.valueOf(damage.amount), target));
+		textEffect = new RisingTextEffect(String.valueOf(damage.amount), target);
+		nextEvents.addFirst(textEffect);
 		if (sound != null) nextEvents.addFirst(new SoundEffect(sound));
 	}
 
@@ -44,7 +47,12 @@ public class DamageEvent extends Event {
 
 	@Override
 	public void update(Game game, int timePassed) throws SlickException {
-		target.applyDamage(damage);
+		int amount = target.applyDamage(damage).amount;
+		if (amount < 0) {
+			textEffect.color = Color.green;
+		} else if (amount == 0) {
+			textEffect.color = Color.gray;
+		}
 
 		if (action instanceof ActionMeleeAttack) {
 			for (TriggersOnMeleeHit trigger : actor.activeAbilities.getPrioritizedSet(TriggersOnMeleeHit.class)) {

@@ -20,7 +20,7 @@ public class RisingTextEffect extends Effect {
 	private static final float MOVE_SPEED = (float)Entity.CELL_SIZE / (float)Game.FPS;
 	final String text;
 	Image image = null;
-	Color color;
+	public Color color;
 	
 	public RisingTextEffect (String text, int x, int y) {
 		this(text, x, y, Color.red);
