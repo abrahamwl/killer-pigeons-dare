@@ -13,7 +13,7 @@ public class AbilityPoisonous extends Ability implements TriggersOnMeleeHit {
 	public AbilityPoisonous() {
 		super(	"Poisonous",
 				"'s melee attacks cause its level x 2 damage per turn.",
-				Game.iconSheet.getSprite(2, 24));
+				2, 24);
 	}
 
 	public int getPriority(Class<? extends Hooked> c) {

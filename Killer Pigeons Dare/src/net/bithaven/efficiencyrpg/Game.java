@@ -64,8 +64,8 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 	
 	// Can be passed multiple room files on the command line to create a complex room
 	public static void main(String[] args) throws SlickException {
-		
-		AppGameContainer app = new AppGameContainer(new Game("Killer Pigeons RPG"));
+		Game kpg = new Game("Killer Pigeons RPG");
+		AppGameContainer app = new AppGameContainer(kpg);
 		app.setDisplayMode(512 + MARGIN, 512, false);
 		app.start();
 	}

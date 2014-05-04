@@ -11,12 +11,7 @@ public class Start extends Entity {
 	public boolean started = false;
 
 	public Start () {
-		super("Start");
-		try {
-			image = new Image("res/open1/dc-dngn/gateways/dngn_enter_zot_closed.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		super("Start", "res/open1/dc-dngn/gateways/dngn_enter_zot_closed.png");
 	}
 
 	@Override

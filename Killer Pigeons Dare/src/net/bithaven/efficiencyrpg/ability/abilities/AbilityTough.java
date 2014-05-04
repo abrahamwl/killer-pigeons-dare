@@ -13,7 +13,7 @@ public class AbilityTough extends Ability implements TriggersAfterInit {
 	public AbilityTough() {
 		super(	"Tough",
 				" has 50% more hitpoints.",
-				Game.iconSheet.getSprite(9, 18));
+				9, 18);
 	}
 
 	public void afterInit(Actor a) {

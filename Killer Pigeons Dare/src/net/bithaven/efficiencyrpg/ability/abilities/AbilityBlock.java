@@ -18,7 +18,7 @@ public class AbilityBlock extends Ability implements ConsumesMeleeAttacked {
 	public AbilityBlock() {
 		super(	"Block",
 				" prevents the first melee attack against it in a turn.\nThis stacks with other abilities that prevent melee attacks.",
-				Game.iconSheet.getSprite(2, 12));
+				2, 12);
 	}
 
 	public int getPriority(Class<? extends Hooked> c) {

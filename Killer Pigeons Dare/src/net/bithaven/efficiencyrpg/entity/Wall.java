@@ -9,12 +9,7 @@ import org.newdawn.slick.SpriteSheet;
 
 public class Wall extends Entity {
 	public Wall () {
-		super("Wall");
-		try {
-			image = new Image("res/open1/dc-dngn/wall/stone_brick1.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		super("Wall", "res/open1/dc-dngn/wall/stone_brick1.png");
 	}
 
 	@Override

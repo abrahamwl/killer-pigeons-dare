@@ -7,12 +7,7 @@ import org.newdawn.slick.*;
 
 public class ClosedDoor extends Entity {
 	public ClosedDoor () {
-		super("Wall");
-		try {
-			image = new Image("res/open1/dc-dngn/dngn_closed_door.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		super("Wall", "res/open1/dc-dngn/dngn_closed_door.png");
 	}
 
 	@Override

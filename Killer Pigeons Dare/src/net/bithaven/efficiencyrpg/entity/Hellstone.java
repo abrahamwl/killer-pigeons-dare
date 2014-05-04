@@ -9,12 +9,7 @@ import org.newdawn.slick.SpriteSheet;
 
 public class Hellstone extends Entity {
 	public Hellstone () {
-		super("Hellstone");
-		try {
-			image = new Image("res/open1/dc-dngn/floor/rough_red0.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		super("Hellstone", "res/open1/dc-dngn/floor/rough_red0.png");
 	}
 
 	@Override
