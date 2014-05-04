@@ -58,7 +58,7 @@ public class LevelUp extends UILayer {
 		while (addingLevels) {
 			int oldXP = (((newLevel * newLevel) + newLevel) / 2 - 1) * 5;
 			if (c.totalXP - oldXP >= (newLevel + 1) * 5) {
-				newLevel = c.level + 1;
+				newLevel += 1;
 			} else {
 				addingLevels = false;
 			}
