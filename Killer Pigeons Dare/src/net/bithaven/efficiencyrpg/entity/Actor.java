@@ -68,7 +68,12 @@ public class Actor extends Entity {
 			damage = handler.modifyDamage(damage);
 		}
 
-		hitpoints -= damage.amount;
+		if (hitpoints - damage.amount < maxHitpoints) {
+			hitpoints -= damage.amount;
+		} else {
+			damage = new Damage(hitpoints - maxHitpoints, damage.type);
+			hitpoints = maxHitpoints;
+		}
 		if (hitpoints <= 0) {
 			kill();
 		}

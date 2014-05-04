@@ -14,8 +14,18 @@ public class Damage {
 	public final Type type;
 	
 	public enum Type {
-		IMPACT,
-		FIRE,
-		POISON;
+		IMPACT("Impact)"),
+		FIRE("Fire"),
+		POISON("Poison");
+		
+		private final String name;
+		
+		Type (String name) {
+			this.name = name;
+		}
+		
+		public String toString() {
+			return name;
+		}
 	}
 }
