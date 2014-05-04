@@ -51,7 +51,7 @@ public class DamageEvent extends Event {
 		if (amount < 0) {
 			textEffect.color = Color.green;
 		} else if (amount == 0) {
-			textEffect.color = Color.gray;
+			nextEvents.remove(textEffect);
 		}
 
 		if (action instanceof ActionMeleeAttack) {
