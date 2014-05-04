@@ -4,8 +4,6 @@ package net.bithaven.efficiencyrpg.entity;
 import net.bithaven.efficiencyrpg.*;
 import net.bithaven.efficiencyrpg.controller.UserController;
 
-import org.newdawn.slick.*;
-
 import java.util.TreeMap;
 
 public class Character extends Actor {
