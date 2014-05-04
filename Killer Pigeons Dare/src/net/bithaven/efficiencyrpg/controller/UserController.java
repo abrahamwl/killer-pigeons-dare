@@ -130,7 +130,7 @@ public class UserController extends BasicController {
 			int line = 2;
 			for (ActivatedAbility ability : abilities) {
 				children.add(ability.getDisplayElement(a, game, 2, line, targetX, targetY));
-				line += 32;
+				line += Ability.ICON_SIZE;
 			}
 		}
 
