@@ -1,9 +1,41 @@
 package net.bithaven.efficiencyrpg.levelgenerator;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Random;
+import java.util.Map.Entry;
+
+import net.bithaven.efficiencyrpg.Dir;
+import net.bithaven.efficiencyrpg.Room;
+import net.bithaven.efficiencyrpg.entity.Character;
 
 public class Util {
+	public static String convertGridToRoomString(String[][] grid) {
+		String roomString = "";
+		
+		for(int i = 0; i < grid.length; i++) { 
+			for(int j = 0; j < grid[i].length; j++) {
+				roomString += grid[i][j] + ",";
+			}
+			
+			roomString += ";";
+		}
+				
+		return roomString;
+	}
 
+	public static String convertMetadataToRoomString(Map<String, String> mtdt) {
+		String roomString = "";
+
+		for(Entry<String, String> entry : mtdt.entrySet())
+			roomString += entry.getKey() + "," + entry.getValue() + ";";
+		
+		return roomString;
+	}
+	
 	public static void fill(String[][] grid, String item) {
 		for(int r = 0; r < grid.length; r++)
 			for(int c = 0; c < grid[r].length; c++)
@@ -33,4 +65,48 @@ public class Util {
 			grid[r.nextInt(w)][r.nextInt(h)] = new String[]{"F", "G", "S", "O"}[r.nextInt(4)];
 	}
 	
+	public static Coord pathCheck(int sx, int sy, int ex, int ey, Room room,
+			Character hero, int limit) {
+		// Search uses a PriorityQueue to 
+		// make it a rudimentary A* search
+		Queue<Coord> open = new PriorityQueue<Coord>();
+		List<Coord> closed = new ArrayList<Coord>();
+		
+		Coord start = new Coord(sx, sy, null, Float.MAX_VALUE);
+		Coord end = new Coord(ex, ey, null, Float.MIN_VALUE);
+		open.add(start);
+		closed.add(start);
+		
+		// Starting with an initial position, it adds 
+		// all passable neighboring positions that 
+		// haven't been added yet.  Each position gets 
+		// a heuristic value marking its distance from 
+		// the destination.  The priority queue will 
+		// always remove the next closest point.
+		while(open.size() > 0 && limit-- > 0) {
+			Coord currPos = open.remove();
+			for(Dir d : Dir.values()) {
+				if(d == Dir.NO_DIRECTION) continue;
+				
+				int cx = currPos.x + d.x;
+				int cy = currPos.y + d.y;
+				if(cx < 0 || cx == room.width || cy < 0 || cy == room.height) continue;
+
+				Coord newCoord = new Coord(cx, cy, currPos, end);
+				if(closed.contains(newCoord)) continue;
+				if(!room.checkForPassableAt(newCoord.x, newCoord.y, hero)) continue;
+
+				if(newCoord.equals(end)) return newCoord;
+
+				open.add(newCoord);
+				closed.add(newCoord);
+			}	
+		}
+		
+		// If all passable positions have been accessed 
+		// without reaching the destination, or the search 
+		// depth has been exceeded, mark the destination 
+		// unreachable.
+		return null;
+	}
 }
