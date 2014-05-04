@@ -42,7 +42,7 @@ public class LevelGenerator {
 		
 		pathLength = 0;
 		while(path != null) {
-			grid[path.x][path.y] = pathMarker;
+			if(!(path.x < 0 && path.x >= grid.length && path.y < 0 && path.y >= grid[0].length)) grid[path.x][path.y] = pathMarker;
 			path = path.parent;
 			pathLength++;
 		}
@@ -175,6 +175,7 @@ public class LevelGenerator {
 					Util.forestEnemies(entities, forestEnemies, seed);
 					enemies = forestEnemies;
 				} else {
+					Util.randomFill(environment, new String[]{"c", "d"}, seed);
 					int badLandObstacles = (int) Math.round((r * c) * badLandObstacleDensity);
 					Util.badLand(entities, badLandObstacles, seed);
 					int badLandEnemies = (int) Math.round((r * c) * badLandEnemyDensity);
