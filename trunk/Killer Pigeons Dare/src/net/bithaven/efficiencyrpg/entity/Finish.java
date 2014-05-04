@@ -9,12 +9,7 @@ import org.newdawn.slick.SpriteSheet;
 
 public class Finish extends Entity {
 	public Finish () {
-		super("Finish");
-		try {
-			image = new Image("res/open1/dc-dngn/gateways/dngn_enter_zot_closed.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		super("Finish", "res/open1/dc-dngn/gateways/dngn_enter_zot_closed.png");
 	}
 
 	@Override

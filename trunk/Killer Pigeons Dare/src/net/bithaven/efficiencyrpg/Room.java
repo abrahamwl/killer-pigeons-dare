@@ -21,7 +21,10 @@ public class Room {
 	int turnCount = 0;
 	int initialMonsterCount = 0;
 	int totalMonsterLevels = 0;
-
+	
+	public int width = 0;
+	public int height = 0;
+	
 	public Entity addEntity(String es, int ex, int ey) {
 		Entity entity = null;
 
@@ -59,7 +62,9 @@ public class Room {
 		return game.hero;
 	}
 
-	// This function is passed a series of class names representing entities.  Columns are broken up by commas, rows broken up by semicolons.
+	// This function is passed a series of class names 
+	// representing entities.  Columns are broken up by 
+	// commas, rows broken up by semicolons.
 	public Room (Game game, String[] roomStrings, long roomNumber) {
 		this.roomNumber = roomNumber;
 		this.game = game;
@@ -71,12 +76,14 @@ public class Room {
 				String[][] roomGrid = null;
 				String[] roomRow = null;
 
-				// Room has metadata (before the "|" character, format is "key,value;", whitespace is not removed)
+				// Room has metadata (before the "|" character, 
+				// format is "key,value;", whitespace is not removed)
 				if(roomString.contains("|")) { 
 					mtdt = roomString.split("[|]")[0];
 					roomString = roomString.split("[|]")[1];
 
-					for(String data : mtdt.split(";")) metadata.put(data.split(",")[0], data.split(",")[1]);
+					for(String data : mtdt.split(";")) 
+						metadata.put(data.split(",")[0], data.split(",")[1]);
 				}
 				
 				if (metadata.containsKey("level")) {
@@ -89,8 +96,13 @@ public class Room {
 				roomGrid = new String[roomRow.length][];
 				for(int r = 0; r < roomRow.length; r++) roomGrid[r] = roomRow[r].split(",");
 
-				for(int r = 0; r < roomGrid.length; r++) for(int c = 0; c < roomGrid[r].length; c++)
-					if(!roomGrid[r][c].equals("")) addEntity(roomGrid[r][c], c, r);
+				for(int r = 0; r < roomGrid.length; r++) 
+					for(int c = 0; c < roomGrid[r].length; c++)
+						if(!roomGrid[r][c].equals("")) 
+							addEntity(roomGrid[r][c], c, r);
+				
+				height = roomGrid.length;
+				width = roomGrid[0].length;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -105,6 +117,7 @@ public class Room {
 
 	private void init () {
 		for (Entity e : entities) {
+			if(e == null) continue;
 			e.init(this);
 			if (e instanceof Actor && !(e instanceof Character)) {
 				initialMonsterCount++;

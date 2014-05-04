@@ -13,13 +13,8 @@ public class Character extends Actor {
 	public int totalXP = 5;
 	
 	public Character () {
-		super("Hero", 1);
+		super("Hero", 1, "res/open1/dc-mon/human.png");
 		this.controller = new UserController(this);
-		try {
-			image = new Image("res/open1/dc-mon/human.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
 		attackSound = SoundLibrary.getSound("res/sound_effect_attack_character");
 	}
 	

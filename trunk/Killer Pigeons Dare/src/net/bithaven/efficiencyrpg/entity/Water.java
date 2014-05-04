@@ -10,12 +10,7 @@ import org.newdawn.slick.SpriteSheet;
 
 public class Water extends Entity {
 	public Water () {
-		super("Water");
-		try {
-			image = new Image("res/open1/dc-dngn/water/dngn_shoals_deep_water1.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		super("Water", "res/open1/dc-dngn/water/dngn_shoals_deep_water1.png");
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import java.util.Set;
 
 import net.bithaven.efficiencyrpg.Game;
 import net.bithaven.efficiencyrpg.entity.Actor;
+import net.bithaven.efficiencyrpg.entity.Entity;
 import net.bithaven.efficiencyrpg.ui.UIElement;
 
 import org.newdawn.slick.Color;
@@ -90,10 +91,11 @@ public abstract class Ability implements AbilityInterface {
 
 	public MovementPassabilityModifier movementPassabilityModifier = null;
 	
-	protected Ability (String name, String description, Image icon) {
+	protected Ability (String name, String description, int x, int y) {
 		this.name = name;
 		generalDescription = description;
-		this.icon = icon;
+		if(Entity.createImage) this.icon = Game.iconSheet.getSprite(x, y);
+		else this.icon = null;
 		abilityTypes.add(this);
 	}
 	

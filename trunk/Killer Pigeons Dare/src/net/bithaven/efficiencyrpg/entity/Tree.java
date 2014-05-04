@@ -9,12 +9,7 @@ import org.newdawn.slick.SpriteSheet;
 
 public class Tree extends Entity {
 	public Tree () {
-		super("Tree");
-		try {
-			image = new Image("res/open1/dc-dngn/wall/tree2_yellow.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		super("Tree", "res/open1/dc-dngn/wall/tree2_yellow.png");
 	}
 
 	@Override

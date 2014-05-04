@@ -16,13 +16,8 @@ public class Door extends Entity {
 	}
 
 	public Door (int roomNumber) {
-		super("Door");
+		super("Door", "res/open1/dc-dngn/dngn_open_door.png");
 		this.roomNumber = roomNumber;
-		try {
-			image = new Image("res/open1/dc-dngn/dngn_open_door.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override

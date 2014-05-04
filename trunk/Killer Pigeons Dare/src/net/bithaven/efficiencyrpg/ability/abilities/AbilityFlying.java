@@ -13,7 +13,7 @@ public class AbilityFlying extends Ability {
 	public AbilityFlying() {
 		super(	"Flying",
 				" may move over water.",
-				Game.iconSheet.getSprite(2, 16));
+				2, 16);
 		movementPassabilityModifier = MovementPassabilityModifier.FLYING;
 	}
 

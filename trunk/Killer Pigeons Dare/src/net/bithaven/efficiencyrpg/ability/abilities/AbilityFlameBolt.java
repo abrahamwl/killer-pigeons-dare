@@ -18,7 +18,7 @@ public class AbilityFlameBolt extends Ability implements ActivatedAbility {
 	public AbilityFlameBolt() {
 		super(	"Flame Bolt",
 				" flamebolts!",
-				Game.iconSheet.getSprite(0, 20));
+				0, 20);
 	}
 
 	public int getPriority(Class<? extends Hooked> c) {

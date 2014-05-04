@@ -13,6 +13,8 @@ import net.bithaven.efficiencyrpg.controller.Controller;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 
@@ -49,8 +51,8 @@ public class Actor extends Entity {
 		return dead;
 	}
 
-	public Actor (String name, int level) {
-		super(name);
+	public Actor (String name, int level, String imageName) {
+		super(name, imageName);
 		hitpoints = 10 * level;
 		maxHitpoints = hitpoints;
 		this.level = level;

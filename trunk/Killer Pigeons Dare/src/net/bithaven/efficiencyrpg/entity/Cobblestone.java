@@ -8,12 +8,7 @@ import org.newdawn.slick.SlickException;
 
 public class Cobblestone extends Entity {
 	public Cobblestone () {
-		super("Cobblestone");
-		try {
-			image = new Image("res/open1/dc-dngn/floor/cobble_blood1.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		super("Cobblestone", "res/open1/dc-dngn/floor/cobble_blood1.png");
 	}
 
 	@Override
