@@ -11,6 +11,7 @@ import net.bithaven.efficiencyrpg.entity.Actor;
 import net.bithaven.efficiencyrpg.entity.Entity;
 import net.bithaven.efficiencyrpg.event.effect.RisingTextEffect;
 import net.bithaven.efficiencyrpg.event.effect.SoundEffect;
+import net.bithaven.efficiencyrpg.other.Damage;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -20,17 +21,22 @@ public class DamageEvent extends Event {
 	private Actor actor;
 	private Action action;
 	private Actor target;
-	private int damage;
+	private Damage damage;
 	private EventState state = EventState.PREVENT_TURN;
 	
 	public DamageEvent (Actor actor, Action action, Actor target, int damage, Sound sound) {
+		this(actor, action, target, new Damage(damage), sound);
+	}
+
+	public DamageEvent (Actor actor, Action action, Actor target, Damage damage, Sound sound) {
 		this.actor = actor;
 		this.action = action;
 		this.target = target;
 		this.damage = damage;
-		nextEvents.addFirst(new RisingTextEffect(String.valueOf(damage), target));
+		nextEvents.addFirst(new RisingTextEffect(String.valueOf(damage.amount), target));
 		if (sound != null) nextEvents.addFirst(new SoundEffect(sound));
 	}
+
 
 	@Override
 	public void render(Game game, Graphics g) throws SlickException {

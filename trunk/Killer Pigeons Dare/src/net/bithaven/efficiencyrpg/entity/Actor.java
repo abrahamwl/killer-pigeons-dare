@@ -6,9 +6,13 @@ import java.util.Set;
 import net.bithaven.efficiencyrpg.Room;
 import net.bithaven.efficiencyrpg.ability.AbilityInterface;
 import net.bithaven.efficiencyrpg.ability.AbilityList;
+import net.bithaven.efficiencyrpg.ability.ConsumesMeleeAttacked;
+import net.bithaven.efficiencyrpg.ability.HandlesDamage;
 import net.bithaven.efficiencyrpg.ability.TriggersAfterInit;
 import net.bithaven.efficiencyrpg.action.*;
 import net.bithaven.efficiencyrpg.controller.Controller;
+import net.bithaven.efficiencyrpg.event.DamageEvent;
+import net.bithaven.efficiencyrpg.other.Damage;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -58,11 +62,18 @@ public class Actor extends Entity {
 		this.level = level;
 	}
 	
-	public void applyDamage(int damage) {
-		hitpoints -= damage;
+	public Damage applyDamage(Damage damage) {
+		HandlesDamage handler = activeAbilities.getFirst(HandlesDamage.class);
+		if (handler != null) {
+			damage = handler.modifyDamage(damage);
+		}
+
+		hitpoints -= damage.amount;
 		if (hitpoints <= 0) {
 			kill();
 		}
+		
+		return damage;
 	}
 	
 	@Override
@@ -125,7 +136,9 @@ public class Actor extends Entity {
 			return false;
 		} else {
 			a.execute(this);
-			applyDamage(poisoned);
+			if (poisoned != 0) {
+				room.game.events.add(new DamageEvent(null, null, this, new Damage(poisoned, Damage.Type.POISON), null));
+			}
 			return true;
 		}
 	}
