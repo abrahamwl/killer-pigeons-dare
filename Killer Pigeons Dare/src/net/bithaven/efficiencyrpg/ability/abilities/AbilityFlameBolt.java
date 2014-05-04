@@ -12,6 +12,7 @@ import net.bithaven.efficiencyrpg.action.ActionRangedAttack;
 import net.bithaven.efficiencyrpg.entity.*;
 import net.bithaven.efficiencyrpg.entity.Character;
 import net.bithaven.efficiencyrpg.event.effect.*;
+import net.bithaven.efficiencyrpg.other.Damage;
 
 
 public class AbilityFlameBolt extends Ability implements ActivatedAbility {
@@ -49,11 +50,11 @@ public class AbilityFlameBolt extends Ability implements ActivatedAbility {
 			try {
 				ProjectileEffect projectileEffect = new ProjectileEffect(new Image("res/open1/effect/bolt04.png"), actor.getCenterX(), actor.getCenterY(), target.getCenterX(), target.getCenterY());
 				projectileEffect.fireEffects.add(new SoundEffect(new Sound("res/fire_bolt.wav")));
-				attack = new ActionRangedAttack(target, actor.level * 3, projectileEffect);
+				attack = new ActionRangedAttack(target, new Damage(actor.getLevel() * 3, Damage.Type.FIRE), projectileEffect);
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				attack = new ActionRangedAttack(target, actor.level * 3, null);
+				attack = new ActionRangedAttack(target, new Damage(actor.getLevel() * 3, Damage.Type.FIRE), null);
 			}
 			attack.execute(actor);
 		}

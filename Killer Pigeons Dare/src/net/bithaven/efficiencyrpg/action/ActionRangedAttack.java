@@ -5,19 +5,20 @@ import net.bithaven.efficiencyrpg.entity.*;
 import net.bithaven.efficiencyrpg.event.DamageEvent;
 import net.bithaven.efficiencyrpg.event.Event;
 import net.bithaven.efficiencyrpg.event.effect.*;
+import net.bithaven.efficiencyrpg.other.Damage;
 
 import org.newdawn.slick.Sound;
 
 
 public class ActionRangedAttack extends ActionAttack {
 	public static final int DAMAGE_PER_LEVEL = 5;
-	public int damage;
+	public Damage damage;
 	public Actor target;
 	public Sound fireSound;
 	public Sound hitSound;
 	private Event projectileEvent = null;
 
-	public ActionRangedAttack(Actor target, int damage, ProjectileEffect effect) {
+	public ActionRangedAttack(Actor target, Damage damage, ProjectileEffect effect) {
 		this.damage = damage;
 		this.target = target;
 		this.projectileEvent = effect;
