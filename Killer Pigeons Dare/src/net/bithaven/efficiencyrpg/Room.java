@@ -185,6 +185,17 @@ public class Room {
 		return out;
 	}
 
+	public <E extends Entity> ArrayList<E> entitiesAt (int x, int y, Entity.Layer layer) {
+		ArrayList<E> out = new ArrayList<E>();
+		for (Entity e : entities) {
+			if (e.x == x && e.y == y) {
+				if (e.layers.contains(layer)) out.add((E)e);
+			}
+		}
+
+		return out;
+	}
+
 	public boolean checkForPassableAt (int x, int y, Actor a) {
 		for (Entity e : entities) {
 			if (e.x == x && e.y == y) {
