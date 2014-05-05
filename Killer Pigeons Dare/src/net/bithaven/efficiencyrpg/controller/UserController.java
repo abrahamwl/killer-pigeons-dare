@@ -115,7 +115,7 @@ public class UserController extends BasicController {
 		}
 		
 		//DEBUG
-		if (System.getProperty("debug").equals("true")) {
+		if (System.getProperty("debug") != null) {
 			if (input.isKeyPressed(Input.KEY_X)) {
 				System.out.println("Adding 100 XP...");
 				((Character)a).addXP(100);

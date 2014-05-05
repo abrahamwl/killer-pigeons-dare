@@ -27,36 +27,23 @@ public class AbilitySummonHellstone extends Ability implements ActivatedAbility 
 	}
 
 	public Status getStatusOf(Actor a, int x, int y) {
-		ArrayList<Actor> actors = a.room.entitiesAt(x, y, Actor.class);
+		Entity e = a.room.entityAt(x, y, Entity.Layer.GROUND);
 		
-		if (actors.size() > 0) {
-			Actor target = actors.get(0);
-			if ((a instanceof Character) && (target instanceof Character)) {
-				return Status.NOT_RECOMMENDED;
-			} else if (!(a instanceof Character) && !(target instanceof Character)) {
-				return Status.NOT_RECOMMENDED;
-			} else {
-				return Status.OKAY;
-			}
-		} else {
-			return Status.INVALID;
+		if (e != null) {
+			if (e.isDestructible() && !(e instanceof Hellstone)) {
+				if (Math.abs(x - a.x) < 2 && Math.abs(y - a.y) < 2) {
+					return Status.OKAY;
+				}
+			}		
 		}
+		return Status.INVALID;
 	}
 
 	public void activate(Actor actor, int x, int y) {
 		if (getStatusOf(actor, x, y) != Status.INVALID) {
-			Actor target = actor.room.entitiesAt(x, y, Actor.class).get(0);
-			ActionRangedAttack attack;
-			try {
-				ProjectileEffect projectileEffect = new ProjectileEffect(new Image("res/open1/effect/bolt04.png"), actor.getCenterX(), actor.getCenterY(), target.getCenterX(), target.getCenterY());
-				projectileEffect.fireEffects.add(new SoundEffect(new Sound("res/fire_bolt.wav")));
-				attack = new ActionRangedAttack(target, new Damage(actor.getLevel() * 3, Damage.Type.FIRE), projectileEffect);
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				attack = new ActionRangedAttack(target, new Damage(actor.getLevel() * 3, Damage.Type.FIRE), null);
-			}
-			attack.execute(actor);
+			Entity target = actor.room.entityAt(x, y, Entity.Layer.GROUND);
+			target.disable();
+			actor.room.addEntity("h", x, y);
 		}
 	}
 

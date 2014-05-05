@@ -85,4 +85,10 @@ public abstract class Entity {
 	public boolean isDestructible () {
 		return true;
 	}
+
+	public void disable() {
+		noDraw = true;
+		x = Integer.MIN_VALUE;
+		y = Integer.MIN_VALUE;
+	}
 }

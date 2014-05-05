@@ -108,9 +108,7 @@ public class Actor extends Entity {
 	
 	public void kill() {
 		dead = true;
-		noDraw = true;
-		x = Integer.MIN_VALUE;
-		y = Integer.MIN_VALUE;
+		disable();
 	}
 
 	@Override
