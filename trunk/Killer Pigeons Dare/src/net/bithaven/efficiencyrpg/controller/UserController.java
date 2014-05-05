@@ -114,6 +114,15 @@ public class UserController extends BasicController {
 			return new ActionWait();
 		}
 		
+		//DEBUG
+		if (System.getProperty("debug").equals("true")) {
+			if (input.isKeyPressed(Input.KEY_X)) {
+				System.out.println("Adding 100 XP...");
+				((Character)a).addXP(100);
+				return ActionNoneYet.INSTANCE;
+			}
+		}
+		
 		return ActionNoneYet.INSTANCE;
 	}
 	
