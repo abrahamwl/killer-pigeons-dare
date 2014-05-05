@@ -141,7 +141,7 @@ public class InfoPanel extends UIElement {
 				int lY = 10 + Entity.CELL_SIZE;
 				
 				for (AbilityInterface a : target.abilities) {
-					children.add(a.getDisplayElement(layer.game, 5, lY));
+					children.add(a.getDisplayElement(target, layer.game, 5, lY, target.x, target.y));
 					lY += Ability.ICON_SIZE;
 				}
 				

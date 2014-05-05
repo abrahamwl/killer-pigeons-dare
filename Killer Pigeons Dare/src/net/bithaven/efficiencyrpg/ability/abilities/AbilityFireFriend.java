@@ -14,7 +14,7 @@ import net.bithaven.efficiencyrpg.other.Damage;
 public class AbilityFireFriend extends Ability implements HandlesDamage {
 	public AbilityFireFriend() {
 		super(	"Fire Friend",
-				" is healed by fire.",
+				"<Name> is healed by fire damage instead of being damaged by it.",
 				0, 26);
 	}
 

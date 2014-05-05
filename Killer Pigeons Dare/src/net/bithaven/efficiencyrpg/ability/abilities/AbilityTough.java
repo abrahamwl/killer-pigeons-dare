@@ -12,7 +12,7 @@ import org.newdawn.slick.Image;
 public class AbilityTough extends Ability implements TriggersAfterInit {
 	public AbilityTough() {
 		super(	"Tough",
-				" has 50% more hitpoints.",
+				"<Name> has 50% more hitpoints.",
 				9, 18);
 	}
 

@@ -12,7 +12,7 @@ public class AbilityFlying extends Ability {
 	
 	public AbilityFlying() {
 		super(	"Flying",
-				" may move over water.",
+				"<Name> may move over water.",
 				2, 16);
 		movementPassabilityModifier = MovementPassabilityModifier.FLYING;
 	}

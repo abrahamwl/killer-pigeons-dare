@@ -67,7 +67,7 @@ public abstract class Ability implements AbilityInterface {
 		}
 
 		public String getDescription() {
-			return a.name + generalDescription;
+			return generalDescription.replace("<Name>", Character.toUpperCase(a.name.charAt(0)) + a.name.substring(1)).replace("<name>", a.name).replace("<it>", a.gender.object).replace("<itself>", a.gender.reflexive).replace("<its>", a.gender.possesive);
 		}
 	}
 	public HashMap<Actor,Instance> instances = new HashMap<Actor,Instance>();
@@ -104,7 +104,7 @@ public abstract class Ability implements AbilityInterface {
 	 * @see net.bithaven.efficiencyrpg.ability.AbilityInterface#getGeneralDescription()
 	 */
 	public String getGeneralDescription() {
-		return "A character with " + name + generalDescription;
+		return generalDescription.replace("<Name>", "A character with " + name).replace("<name>", "a character with " + name).replace("<it>", "him").replace("<itself>", "himself").replace("<its>", "his");
 	}
 	
 	public class DisplayElement extends UIElement {

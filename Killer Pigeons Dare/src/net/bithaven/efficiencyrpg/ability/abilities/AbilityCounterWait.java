@@ -18,7 +18,7 @@ import org.newdawn.slick.Image;
 public class AbilityCounterWait extends Ability implements ConsumesMeleeAttacked {
 	public AbilityCounterWait() {
 		super(	"Counter Wait",
-				" prevents the first melee attack against it in a turn and makes a melee attack back against the attacker.\nThis stacks with other abilities that prevent melee attacks.",
+				"<Name> prevents the first melee attack against <it> in a turn and makes a melee attack back against the attacker.\nThis stacks with other abilities that prevent melee attacks.",
 				5, 25);
 	}
 

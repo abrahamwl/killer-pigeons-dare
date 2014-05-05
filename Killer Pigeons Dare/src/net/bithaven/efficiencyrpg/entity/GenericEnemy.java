@@ -24,12 +24,15 @@ public class GenericEnemy extends Actor {
 	}
 	
 	public static GenericEnemy newEnemyFromCharacter (char c, int level) {
+		GenericEnemy e;
 		switch (c) {
 		case 'G': return new GenericEnemy(level, "Golem", 0, AbilityTough.class, "res/open1/dc-mon/nonliving/clay_golem.png", SoundLibrary.getSound("res/sound_effect_attack_goblin"));
 		case 'S': return new GenericEnemy(level, "Snake", 0, AbilityPoisonous.class, "res/open1/dc-mon/animals/snake.png", SoundLibrary.getSound("res/sound_effect_attack_snake"));
 		case 'K': return new GenericEnemy(level, "Giant Fly", 0, AbilityFlying.class, "res/open1/dc-mon/animals/giant_blowfly.png", SoundLibrary.getSound("res/sound_effect_attack_killer_pidgeon"));
-		case 'O': return new GenericEnemy(level, "Kobold", 2, null, "res/open1/dc-mon/kobold.png", null);
-		case 'F': GenericEnemy e = new GenericEnemy(level, "Flameo", 0, AbilityFireFriend.class, "res/open1/dc-mon/nonliving/fire_vortex.png", SoundLibrary.getSound("res/sound_effect_attack_flameo"));
+		case 'O': e =  new GenericEnemy(level, "Kobold", 2, null, "res/open1/dc-mon/kobold.png", null);
+			e.gender = Gender.MALE;
+			return e;
+		case 'F': e = new GenericEnemy(level, "Flameo", 0, AbilityFireFriend.class, "res/open1/dc-mon/nonliving/fire_vortex.png", SoundLibrary.getSound("res/sound_effect_attack_flameo"));
 			e.controller = new FlameoController(e);
 			return e;
 		default:
