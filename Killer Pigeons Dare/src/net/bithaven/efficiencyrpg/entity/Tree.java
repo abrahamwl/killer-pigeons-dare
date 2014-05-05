@@ -12,7 +12,7 @@ import org.newdawn.slick.SpriteSheet;
 
 public class Tree extends Entity {
 	public Tree () {
-		super("Tree", "res/open1/dc-dngn/wall/tree2_yellow.png", EnumSet.allOf(Layer.class));
+		super("Tree", "res/open1/dc-dngn/wall/tree2_yellow.png", EnumSet.range(Layer.THING, Layer.ACTOR));
 	}
 
 	@Override
