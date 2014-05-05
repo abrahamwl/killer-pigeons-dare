@@ -18,7 +18,7 @@ import net.bithaven.efficiencyrpg.other.Damage;
 public class AbilityFlameBolt extends Ability implements ActivatedAbility {
 	public AbilityFlameBolt() {
 		super(	"Flame Bolt",
-				" flamebolts!",
+				"<Name> can fire a bolt of flame at a distance that does 3 fire damage per level.",
 				0, 20);
 	}
 

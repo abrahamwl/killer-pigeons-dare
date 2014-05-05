@@ -12,7 +12,7 @@ import net.bithaven.efficiencyrpg.entity.Actor;
 public class AbilityPoisonous extends Ability implements TriggersOnMeleeHit {
 	public AbilityPoisonous() {
 		super(	"Poisonous",
-				"'s melee attacks cause its level x 2 damage per turn.",
+				"<Name>'s melee attacks apply <its> level x 2 points of poison to the victim.\nEach point of poison does 1 damage a turn.",
 				2, 24);
 	}
 

@@ -17,7 +17,7 @@ import org.newdawn.slick.Image;
 public class AbilityBlock extends Ability implements ConsumesMeleeAttacked {	
 	public AbilityBlock() {
 		super(	"Block",
-				" prevents the first melee attack against it in a turn.\nThis stacks with other abilities that prevent melee attacks.",
+				"<Name> prevents the first melee attack against <it> in a turn.\nThis stacks with other abilities that prevent melee attacks.",
 				2, 12);
 	}
 
