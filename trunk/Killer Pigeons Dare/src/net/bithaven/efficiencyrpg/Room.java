@@ -53,7 +53,7 @@ public class Room {
 
 		return entity;
 	}
-
+	
 	private Entity getOrCreateCharacter() {
 		if (game.hero == null) {
 			game.hero = new Character();
