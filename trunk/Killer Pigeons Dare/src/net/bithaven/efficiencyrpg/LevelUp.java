@@ -139,4 +139,9 @@ public class LevelUp extends UILayer {
 			game.popUILayer();
 		}
 	}
+
+	@Override
+	public int getWidth(Graphics g) {
+		return OUTER_WIDTH;
+	}
 }

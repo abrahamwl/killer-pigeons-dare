@@ -249,4 +249,9 @@ public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusi
 		g.setColor(Color.white);
 		g.fill(drawCursor);
 	}
+
+	@Override
+	public int getWidth(Graphics g) {
+		return Game.GAME_WIDTH;
+	}
 }

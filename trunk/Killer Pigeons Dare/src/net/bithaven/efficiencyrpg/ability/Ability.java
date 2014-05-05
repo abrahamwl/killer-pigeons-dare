@@ -112,7 +112,8 @@ public abstract class Ability implements AbilityInterface {
 		private int targetX, targetY;
 		private Actor a = null;
 
-		public int getWidth() {
+		public int getWidth(Graphics g) {
+			if (width == 0) width = icon.getWidth() + 2 + g.getFont().getWidth(name);
 			return width;
 		}
 
@@ -141,16 +142,18 @@ public abstract class Ability implements AbilityInterface {
 				throws SlickException {
 			g.drawImage(icon, 0, 0);
 			if (a == null) {
+				//System.out.println("Ability.DisplayElement.draw(): a == null");//DEBUG
 				g.setColor(Color.blue);
 			} else {
-				if (targetX == Integer.MIN_VALUE || !(this instanceof ActivatedAbility)) {
+				//System.out.println("Ability.DisplayElement.draw(): a == " + a.toString());//DEBUG
+				if (targetX == Integer.MIN_VALUE || !(Ability.this instanceof ActivatedAbility)) {
 					if (on(a).enabled) {
 						g.setColor(Color.blue);
 					} else {
 						g.setColor(Color.darkGray);
 					}
 				} else {
-					switch (((ActivatedAbility)this).getStatusOf(a, targetX, targetY)) {
+					switch (((ActivatedAbility)Ability.this).getStatusOf(a, targetX, targetY)) {
 					case INVALID:
 						g.setColor(Color.lightGray);
 						break;
@@ -163,7 +166,6 @@ public abstract class Ability implements AbilityInterface {
 				}
 			}
 			g.drawString(name, icon.getWidth() + 2, (icon.getHeight() - g.getFont().getLineHeight()) / 2);
-			width = icon.getWidth() + 2 + g.getFont().getWidth(name);
 		}
 
 		@Override
@@ -171,7 +173,7 @@ public abstract class Ability implements AbilityInterface {
 			int mX = gc.getInput().getMouseX();
 			int mY = gc.getInput().getMouseY();
 			
-			if (mX >= 0 && mX <= width && mY >= 0 && mY <= height) {
+			if (mX >= 0 && mX <= getWidth(gc.getGraphics()) && mY >= 0 && mY <= getHeight()) {
 				if (a == null) {
 					game.tooltip = getGeneralDescription();
 				} else {

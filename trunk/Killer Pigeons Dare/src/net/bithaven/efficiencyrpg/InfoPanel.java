@@ -3,6 +3,8 @@ package net.bithaven.efficiencyrpg;
 import java.util.ArrayList;
 
 
+
+
 import net.bithaven.efficiencyrpg.ability.Ability;
 import net.bithaven.efficiencyrpg.ability.AbilityInterface;
 import net.bithaven.efficiencyrpg.entity.Actor;
@@ -83,6 +85,11 @@ public class InfoPanel extends UIElement {
 			
 		}
 
+		@Override
+		public int getWidth(Graphics g) {
+			return width;
+		}
+
 	}
 
 	int width, height;
@@ -141,12 +148,18 @@ public class InfoPanel extends UIElement {
 				int lY = 10 + Entity.CELL_SIZE;
 				
 				for (AbilityInterface a : target.abilities) {
-					children.add(a.getDisplayElement(target, layer.game, 5, lY, target.x, target.y));
+					//children.add(a.getDisplayElement(target, layer.game, 5, lY, target.x, target.y));
+					children.add(a.getDisplayElement(layer.game, 5, lY));
 					lY += Ability.ICON_SIZE;
 				}
 				
 			}
 		}
 
+	}
+
+	@Override
+	public int getWidth(Graphics g) {
+		return width;
 	}
 }
