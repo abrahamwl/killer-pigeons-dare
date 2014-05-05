@@ -27,22 +27,32 @@ public class AbilitySummonHellstone extends Ability implements ActivatedAbility 
 	}
 
 	public Status getStatusOf(Actor a, int x, int y) {
-		Entity e = a.room.entityAt(x, y, Entity.Layer.GROUND);
-		
-		if (e != null) {
-			if (e.isDestructible() && !(e instanceof Hellstone)) {
-				if (Math.abs(x - a.x) < 2 && Math.abs(y - a.y) < 2) {
-					return Status.OKAY;
-				}
-			}		
+		if (Math.abs(x - a.x) > 1 || Math.abs(y - a.y) > 1) {
+			return Status.INVALID;
 		}
-		return Status.INVALID;
+		
+		ArrayList<Entity> entities = a.room.entitiesAt(x, y, Entity.Layer.GROUND);
+		if (entities.size() == 0) {
+			return Status.INVALID;
+		}
+		for (Entity e : entities) {
+			if (!e.isDestructible()) {
+				return Status.INVALID;
+			}else if (e instanceof Hellstone) {
+				return Status.INVALID;
+			}
+		}
+		
+		return Status.OKAY;
 	}
 
 	public void activate(Actor actor, int x, int y) {
 		if (getStatusOf(actor, x, y) != Status.INVALID) {
-			Entity target = actor.room.entityAt(x, y, Entity.Layer.GROUND);
-			target.disable();
+			ArrayList<Entity> targets = actor.room.entitiesAt(x, y, Entity.Layer.GROUND);
+			for (Entity e : targets) e.disable();
+			targets = actor.room.entitiesAt(x, y, Entity.Layer.THING);
+			for (Entity e : targets)
+				if (e.isDestructible()) e.disable();
 			actor.room.addEntity("h", x, y);
 		}
 	}

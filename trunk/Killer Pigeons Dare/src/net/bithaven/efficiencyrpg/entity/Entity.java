@@ -90,5 +90,6 @@ public abstract class Entity {
 		noDraw = true;
 		x = Integer.MIN_VALUE;
 		y = Integer.MIN_VALUE;
+		System.out.println("Disabling " + toString() + " at " + x + "," + y);//DEBUG
 	}
 }

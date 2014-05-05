@@ -185,26 +185,29 @@ public class Room {
 		return out;
 	}
 
-	public Entity entityAt (int x, int y, Entity.Layer layer) {
+	public <E extends Entity> ArrayList<E> entitiesAt (int x, int y, Entity.Layer layer) {
+		ArrayList<E> out = new ArrayList<E>();
 		for (Entity e : entities) {
 			if (e.x == x && e.y == y) {
-				if (e.layers.contains(layer)) return e;
+				if (e.layers.contains(layer)) out.add((E)e);
 			}
 		}
 
-		return null;
+		return out;
 	}
 
 	public boolean checkForPassableAt (int x, int y, Actor a) {
+		boolean pass = true;
 		for (Entity e : entities) {
 			if (e.x == x && e.y == y) {
 				if (!e.passableFor(a)) {
-					return false;
+					System.out.println("Cannot pass because of " + e.toString() + " at " + e.x + "," + e.y);//DEBUG
+					pass = false;
 				}
 			}
 		}
 
-		return true;
+		return pass;
 	}
 
 	public void cleanup() {
