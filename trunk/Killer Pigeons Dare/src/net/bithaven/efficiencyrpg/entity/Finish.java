@@ -1,7 +1,10 @@
 package net.bithaven.efficiencyrpg.entity;
 
 
+import java.util.EnumSet;
+
 import net.bithaven.efficiencyrpg.Room;
+import net.bithaven.efficiencyrpg.entity.Entity.Layer;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -9,7 +12,7 @@ import org.newdawn.slick.SpriteSheet;
 
 public class Finish extends Entity {
 	public Finish () {
-		super("Finish", "res/open1/dc-dngn/gateways/dngn_enter_zot_closed.png");
+		super("Finish", "res/open1/dc-dngn/gateways/dngn_enter_zot_closed.png", EnumSet.range(Layer.GROUND, Layer.THING));
 	}
 
 	@Override
@@ -27,4 +30,8 @@ public class Finish extends Entity {
 		super.init(r);
 	}
 
+	@Override
+	public boolean isDestructible () {
+		return false;
+	}
 }

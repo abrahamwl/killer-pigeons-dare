@@ -56,7 +56,7 @@ public class Actor extends Entity {
 	}
 
 	public Actor (String name, int level, String imageName) {
-		super(name, imageName);
+		super(name, imageName, Layer.ACTOR);
 		hitpoints = 10 * level;
 		maxHitpoints = hitpoints;
 		this.level = level;

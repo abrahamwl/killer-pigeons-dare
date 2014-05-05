@@ -1,7 +1,10 @@
 package net.bithaven.efficiencyrpg.entity;
 
 
+import java.util.EnumSet;
+
 import net.bithaven.efficiencyrpg.Room;
+import net.bithaven.efficiencyrpg.entity.Entity.Layer;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -16,7 +19,7 @@ public class Door extends Entity {
 	}
 
 	public Door (int roomNumber) {
-		super("Door", "res/open1/dc-dngn/dngn_open_door.png");
+		super("Door", "res/open1/dc-dngn/dngn_open_door.png", EnumSet.range(Layer.GROUND, Layer.THING));
 		this.roomNumber = roomNumber;
 	}
 
@@ -36,4 +39,8 @@ public class Door extends Entity {
 		distanceFromCharacterStart = (int)Math.max(Math.abs(x - r.game.hero.x), Math.abs(y - r.game.hero.y));
 	}
 
+	@Override
+	public boolean isDestructible () {
+		return false;
+	}
 }

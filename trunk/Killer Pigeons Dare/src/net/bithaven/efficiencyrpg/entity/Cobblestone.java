@@ -8,7 +8,7 @@ import org.newdawn.slick.SlickException;
 
 public class Cobblestone extends Entity {
 	public Cobblestone () {
-		super("Cobblestone", "res/open1/dc-dngn/floor/cobble_blood1.png");
+		super("Cobblestone", "res/open1/dc-dngn/floor/cobble_blood1.png", Layer.GROUND);
 	}
 
 	@Override

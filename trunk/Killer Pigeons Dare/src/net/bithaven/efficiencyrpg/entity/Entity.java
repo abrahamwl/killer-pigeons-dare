@@ -1,6 +1,9 @@
 package net.bithaven.efficiencyrpg.entity;
 
 
+import java.util.EnumSet;
+import java.util.Set;
+
 import net.bithaven.efficiencyrpg.Room;
 
 import org.newdawn.slick.GameContainer;
@@ -28,6 +31,14 @@ public abstract class Entity {
 		}
 	}
 	
+	public enum Layer {
+		GROUND,
+		THING,
+		ACTOR;
+	}
+	
+	public final EnumSet<Layer> layers;
+	
 	public Gender gender = Gender.NEUTRAL;
 	
 	public Room room;
@@ -36,8 +47,13 @@ public abstract class Entity {
 
 	public Image image = null;
 	
-	public Entity(String name, String imageName) {
+	public Entity(String name, String imageName, Layer layer) {
+		this(name, imageName, EnumSet.of(layer));
+	}
+	
+	public Entity(String name, String imageName, EnumSet<Layer> layers) {
 		this.name = name;
+		this.layers = layers;
 		try {
 			if (createImage) this.image = new Image(imageName);
 		} catch (SlickException e) {
@@ -64,5 +80,9 @@ public abstract class Entity {
 	public abstract boolean passableFor(Actor a);
 
 	public void cleanup() {
+	}
+	
+	public boolean isDestructible () {
+		return true;
 	}
 }
