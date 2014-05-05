@@ -1,13 +1,15 @@
 package net.bithaven.efficiencyrpg.entity;
 
 
+import java.util.EnumSet;
+
 import net.bithaven.efficiencyrpg.Room;
 
 import org.newdawn.slick.*;
 
 public class ClosedDoor extends Entity {
 	public ClosedDoor () {
-		super("Wall", "res/open1/dc-dngn/dngn_closed_door.png");
+		super("Wall", "res/open1/dc-dngn/dngn_closed_door.png", EnumSet.allOf(Layer.class));
 	}
 
 	@Override

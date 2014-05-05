@@ -11,7 +11,7 @@ import org.newdawn.slick.SpriteSheet;
 
 public class Hellstone extends Entity {
 	public Hellstone () {
-		super("Hellstone", "res/open1/dc-dngn/floor/rough_red0.png");
+		super("Hellstone", "res/open1/dc-dngn/floor/rough_red0.png", Layer.GROUND);
 	}
 
 	@Override

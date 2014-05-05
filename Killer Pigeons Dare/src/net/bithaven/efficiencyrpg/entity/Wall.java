@@ -1,7 +1,10 @@
 package net.bithaven.efficiencyrpg.entity;
 
 
+import java.util.EnumSet;
+
 import net.bithaven.efficiencyrpg.Room;
+import net.bithaven.efficiencyrpg.entity.Entity.Layer;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -9,7 +12,7 @@ import org.newdawn.slick.SpriteSheet;
 
 public class Wall extends Entity {
 	public Wall () {
-		super("Wall", "res/open1/dc-dngn/wall/stone_brick1.png");
+		super("Wall", "res/open1/dc-dngn/wall/stone_brick1.png", EnumSet.allOf(Layer.class));
 	}
 
 	@Override
@@ -22,4 +25,8 @@ public class Wall extends Entity {
 		return false;
 	}
 
+	@Override
+	public boolean isDestructible () {
+		return false;
+	}
 }

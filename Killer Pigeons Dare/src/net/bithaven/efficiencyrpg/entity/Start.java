@@ -1,7 +1,10 @@
 package net.bithaven.efficiencyrpg.entity;
 
 
+import java.util.EnumSet;
+
 import net.bithaven.efficiencyrpg.Room;
+import net.bithaven.efficiencyrpg.entity.Entity.Layer;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -11,7 +14,7 @@ public class Start extends Entity {
 	public boolean started = false;
 
 	public Start () {
-		super("Start", "res/open1/dc-dngn/gateways/dngn_enter_zot_closed.png");
+		super("Start", "res/open1/dc-dngn/gateways/dngn_enter_zot_closed.png", EnumSet.allOf(Layer.class));
 	}
 
 	@Override
@@ -29,4 +32,8 @@ public class Start extends Entity {
 		super.init(r);
 	}
 
+	@Override
+	public boolean isDestructible () {
+		return false;
+	}
 }

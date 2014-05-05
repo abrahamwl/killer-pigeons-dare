@@ -10,7 +10,7 @@ import org.newdawn.slick.SpriteSheet;
 
 public class Dirt extends Entity {
 	public Dirt () {
-		super("Dirt", "res/open1/dc-dngn/floor/dirt0.png");
+		super("Dirt", "res/open1/dc-dngn/floor/dirt0.png", Layer.GROUND);
 	}
 	
 	@Override
