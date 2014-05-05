@@ -6,13 +6,11 @@ import net.bithaven.efficiencyrpg.ability.Ability;
 import net.bithaven.efficiencyrpg.ability.abilities.AbilityFireFriend;
 import net.bithaven.efficiencyrpg.ability.abilities.AbilityFlying;
 import net.bithaven.efficiencyrpg.ability.abilities.AbilityPoisonous;
+import net.bithaven.efficiencyrpg.ability.abilities.AbilitySummonHellstone;
 import net.bithaven.efficiencyrpg.ability.abilities.AbilityTough;
 import net.bithaven.efficiencyrpg.controller.AttackController;
-import net.bithaven.efficiencyrpg.controller.FlameoController;
+import net.bithaven.efficiencyrpg.controller.FlameoController2;
 
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.Sound;
 
 public class GenericEnemy extends Actor {
@@ -33,7 +31,8 @@ public class GenericEnemy extends Actor {
 			e.gender = Gender.MALE;
 			return e;
 		case 'F': e = new GenericEnemy(level, "Flameo", 0, AbilityFireFriend.class, "res/open1/dc-mon/nonliving/fire_vortex.png", SoundLibrary.getSound("res/sound_effect_attack_flameo"));
-			e.controller = new FlameoController(e);
+			e.abilities.add(Ability.getAbility(AbilitySummonHellstone.class));
+			e.controller = new FlameoController2(e);
 			return e;
 		default:
 			return null;
