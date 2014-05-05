@@ -31,9 +31,9 @@ public class AbilityFlameBolt extends Ability implements ActivatedAbility {
 		
 		if (actors.size() > 0) {
 			Actor target = actors.get(0);
-			if ((a instanceof Character) && (target instanceof Character)) {
+			if ((a instanceof Character) && (target instanceof Character ^ target.abilities.getFirst(AbilityFireFriend.class) != null)) {
 				return Status.NOT_RECOMMENDED;
-			} else if (!(a instanceof Character) && !(target instanceof Character)) {
+			} else if (!(a instanceof Character) && !(target instanceof Character ^ target.abilities.getFirst(AbilityFireFriend.class) != null)) {
 				return Status.NOT_RECOMMENDED;
 			} else {
 				return Status.OKAY;
