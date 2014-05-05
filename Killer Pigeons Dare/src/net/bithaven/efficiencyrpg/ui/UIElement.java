@@ -32,6 +32,8 @@ public abstract class UIElement implements ControlledInputReciever {
 			return y;
 		}
 	}
+
+	public abstract int getWidth(Graphics g);
 	
 	protected Game game;
 	

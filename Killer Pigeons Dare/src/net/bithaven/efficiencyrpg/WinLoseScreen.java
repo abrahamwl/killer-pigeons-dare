@@ -127,5 +127,10 @@ class WinLoseScreen extends UILayer implements SuppliesMusic {
 			return rLayer.musicToPlay();
 		}
 	}
+
+	@Override
+	public int getWidth(Graphics g) {
+		return OUTER_WIDTH;
+	}
 	
 }

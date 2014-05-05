@@ -32,7 +32,9 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 	
 	public static final int FPS = 60;
 	
-	public static final int MARGIN = 800 - 512;
+	public static final int LEVEL_AREA_WIDTH = 512;
+	public static final int MARGIN = 800 - LEVEL_AREA_WIDTH;
+	public static final int GAME_WIDTH = LEVEL_AREA_WIDTH + MARGIN;
 	Random random = null;
 	
 	public String tooltip = null;

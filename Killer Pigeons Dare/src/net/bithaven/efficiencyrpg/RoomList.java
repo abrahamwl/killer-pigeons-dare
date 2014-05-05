@@ -77,4 +77,9 @@ class RoomList extends UILayer {
 			rLayer.game.popUILayer();
 		}
 	}
+
+	@Override
+	public int getWidth(Graphics g) {
+		return OUTER_WIDTH;
+	}
 }

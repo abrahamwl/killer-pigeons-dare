@@ -14,6 +14,7 @@ import net.bithaven.efficiencyrpg.action.*;
 import net.bithaven.efficiencyrpg.entity.Character;
 import net.bithaven.efficiencyrpg.entity.Entity;
 import net.bithaven.efficiencyrpg.ui.UILayer;
+import net.bithaven.efficiencyrpg.ui.UIElement;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
@@ -39,7 +40,8 @@ public class UserController extends BasicController {
 		Input input = a.room.game.gc.getInput();
 		
 		if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
-			if (a.activeAbilities.getAll(ActivatedAbility.class).size() > 0) {
+			ArrayList<ActivatedAbility> abilities = a.activeAbilities.getAll(ActivatedAbility.class);
+			if (abilities.size() > 0) {
 				int x = input.getMouseX();
 				int y = input.getMouseY();
 
@@ -50,7 +52,14 @@ public class UserController extends BasicController {
 					targetY = y / Entity.CELL_SIZE;
 				}
 				
-				a.room.game.pushUILayer(new AbilityMenu(a.room.game, x, y, targetX, targetY));
+				ArrayList<ActivatedAbility> validAbilities = new ArrayList<ActivatedAbility>();
+				for (ActivatedAbility ability : abilities) {
+					if (ability.getStatusOf(a, targetX, targetY) != ActivatedAbility.Status.INVALID) {
+						validAbilities.add(ability);
+					}
+				}
+				if (validAbilities.size() > 0)
+					a.room.game.pushUILayer(new AbilityMenu(a.room.game, validAbilities, x, y, targetX, targetY));
 			}
 		}
 		
@@ -131,11 +140,11 @@ public class UserController extends BasicController {
 		int targetX, targetY;
 		ArrayList<ActivatedAbility> abilities;
 		
-		public AbilityMenu(Game game, int x, int y, int targetX, int targetY) {
+		public AbilityMenu(Game game, ArrayList<ActivatedAbility> abilities, int x, int y, int targetX, int targetY) {
 			super(game, x, y);
 			this.targetX = targetX;
 			this.targetY = targetY;
-			abilities = a.activeAbilities.getAll(ActivatedAbility.class);
+			this.abilities = abilities;
 			int line = 2;
 			for (ActivatedAbility ability : abilities) {
 				children.add(ability.getDisplayElement(a, game, 2, line, targetX, targetY));
@@ -145,18 +154,10 @@ public class UserController extends BasicController {
 
 		@Override
 		public void draw(GameContainer gc, Graphics g) throws SlickException {
-			Font f = g.getFont();
-			if (width == 0) {
-				height = abilities.size() * 32 + 4;
-				for (ActivatedAbility ability : abilities) {
-					width = Math.max(width, f.getWidth(ability.getName()) + 4 + 32 + 2);
-				}
-			}
-			
 			g.setColor(InfoPanel.BROWN);
-			g.fillRect(0, 0, width, height);
+			g.fillRect(0, 0, getWidth(g), height);
 			g.setColor(Color.black);
-			g.drawRect(0, 0, width, height);
+			g.drawRect(0, 0, getWidth(g), height);
 		}
 
 		@Override
@@ -171,6 +172,19 @@ public class UserController extends BasicController {
 					useAbility = new ActionActivateAbility(abilities.get((y - 2) / 32), targetX, targetY);
 				}
 			}
+		}
+
+		@Override
+		public int getWidth(Graphics g) {
+			if (width == 0) {
+				Font f = g.getFont();
+				height = children.size() * 32 + 4;
+				for (UIElement ability : children) {
+					width = Math.max(width, ability.getWidth(g) + 4);
+				}
+			}
+			
+			return width;
 		}
 		
 	}
