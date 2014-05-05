@@ -116,7 +116,7 @@ public class InfoPanel extends UIElement {
 			
 			int y = 10 + Entity.CELL_SIZE;
 			
-			y += target.abilities.size() * 14;
+			y += target.abilities.size() * (Ability.ICON_SIZE);
 			
 			if (target.poisoned > 0) {
 				y += 14;
