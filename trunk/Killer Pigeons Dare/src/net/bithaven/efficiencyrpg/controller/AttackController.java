@@ -102,7 +102,7 @@ public class AttackController extends BasicController {
 					return new ActionMove(Dir.SOUTH_EAST);
 				} else {
 					if (t.x - a.x > t.y - a.y) {
-						if (room.checkForPassableAt(a.x+ 1, a.y, a)) {
+						if (room.checkForPassableAt(a.x + 1, a.y, a)) {
 							return new ActionMove(Dir.EAST);
 						} else {
 							return new ActionMove(Dir.SOUTH);
