@@ -15,6 +15,8 @@ public interface AbilityInterface {
 
 	public abstract DisplayElement getDisplayElement(Game game, int x, int y);
 
+	public abstract DisplayElement getDisplayElement(Actor a, Game game, int x, int y);
+
 	public abstract DisplayElement getDisplayElement(Actor a, Game game, int x,
 			int y, int targetX, int targetY);
 
