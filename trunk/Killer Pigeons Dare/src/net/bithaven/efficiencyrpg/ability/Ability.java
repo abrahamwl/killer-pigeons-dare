@@ -1,11 +1,9 @@
 package net.bithaven.efficiencyrpg.ability;
 
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 import net.bithaven.efficiencyrpg.Game;
@@ -82,6 +80,13 @@ public abstract class Ability implements AbilityInterface {
 		}
 		return out;
 	}
+	
+	public static enum Category {
+		NORMAL,
+		NEGATIVE;
+	}
+	
+	public Category category = Category.NORMAL;
 	
 	protected abstract Instance getNewInstance(Actor a);
 
@@ -210,6 +215,18 @@ public abstract class Ability implements AbilityInterface {
 		}
 		
 		throw (new Error());
+	}
+
+	public static LinkedList<Ability> getAbilities(Category category) {
+		LinkedList<Ability> out = new LinkedList<Ability>();
+		
+		for (Ability ability : abilityTypes) {
+			if (ability.category == category) {
+				out.add(ability);
+			}
+		}
+		
+		return out;
 	}
 
 	public String getName() {

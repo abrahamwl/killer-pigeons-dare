@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 import net.bithaven.efficiencyrpg.ability.Ability;
+import net.bithaven.efficiencyrpg.ability.Ability.Category;
 import net.bithaven.efficiencyrpg.ability.AbilityInterface;
 import net.bithaven.efficiencyrpg.ability.AbilityList;
 import net.bithaven.efficiencyrpg.entity.Actor;
@@ -93,12 +94,8 @@ public class LevelUp extends UILayer {
 	public void process(GameContainer gc) {
 		if (selectsLeft > 0) {
 			options = new LinkedList<Ability>();
-			for (Ability ability : Ability.abilityTypes) {
-				//System.out.println("Checking: " + type.getName());//DEBUG
-				if (!c.abilities.contains(ability)) {
-					options.add(ability);
-				}
-			}
+			options.addAll(Ability.getAbilities(Category.NORMAL));
+			options.removeAll(c.abilities);
 			
 			if (options.size() > 0) {
 				levelUpStep = 2;
