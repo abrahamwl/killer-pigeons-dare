@@ -1,6 +1,5 @@
 package net.bithaven.efficiencyrpg.action;
 
-import net.bithaven.efficiencyrpg.Room;
 import net.bithaven.efficiencyrpg.entity.Actor;
 
 // This is a very special action that should almost never be used. It tells the system to do other things,
@@ -16,6 +15,11 @@ final public class ActionNoneYet extends Action {
 	@Override
 	public void execute(Actor a) {
 		return;
+	}
+
+	@Override
+	public Validity checkValidityOf(Actor a) {
+		return Validity.NOT_RECOMMENDED;
 	}
 
 }

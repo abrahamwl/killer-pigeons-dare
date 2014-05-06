@@ -18,4 +18,9 @@ public class ActionActivateAbility extends Action {
 	public void execute(Actor a) {
 		ability.activate(a, targetX, targetY);
 	}
+
+	@Override
+	public Validity checkValidityOf(Actor a) {
+		return ability.checkValidityOf(a, targetX, targetY);
+	}
 }

@@ -2,7 +2,6 @@ package net.bithaven.efficiencyrpg.controller;
 
 import net.bithaven.efficiencyrpg.Dir;
 import net.bithaven.efficiencyrpg.Room;
-import net.bithaven.efficiencyrpg.ability.ActivatedAbility.Status;
 import net.bithaven.efficiencyrpg.ability.abilities.AbilitySummonHellstone;
 import net.bithaven.efficiencyrpg.action.*;
 import net.bithaven.efficiencyrpg.entity.Actor;
@@ -28,13 +27,13 @@ public class FlameoController2 extends BasicController {
 	}
 	
 	private Action spawnHellstoneAt(Room room, int x, int y, AbilitySummonHellstone sH, boolean hellstoneFirst) {
-		if (hellstoneFirst && sH.getStatusOf(a, x, y) != Status.INVALID) {
+		if (hellstoneFirst && sH.checkValidityOf(a, x, y) != Validity.INVALID) {
 			return new ActionActivateAbility(sH, x, y);
 		} else if (room.game.hero.x == x && room.game.hero.y == y) {
 			return new ActionMeleeAttack(Dir.fromXY(x - a.x, y - a.y));			
 		} else if (room.checkForPassableAt(x, y, a)) {
 			return new ActionMove(Dir.fromXY(x - a.x, y - a.y));
-		} else if (!hellstoneFirst && sH.getStatusOf(a, x, y) != Status.INVALID) {
+		} else if (!hellstoneFirst && sH.checkValidityOf(a, x, y) != Validity.INVALID) {
 				return new ActionActivateAbility(sH, x, y);
 		} else return null;
 	}

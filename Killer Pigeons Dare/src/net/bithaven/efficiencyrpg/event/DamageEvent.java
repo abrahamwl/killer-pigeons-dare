@@ -9,9 +9,9 @@ import net.bithaven.efficiencyrpg.action.ActionMeleeAttack;
 import net.bithaven.efficiencyrpg.action.ActionRangedAttack;
 import net.bithaven.efficiencyrpg.entity.Actor;
 import net.bithaven.efficiencyrpg.entity.Entity;
+import net.bithaven.efficiencyrpg.entity.features.Damage;
 import net.bithaven.efficiencyrpg.event.effect.RisingTextEffect;
 import net.bithaven.efficiencyrpg.event.effect.SoundEffect;
-import net.bithaven.efficiencyrpg.other.Damage;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;

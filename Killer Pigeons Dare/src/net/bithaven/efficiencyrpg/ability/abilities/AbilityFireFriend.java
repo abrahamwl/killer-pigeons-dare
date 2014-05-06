@@ -6,12 +6,12 @@ import net.bithaven.efficiencyrpg.Game;
 import net.bithaven.efficiencyrpg.ability.Ability;
 import net.bithaven.efficiencyrpg.ability.Ability.DisplayElement;
 import net.bithaven.efficiencyrpg.ability.Ability.Instance;
-import net.bithaven.efficiencyrpg.ability.HandlesDamage;
+import net.bithaven.efficiencyrpg.ability.HandlesDamaged;
 import net.bithaven.efficiencyrpg.ability.Hooked;
 import net.bithaven.efficiencyrpg.entity.Actor;
-import net.bithaven.efficiencyrpg.other.Damage;
+import net.bithaven.efficiencyrpg.entity.features.Damage;
 
-public class AbilityFireFriend extends Ability implements HandlesDamage {
+public class AbilityFireFriend extends Ability implements HandlesDamaged {
 	public AbilityFireFriend() {
 		super(	"Fire Friend",
 				"<Name> is healed by fire damage instead of being damaged by it.",

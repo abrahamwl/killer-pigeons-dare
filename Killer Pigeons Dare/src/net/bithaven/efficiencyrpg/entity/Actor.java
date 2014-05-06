@@ -1,29 +1,32 @@
 package net.bithaven.efficiencyrpg.entity;
 
-import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.Set;
 
 import net.bithaven.efficiencyrpg.Room;
 import net.bithaven.efficiencyrpg.ability.AbilityInterface;
 import net.bithaven.efficiencyrpg.ability.AbilityList;
-import net.bithaven.efficiencyrpg.ability.ConsumesMeleeAttacked;
-import net.bithaven.efficiencyrpg.ability.HandlesDamage;
+import net.bithaven.efficiencyrpg.ability.HandlesDamaged;
 import net.bithaven.efficiencyrpg.ability.TriggersAfterInit;
 import net.bithaven.efficiencyrpg.action.*;
 import net.bithaven.efficiencyrpg.controller.Controller;
+import net.bithaven.efficiencyrpg.entity.features.Damage;
+import net.bithaven.efficiencyrpg.entity.features.StatusEffect;
 import net.bithaven.efficiencyrpg.event.DamageEvent;
-import net.bithaven.efficiencyrpg.other.Damage;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 
-// The Actor class is the class inherited by all "characters" in the game. That is, the player character, all monsters, 
-// and other NPCs.
+/**
+ * The Actor class is the class inherited by all "characters" in the game. That is, the player character, all monsters, 
+ * and other NPCs.
+ * 
+ * @author Abe
+ *
+ */
 public class Actor extends Entity {
 	public Controller controller;
 	
@@ -51,7 +54,7 @@ public class Actor extends Entity {
 
 	protected boolean dead = false;
 	
-	public int poisoned = 0;
+	public EnumMap<StatusEffect.Effect,StatusEffect> statusEffects = new EnumMap<StatusEffect.Effect,StatusEffect>(StatusEffect.Effect.class);
 	
 	public boolean isDead() {
 		return dead;
@@ -65,7 +68,7 @@ public class Actor extends Entity {
 	}
 	
 	public Damage applyDamage(Damage damage) {
-		HandlesDamage handler = activeAbilities.getFirst(HandlesDamage.class);
+		HandlesDamaged handler = activeAbilities.getFirst(HandlesDamaged.class);
 		if (handler != null) {
 			damage = handler.modifyDamage(damage);
 		}
@@ -94,7 +97,7 @@ public class Actor extends Entity {
 	public void init (Room r) {
 		super.init(r);
 		dead = false;
-		poisoned = 0;
+		statusEffects.clear();
 		noDraw = false;
 		maxHitpoints = level * 10;
 		hitpoints = maxHitpoints;
@@ -148,8 +151,8 @@ public class Actor extends Entity {
 			return false;
 		} else {
 			a.execute(this);
-			if (poisoned != 0) {
-				room.game.events.add(new DamageEvent(null, null, this, new Damage(poisoned, Damage.Type.POISON), null));
+			for (StatusEffect status : statusEffects.values()) {
+				status.execute();
 			}
 			return true;
 		}

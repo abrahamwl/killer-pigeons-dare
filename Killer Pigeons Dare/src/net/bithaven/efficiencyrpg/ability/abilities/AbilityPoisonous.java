@@ -1,12 +1,11 @@
 package net.bithaven.efficiencyrpg.ability.abilities;
 
-import net.bithaven.efficiencyrpg.Game;
-import net.bithaven.efficiencyrpg.Room;
 import net.bithaven.efficiencyrpg.ability.Ability;
 import net.bithaven.efficiencyrpg.ability.Hooked;
 import net.bithaven.efficiencyrpg.ability.TriggersOnMeleeHit;
 import net.bithaven.efficiencyrpg.action.ActionMeleeAttack;
 import net.bithaven.efficiencyrpg.entity.Actor;
+import net.bithaven.efficiencyrpg.entity.features.StatusEffect;
 
 
 public class AbilityPoisonous extends Ability implements TriggersOnMeleeHit {
@@ -21,7 +20,7 @@ public class AbilityPoisonous extends Ability implements TriggersOnMeleeHit {
 	}
 
 	public void hit(Actor a, ActionMeleeAttack attack, Actor victim) {
-		victim.poisoned += a.getLevel() * 2;
+		StatusEffect.apply(victim, StatusEffect.Effect.POISONED, a.getLevel() * 2);
 	}
 
 	public class Instance extends Ability.Instance {

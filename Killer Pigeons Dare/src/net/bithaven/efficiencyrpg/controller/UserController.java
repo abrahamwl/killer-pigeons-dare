@@ -54,7 +54,7 @@ public class UserController extends BasicController {
 				
 				ArrayList<ActivatedAbility> validAbilities = new ArrayList<ActivatedAbility>();
 				for (ActivatedAbility ability : abilities) {
-					if (ability.getStatusOf(a, targetX, targetY) != ActivatedAbility.Status.INVALID) {
+					if (ability.checkValidityOf(a, targetX, targetY) != Validity.INVALID) {
 						validAbilities.add(ability);
 					}
 				}

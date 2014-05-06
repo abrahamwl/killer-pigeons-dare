@@ -2,10 +2,11 @@ package net.bithaven.efficiencyrpg.action;
 
 import net.bithaven.efficiencyrpg.ability.ConsumesRangedAttacked;
 import net.bithaven.efficiencyrpg.entity.*;
+import net.bithaven.efficiencyrpg.entity.Character;
+import net.bithaven.efficiencyrpg.entity.features.Damage;
 import net.bithaven.efficiencyrpg.event.DamageEvent;
 import net.bithaven.efficiencyrpg.event.Event;
 import net.bithaven.efficiencyrpg.event.effect.*;
-import net.bithaven.efficiencyrpg.other.Damage;
 
 import org.newdawn.slick.Sound;
 
@@ -46,6 +47,15 @@ public class ActionRangedAttack extends ActionAttack {
 		super.generateEvents(a);
 		if (projectileEvent != null) {
 			a.room.game.events.add(projectileEvent);
+		}
+	}
+
+	@Override
+	public Validity checkValidityOf(Actor a) {
+		if (!(a instanceof Character) && !(target instanceof Character)) {
+			return Validity.NOT_RECOMMENDED;
+		} else {
+			return Validity.OKAY;
 		}
 	}
 }
