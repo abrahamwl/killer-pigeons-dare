@@ -2,8 +2,8 @@ package net.bithaven.efficiencyrpg.entity;
 
 import net.bithaven.efficiencyrpg.Room;
 import net.bithaven.efficiencyrpg.ability.MovementPassabilityModifier;
+import net.bithaven.efficiencyrpg.entity.features.Damage;
 import net.bithaven.efficiencyrpg.event.DamageEvent;
-import net.bithaven.efficiencyrpg.other.Damage;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;

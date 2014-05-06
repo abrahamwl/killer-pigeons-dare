@@ -1,4 +1,4 @@
-package net.bithaven.efficiencyrpg.other;
+package net.bithaven.efficiencyrpg.entity.features;
 
 public class Damage {
 	public Damage(int damage) {

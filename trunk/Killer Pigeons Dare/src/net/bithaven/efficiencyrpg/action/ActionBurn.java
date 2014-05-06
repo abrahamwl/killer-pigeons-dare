@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import net.bithaven.efficiencyrpg.*;
 import net.bithaven.efficiencyrpg.entity.Actor;
 import net.bithaven.efficiencyrpg.entity.Entity;
+import net.bithaven.efficiencyrpg.entity.features.Damage;
 import net.bithaven.efficiencyrpg.event.DamageEvent;
-import net.bithaven.efficiencyrpg.other.Damage;
 
 
 public class ActionBurn extends ActionAttack {
@@ -23,5 +23,10 @@ public class ActionBurn extends ActionAttack {
 			if(d != Dir.NO_DIRECTION) 
 				for(Actor victim : a.room.entitiesAt(a.x + d.x, a.y + d.y, Actor.class))
 					a.room.game.events.add(new DamageEvent(a, this, victim, new Damage(a.getLevel() * DAMAGE_PER_LEVEL, Damage.Type.FIRE), null));
+	}
+
+	@Override
+	public Validity checkValidityOf(Actor a) {
+		return Validity.OKAY;
 	}
 }

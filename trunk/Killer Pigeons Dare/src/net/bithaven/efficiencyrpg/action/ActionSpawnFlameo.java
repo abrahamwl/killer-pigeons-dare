@@ -20,4 +20,9 @@ public class ActionSpawnFlameo extends Action {
 			a.room.addEntity(es, newx, newy);
 		}
 	}
+
+	@Override
+	public Validity checkValidityOf(Actor a) {
+		return Validity.OKAY;
+	}
 }

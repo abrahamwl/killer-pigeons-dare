@@ -5,10 +5,12 @@ import java.util.ArrayList;
 
 
 
+
 import net.bithaven.efficiencyrpg.ability.Ability;
 import net.bithaven.efficiencyrpg.ability.AbilityInterface;
 import net.bithaven.efficiencyrpg.entity.Actor;
 import net.bithaven.efficiencyrpg.entity.Entity;
+import net.bithaven.efficiencyrpg.entity.features.StatusEffect;
 import net.bithaven.efficiencyrpg.ui.UIElement;
 
 import org.newdawn.slick.*;
@@ -118,10 +120,10 @@ public class InfoPanel extends UIElement {
 			
 			y += target.abilities.size() * (Ability.ICON_SIZE);
 			
-			if (target.poisoned > 0) {
+			for (StatusEffect status : target.statusEffects.values()) {
 				y += 14;
-				g.setColor(Color.green);
-				g.drawString(target.poisoned + " POISON", 5, y);
+				g.setColor(status.effect.color);
+				g.drawString(status.toString(), 5, y);
 			}
 		}
 	}

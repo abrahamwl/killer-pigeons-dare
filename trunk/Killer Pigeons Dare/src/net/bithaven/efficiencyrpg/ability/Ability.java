@@ -158,7 +158,7 @@ public abstract class Ability implements AbilityInterface {
 						g.setColor(Color.darkGray);
 					}
 				} else {
-					switch (((ActivatedAbility)Ability.this).getStatusOf(a, targetX, targetY)) {
+					switch (((ActivatedAbility)Ability.this).checkValidityOf(a, targetX, targetY)) {
 					case INVALID:
 						g.setColor(Color.lightGray);
 						break;

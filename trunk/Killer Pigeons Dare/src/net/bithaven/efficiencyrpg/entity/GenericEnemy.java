@@ -10,7 +10,7 @@ import net.bithaven.efficiencyrpg.ability.abilities.AbilitySummonHellstone;
 import net.bithaven.efficiencyrpg.ability.abilities.AbilityTough;
 import net.bithaven.efficiencyrpg.controller.AttackController;
 import net.bithaven.efficiencyrpg.controller.FlameoController2;
-import net.bithaven.efficiencyrpg.other.Damage;
+import net.bithaven.efficiencyrpg.entity.features.Damage;
 
 import org.newdawn.slick.Sound;
 

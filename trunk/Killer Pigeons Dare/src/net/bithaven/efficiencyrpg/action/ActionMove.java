@@ -12,9 +12,17 @@ public class ActionMove extends Action {
 
 	@Override
 	public void execute(Actor a) {
-		if (a.room.checkForPassableAt(a.x + dir.x, a.y + dir.y, a)) {
+		if (checkValidityOf(a) != Validity.INVALID) {
 			a.x += dir.x;
 			a.y += dir.y;
 		}
+	}
+
+	@Override
+	public Validity checkValidityOf(Actor a) {
+		if (a.room.checkForPassableAt(a.x + dir.x, a.y + dir.y, a)) {
+			return Validity.OKAY;
+		}
+		return Validity.INVALID;
 	}
 }
