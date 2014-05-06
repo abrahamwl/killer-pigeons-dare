@@ -2,6 +2,7 @@ package net.bithaven.efficiencyrpg.action;
 
 import net.bithaven.efficiencyrpg.*;
 import net.bithaven.efficiencyrpg.entity.Actor;
+import net.bithaven.efficiencyrpg.entity.features.StatusEffect;
 
 public class ActionMove extends Action {
 	public Dir dir;
@@ -20,6 +21,9 @@ public class ActionMove extends Action {
 
 	@Override
 	public Validity checkValidityOf(Actor a) {
+		if (a.statusEffects.get(StatusEffect.Effect.STOPPED) != null) {
+			return Validity.INVALID;
+		}
 		if (a.room.checkForPassableAt(a.x + dir.x, a.y + dir.y, a)) {
 			return Validity.OKAY;
 		}
