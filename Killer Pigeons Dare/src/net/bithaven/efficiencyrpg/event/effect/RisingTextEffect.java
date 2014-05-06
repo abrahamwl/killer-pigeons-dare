@@ -18,7 +18,7 @@ public class RisingTextEffect extends Effect {
 	private Entity follow = null;
 	private int followX, followY;
 	private static final float MOVE_SPEED = (float)Entity.CELL_SIZE / (float)Game.FPS;
-	final String text;
+	private String text;
 	Image image = null;
 	public Color color;
 	
@@ -64,6 +64,18 @@ public class RisingTextEffect extends Effect {
 		
 		image.draw(x, y);
 		y -= MOVE_SPEED; 
+	}
+	
+	public void setText (String text) {
+		x += width / 2;
+		y += height / 2;
+		this.text = text;
+		image = null;
+	}
+
+	@Override
+	public void update(Game game, int timePassed) throws SlickException {
+		this.timePassed += timePassed;
 		if (follow != null) {
 			if (!follow.noDraw) {
 				x += Entity.CELL_SIZE * (follow.x - followX);
@@ -72,11 +84,6 @@ public class RisingTextEffect extends Effect {
 				followY = follow.y;
 			}
 		}
-	}
-
-	@Override
-	public void update(Game game, int timePassed) throws SlickException {
-		this.timePassed += timePassed;
 	}
 
 	@Override

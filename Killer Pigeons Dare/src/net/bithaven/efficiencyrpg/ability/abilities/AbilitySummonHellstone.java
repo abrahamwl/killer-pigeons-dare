@@ -2,25 +2,17 @@ package net.bithaven.efficiencyrpg.ability.abilities;
 
 import java.util.ArrayList;
 
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
-
-import net.bithaven.efficiencyrpg.Game;
 import net.bithaven.efficiencyrpg.ability.*;
-import net.bithaven.efficiencyrpg.action.ActionRangedAttack;
 import net.bithaven.efficiencyrpg.action.Validity;
 import net.bithaven.efficiencyrpg.entity.*;
-import net.bithaven.efficiencyrpg.entity.Character;
 import net.bithaven.efficiencyrpg.entity.features.Damage;
-import net.bithaven.efficiencyrpg.event.effect.*;
 
 
-public class AbilitySummonHellstone extends Ability implements ActivatedAbility {
+public class AbilitySummonHellstone extends ActivatedAbility {
 	public AbilitySummonHellstone() {
 		super(	"Summon Hellstone",
 				"<Name> can summon hellstone next to <itself>!",
-				1, 20);
+				1, 20, Category.NORMAL, Damage.Type.FIRE);
 	}
 
 	public int getPriority(Class<? extends Hooked> c) {

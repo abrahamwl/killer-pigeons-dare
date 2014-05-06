@@ -1,15 +1,10 @@
 package net.bithaven.efficiencyrpg;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedList;
 
 import net.bithaven.efficiencyrpg.ability.Ability;
 import net.bithaven.efficiencyrpg.ability.Ability.Category;
 import net.bithaven.efficiencyrpg.ability.AbilityInterface;
-import net.bithaven.efficiencyrpg.ability.AbilityList;
-import net.bithaven.efficiencyrpg.entity.Actor;
 import net.bithaven.efficiencyrpg.entity.Character;
 import net.bithaven.efficiencyrpg.ui.UILayer;
 
@@ -94,7 +89,9 @@ public class LevelUp extends UILayer {
 	public void process(GameContainer gc) {
 		if (selectsLeft > 0) {
 			options = new LinkedList<Ability>();
-			options.addAll(Ability.getAbilities(Category.NORMAL));
+			for (Ability a : Ability.abilityTypes) {
+				if (a.allowed(c)) options.add(a);
+			}
 			options.removeAll(c.abilities);
 			
 			if (options.size() > 0) {

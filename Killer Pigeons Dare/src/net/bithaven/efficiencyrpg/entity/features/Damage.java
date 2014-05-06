@@ -16,6 +16,7 @@ public class Damage {
 	public static enum Type {
 		IMPACT("Impact)"),
 		FIRE("Fire"),
+		COLD("Cold"),
 		POISON("Poison");
 		
 		private final String name;

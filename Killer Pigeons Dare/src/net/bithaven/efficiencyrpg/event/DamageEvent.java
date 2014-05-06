@@ -24,7 +24,7 @@ public class DamageEvent extends Event {
 	private Actor target;
 	private Damage damage;
 	private EventState state = EventState.PREVENT_TURN;
-	private RisingTextEffect textEffect;
+	private RisingTextEffect textEffect = null;
 	
 	public DamageEvent (Actor actor, Action action, Actor target, int damage, Sound sound) {
 		this(actor, action, target, new Damage(damage), sound);
@@ -35,8 +35,6 @@ public class DamageEvent extends Event {
 		this.action = action;
 		this.target = target;
 		this.damage = damage;
-		textEffect = new RisingTextEffect(String.valueOf(damage.amount), target);
-		nextEvents.addFirst(textEffect);
 		if (sound != null) nextEvents.addFirst(new SoundEffect(sound));
 	}
 
@@ -47,11 +45,18 @@ public class DamageEvent extends Event {
 
 	@Override
 	public void update(Game game, int timePassed) throws SlickException {
-		int amount = target.applyDamage(damage).amount;
-		if (amount < 0) {
+		textEffect = new RisingTextEffect(String.valueOf(damage.amount), target);
+		damage = target.applyDamage(damage);
+		
+		if (damage.amount < 0) {
+			textEffect.setText(Integer.toString(-damage.amount));
 			textEffect.color = Color.green;
-		} else if (amount == 0) {
-			nextEvents.remove(textEffect);
+			nextEvents.add(textEffect);
+		} else if (damage.amount == 0) {
+		} else {
+			textEffect.setText(Integer.toString(damage.amount));
+			textEffect.color = Color.red;
+			nextEvents.add(textEffect);
 		}
 
 		if (action instanceof ActionMeleeAttack) {
