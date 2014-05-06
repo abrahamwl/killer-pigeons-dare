@@ -27,11 +27,6 @@ public class AbilityPoisonous extends Ability implements TriggersOnMeleeHit {
 		public Instance(Actor a) {
 			super(a);
 		}
-
-		@Override
-		public String getDescription() {
-			return a.name + "'s melee attacks cause " + a.level * 2 + " damage per turn.";
-		}
 	}
 
 	@Override
