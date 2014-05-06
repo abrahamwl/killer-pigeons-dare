@@ -29,6 +29,8 @@ public class Actor extends Entity {
 	
 	public Sound attackSound = null;
 	
+	public Damage.Type defaultMeleeDamageType = Damage.Type.IMPACT;
+	
 	public AbilityList abilities = new AbilityList();
 	public AbilityList activeAbilities = new AbilityList();
 	

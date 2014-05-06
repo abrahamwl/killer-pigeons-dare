@@ -11,6 +11,8 @@ import net.bithaven.efficiencyrpg.entity.*;
 import net.bithaven.efficiencyrpg.event.DamageEvent;
 import net.bithaven.efficiencyrpg.event.effect.RisingTextEffect;
 import net.bithaven.efficiencyrpg.event.effect.SoundEffect;
+import net.bithaven.efficiencyrpg.other.Damage;
+import net.bithaven.efficiencyrpg.other.Damage.Type;
 
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
@@ -38,7 +40,7 @@ public class ActionMeleeAttack extends ActionAttack {
 				return;
 			}
 			
-			damageEvent = new DamageEvent(a, this, victim, a.getLevel() * DAMAGE_PER_LEVEL, a.attackSound);
+			damageEvent = new DamageEvent(a, this, victim, new Damage(a.getLevel() * DAMAGE_PER_LEVEL, a.defaultMeleeDamageType), a.attackSound);
 
 			generateEvents(a);
 		}
