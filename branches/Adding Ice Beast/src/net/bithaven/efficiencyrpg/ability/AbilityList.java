@@ -3,7 +3,6 @@ package net.bithaven.efficiencyrpg.ability;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.TreeSet;
 
@@ -20,7 +19,7 @@ public class AbilityList extends LinkedHashSet<Ability> {
 		return c.cast(out);
 	}
 
-	public <H extends AbilityInterface> ArrayList<H> getAll(Class<H> c) {
+	public <H> ArrayList<H> getAll(Class<H> c) {
 		ArrayList<H> out = new ArrayList<H>();
 
 		for (AbilityInterface ability : this) {

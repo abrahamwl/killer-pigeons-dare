@@ -27,6 +27,10 @@ public class Water extends Entity {
 			return true;
 		}
 		
+		if (actor.activeAbilities.getPassabilityModifiers().contains(MovementPassabilityModifier.SWIMMING)) {
+			return true;
+		}
+		
 		return false;
 	}
 
