@@ -3,10 +3,14 @@ package net.bithaven.efficiencyrpg.entity;
 
 import net.bithaven.efficiencyrpg.SoundLibrary;
 import net.bithaven.efficiencyrpg.ability.Ability;
-import net.bithaven.efficiencyrpg.ability.abilities.AbilityFireFriend;
+import net.bithaven.efficiencyrpg.ability.abilities.AbilityIceAttack;
+import net.bithaven.efficiencyrpg.ability.abilities.AbilitySoulBurning;
 import net.bithaven.efficiencyrpg.ability.abilities.AbilityFlying;
+import net.bithaven.efficiencyrpg.ability.abilities.AbilityNegSlow;
 import net.bithaven.efficiencyrpg.ability.abilities.AbilityPoisonous;
+import net.bithaven.efficiencyrpg.ability.abilities.AbilitySoulFrozen;
 import net.bithaven.efficiencyrpg.ability.abilities.AbilitySummonHellstone;
+import net.bithaven.efficiencyrpg.ability.abilities.AbilitySwimming;
 import net.bithaven.efficiencyrpg.ability.abilities.AbilityTough;
 import net.bithaven.efficiencyrpg.controller.AttackController;
 import net.bithaven.efficiencyrpg.controller.FlameoController2;
@@ -31,10 +35,15 @@ public class GenericEnemy extends Actor {
 		case 'O': e =  new GenericEnemy(level, "Kobold", 2, null, "res/open1/dc-mon/kobold.png", null);
 			e.gender = Gender.MALE;
 			return e;
-		case 'F': e = new GenericEnemy(level, "Flameo", 0, AbilityFireFriend.class, "res/open1/dc-mon/nonliving/fire_vortex.png", SoundLibrary.getSound("res/sound_effect_attack_flameo"));
+		case 'F': e = new GenericEnemy(level, "Flameo", 0, AbilitySoulBurning.class, "res/open1/dc-mon/nonliving/fire_vortex.png", SoundLibrary.getSound("res/sound_effect_attack_flameo"));
 			e.abilities.add(Ability.getAbility(AbilitySummonHellstone.class));
 			e.defaultMeleeDamageType = Damage.Type.FIRE;
 			e.controller = new FlameoController2(e);
+			return e;
+		case 'I': e = new GenericEnemy(level, "Ice Beast", 0, AbilityNegSlow.class, "res/open1/dc-mon/ice_beast.png", SoundLibrary.getSound("res/sound_effect_attack_goblin"));
+			e.abilities.add(Ability.getAbility(AbilitySoulFrozen.class));
+			e.abilities.add(Ability.getAbility(AbilityIceAttack.class));
+			e.abilities.add(Ability.getAbility(AbilitySwimming.class));
 			return e;
 		default:
 			return null;

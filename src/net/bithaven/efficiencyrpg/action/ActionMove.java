@@ -1,7 +1,18 @@
 package net.bithaven.efficiencyrpg.action;
 
+import java.util.LinkedList;
+
+import javax.swing.text.html.parser.Entity;
+
+import com.google.common.collect.TreeMultiset;
+
 import net.bithaven.efficiencyrpg.*;
+import net.bithaven.efficiencyrpg.ability.ConsumesMeleeAttacked;
+import net.bithaven.efficiencyrpg.ability.PriorityComparator;
+import net.bithaven.efficiencyrpg.ability.TriggersOnMove;
+import net.bithaven.efficiencyrpg.ability.TriggersOnMovedOn;
 import net.bithaven.efficiencyrpg.entity.Actor;
+import net.bithaven.efficiencyrpg.entity.features.StatusEffect;
 
 public class ActionMove extends Action {
 	public Dir dir;
@@ -15,11 +26,28 @@ public class ActionMove extends Action {
 		if (checkValidityOf(a) != Validity.INVALID) {
 			a.x += dir.x;
 			a.y += dir.y;
+			for (TriggersOnMove ability : a.activeAbilities.getPrioritizedSet(TriggersOnMove.class)) {
+				ability.move(a, this);
+			}
+
+			TreeMultiset<TriggersOnMovedOn> list = TreeMultiset.create(PriorityComparator.getComparator(TriggersOnMovedOn.class));
+
+			for (Actor movedOn : a.room.entitiesAt(a.x, a.y, Actor.class)) {
+				list.addAll(movedOn.activeAbilities.getAll(TriggersOnMovedOn.class));
+			}
+			list.addAll(a.room.entitiesAt(a.x, a.y, TriggersOnMovedOn.class));
+
+			for(TriggersOnMovedOn movedOn : list) {
+				movedOn.move(a, this);
+			}
 		}
 	}
 
 	@Override
 	public Validity checkValidityOf(Actor a) {
+		if (a.statusEffects.get(StatusEffect.Effect.STOPPED) != null) {
+			return Validity.INVALID;
+		}
 		if (a.room.checkForPassableAt(a.x + dir.x, a.y + dir.y, a)) {
 			return Validity.OKAY;
 		}

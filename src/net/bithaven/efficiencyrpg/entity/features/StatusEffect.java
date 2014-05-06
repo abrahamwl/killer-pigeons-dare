@@ -10,7 +10,7 @@ public class StatusEffect {
 	public final Effect effect;
 	
 	private static final float DEFAULT_AMOUNT = 1f;
-	public float amount = DEFAULT_AMOUNT;
+	public float amount;
 	
 	private StatusEffect (Actor on, Effect effect, float amount) {
 		this.on = on;
@@ -48,22 +48,24 @@ public class StatusEffect {
 	public enum EffectApplyMethod { ADD, GREATEST, NEWEST; }
 	
 	public enum Effect {
-		POISONED(Color.green, EffectApplyMethod.ADD),
-		STOPPED(Color.cyan, EffectApplyMethod.GREATEST);
+		POISONED(Color.green, EffectApplyMethod.ADD, 0f),
+		STOPPED(Color.cyan, EffectApplyMethod.GREATEST, 1f);
 		
 		public final Color color;
 		public final EffectApplyMethod applyMethod;
+		public final float countDown;
 		
-		Effect (Color color, EffectApplyMethod applyMethod) {
+		Effect (Color color, EffectApplyMethod applyMethod, float countDown) {
 			this.color = color;
 			this.applyMethod = applyMethod;
+			this.countDown = countDown;
 		}
 		
 	}
 	
 	private void reduceBy (float amount) {
 		this.amount -= amount;
-		if (this.amount <= 0) {
+		if (this.amount <= 0f) {
 			on.statusEffects.remove(effect);
 		}
 	}
@@ -73,10 +75,8 @@ public class StatusEffect {
 		case POISONED:
 			on.room.game.events.add(new DamageEvent(null, null, on, new Damage(((Float)amount).intValue(), Damage.Type.POISON), null));
 			break;
-		case STOPPED:
-			reduceBy(1f);
-			break;
 		}
+		reduceBy(effect.countDown);
 	}
 	
 	@Override

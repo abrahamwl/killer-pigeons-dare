@@ -8,6 +8,7 @@ import org.newdawn.slick.Sound;
 
 import net.bithaven.efficiencyrpg.Game;
 import net.bithaven.efficiencyrpg.ability.*;
+import net.bithaven.efficiencyrpg.ability.Ability.Category;
 import net.bithaven.efficiencyrpg.action.ActionRangedAttack;
 import net.bithaven.efficiencyrpg.action.Validity;
 import net.bithaven.efficiencyrpg.entity.*;
@@ -16,11 +17,11 @@ import net.bithaven.efficiencyrpg.entity.features.Damage;
 import net.bithaven.efficiencyrpg.event.effect.*;
 
 
-public class AbilityFlameBolt extends Ability implements ActivatedAbility {
+public class AbilityFlameBolt extends ActivatedAbility {
 	public AbilityFlameBolt() {
 		super(	"Flame Bolt",
 				"<Name> can fire a bolt of flame at a distance that does 3 fire damage per level.",
-				0, 20);
+				0, 20, Category.NORMAL, Damage.Type.FIRE);
 	}
 
 	public int getPriority(Class<? extends Hooked> c) {
@@ -32,9 +33,9 @@ public class AbilityFlameBolt extends Ability implements ActivatedAbility {
 		
 		if (actors.size() > 0) {
 			Actor target = actors.get(0);
-			if ((a instanceof Character) && (target instanceof Character ^ target.abilities.getFirst(AbilityFireFriend.class) != null)) {
+			if ((a instanceof Character) && (target instanceof Character ^ target.abilities.getFirst(AbilitySoulBurning.class) != null)) {
 				return Validity.NOT_RECOMMENDED;
-			} else if (!(a instanceof Character) && !(target instanceof Character ^ target.abilities.getFirst(AbilityFireFriend.class) != null)) {
+			} else if (!(a instanceof Character) && !(target instanceof Character ^ target.abilities.getFirst(AbilitySoulBurning.class) != null)) {
 				return Validity.NOT_RECOMMENDED;
 			} else {
 				return Validity.OKAY;
