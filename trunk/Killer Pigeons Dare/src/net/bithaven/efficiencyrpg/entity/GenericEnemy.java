@@ -10,6 +10,7 @@ import net.bithaven.efficiencyrpg.ability.abilities.AbilitySummonHellstone;
 import net.bithaven.efficiencyrpg.ability.abilities.AbilityTough;
 import net.bithaven.efficiencyrpg.controller.AttackController;
 import net.bithaven.efficiencyrpg.controller.FlameoController2;
+import net.bithaven.efficiencyrpg.other.Damage;
 
 import org.newdawn.slick.Sound;
 
@@ -32,6 +33,7 @@ public class GenericEnemy extends Actor {
 			return e;
 		case 'F': e = new GenericEnemy(level, "Flameo", 0, AbilityFireFriend.class, "res/open1/dc-mon/nonliving/fire_vortex.png", SoundLibrary.getSound("res/sound_effect_attack_flameo"));
 			e.abilities.add(Ability.getAbility(AbilitySummonHellstone.class));
+			e.defaultMeleeDamageType = Damage.Type.FIRE;
 			e.controller = new FlameoController2(e);
 			return e;
 		default:

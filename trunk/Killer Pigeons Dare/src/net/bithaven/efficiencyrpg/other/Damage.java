@@ -13,7 +13,7 @@ public class Damage {
 	public final int amount;
 	public final Type type;
 	
-	public enum Type {
+	public static enum Type {
 		IMPACT("Impact)"),
 		FIRE("Fire"),
 		POISON("Poison");
