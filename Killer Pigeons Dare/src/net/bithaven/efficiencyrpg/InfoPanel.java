@@ -2,10 +2,6 @@ package net.bithaven.efficiencyrpg;
 
 import java.util.ArrayList;
 
-
-
-
-
 import net.bithaven.efficiencyrpg.ability.Ability;
 import net.bithaven.efficiencyrpg.ability.AbilityInterface;
 import net.bithaven.efficiencyrpg.entity.Actor;
@@ -22,7 +18,7 @@ public class InfoPanel extends UIElement {
 		private int height;
 		
 		public RoomListButton (Game game, int x) {
-			super(game, x, 512 - 10 - 2 * 14);
+			super(game, x, Game.MARGIN - 10 - 2 * 14);
 			game.gc.getInput().addMouseListener(this);
 		}
 

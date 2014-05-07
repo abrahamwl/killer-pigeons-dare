@@ -1,7 +1,6 @@
 package net.bithaven.efficiencyrpg.entity;
 
 
-import net.bithaven.efficiencyrpg.SoundLibrary;
 import net.bithaven.efficiencyrpg.ability.Ability;
 import net.bithaven.efficiencyrpg.ability.abilities.AbilityIceAttack;
 import net.bithaven.efficiencyrpg.ability.abilities.AbilitySoulBurning;
@@ -15,6 +14,7 @@ import net.bithaven.efficiencyrpg.ability.abilities.AbilityTough;
 import net.bithaven.efficiencyrpg.controller.AttackController;
 import net.bithaven.efficiencyrpg.controller.FlameoController2;
 import net.bithaven.efficiencyrpg.entity.features.Damage;
+import net.bithaven.util.SoundLibrary;
 
 import org.newdawn.slick.Sound;
 

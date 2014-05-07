@@ -103,6 +103,14 @@ public abstract class UIElement implements ControlledInputReciever {
 		}
 	}
 
+	/**
+	 * Should be overridden to provide UIElement's equivalent to Slick2D's render() method. UIElement.render()
+	 * calls UIElement.draw() after making some adjustments to allow draw to function relative to the UIElement's
+	 * position.
+	 * @param gc Should be passed from render().
+	 * @param g Should be passed from render().
+	 * @throws SlickException
+	 */
 	public abstract void draw(GameContainer gc, Graphics g) throws SlickException;
 
 	public abstract void process(GameContainer gc) throws SlickException;

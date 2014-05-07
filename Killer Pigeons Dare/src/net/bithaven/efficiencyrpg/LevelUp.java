@@ -1,11 +1,8 @@
 package net.bithaven.efficiencyrpg;
 
-import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.Random;
 
 import net.bithaven.efficiencyrpg.ability.Ability;
-import net.bithaven.efficiencyrpg.ability.Ability.Category;
 import net.bithaven.efficiencyrpg.ability.AbilityInterface;
 import net.bithaven.efficiencyrpg.entity.Character;
 import net.bithaven.efficiencyrpg.ui.UILayer;
@@ -17,9 +14,12 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.particles.ConfigurableEmitter.RandomValue;
 
-
+/**
+ * UILayer that both handles and displays a character's level up, allowing the player to make the relevant choices.
+ * @author Abe
+ *
+ */
 public class LevelUp extends UILayer {
 	private Character c;
 	private int newLevel;

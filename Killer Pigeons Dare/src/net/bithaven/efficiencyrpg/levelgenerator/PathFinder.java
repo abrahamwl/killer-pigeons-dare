@@ -57,7 +57,7 @@ public class PathFinder {
 				
 				int cx = currPos.x + d.x;
 				int cy = currPos.y + d.y;
-				if(cx < 0 || cx == room.width || cy < 0 || cy == room.height) continue;
+				if(cx < 0 || cx == room.getWidth() || cy < 0 || cy == room.getHeight()) continue;
 
 				Coord newCoord = new Coord(cx, cy, currPos, pm.measure(cx, cy, ex, ey));
 				if(closed.contains(newCoord)) continue;
