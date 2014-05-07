@@ -26,30 +26,6 @@ import net.bithaven.efficiencyrpg.entity.*;
 import net.bithaven.efficiencyrpg.entity.Character;
 
 public class LevelGenerator {
-	public static Map<String,String> mtdt = new HashMap<String, String>();
-	public static List<String[][]> grids = new ArrayList<String[][]>();
-
-	public static HashMap<Integer, Level> levelMap = new HashMap<Integer, Level>();
-	
-	public static int pathLength = 1;
-	public static String[][] createPathGrid(String[][] baseGrid, Coord path, String pathMarker) {
-		int maxc = baseGrid.length;
-		int maxr = baseGrid[0].length;
-		String[][] grid = new String[maxc][maxr];
-		for(int r = 0; r < maxr; r++)
-			for(int c = 0; c < maxc; c++)
-				grid[c][r] = "";
-		
-		pathLength = 0;
-		while(path != null) {
-			if(!(path.x < 0 && path.x >= grid.length && path.y < 0 && path.y >= grid[0].length)) grid[path.x][path.y] = pathMarker;
-			path = path.parent;
-			pathLength++;
-		}
-		
-		return grid;
-	}
-	
 	public static void main(String[] args) {
 		// Turn off image creation for testing purposes
 		Entity.createImage = false;
@@ -64,6 +40,11 @@ public class LevelGenerator {
 			e.printStackTrace();
 		}
 
+		// Store all the generated maps.  When generation 
+		// is done, they are all written out to the level 
+		// files.
+		HashMap<Integer, Level> levelMap = new HashMap<Integer, Level>();
+		
 		// Initial level generation parameters
 		long seed = new Random().nextLong(); // Change to create a different level set
 		int journey = 100; // Make this longer to create more levels
@@ -81,6 +62,8 @@ public class LevelGenerator {
 		// Parameters to make gameplay interesting
 		float forestDensity = 0.3f;
 		float enemyDensity = 0.01f;
+		
+		float arcticNonIceDensity = 0.4f; // E.g. dirt and water
 
 		float badLandObstacleDensity = 0.3f;
 		float badLandEnemyDensity= 0.3f;
@@ -88,7 +71,7 @@ public class LevelGenerator {
 		// Variables to track the journey
 		int prior = 0; // Previous location
 		
-		// id is the distance travelled to get to this room
+		// id is the distance traveled to get to this room
 		int distTravelled = 0;		
 		int id = distTravelled;
 		
@@ -167,14 +150,30 @@ public class LevelGenerator {
 				}
 	
 				// Place obstacles
+				// Forests are the default, until the player reaches near the end.  There 
+				// is a 0.33 probability of encountering arctic rooms, too.  
+				// Then all the levels become really tough dungeons filled with enemies.
 				int enemies = 0;
-				if(journey - distTravelled > 15 || journey < 40) {
-					int trees = (int) Math.round((r * c) * forestDensity);
-					Util.forest(entities, trees, seed);
-					int forestEnemies = (int) Math.round((r * c) * enemyDensity);
-					Util.forestEnemies(entities, forestEnemies, seed);
-					enemies = forestEnemies;
+				if(true && (journey - distTravelled > 35 || journey < 70)) {
+					if(rand.nextFloat() > 0.33) {
+						// Create a forest room.
+						int trees = (int) Math.round((r * c) * forestDensity);
+						Util.forest(entities, trees, seed);
+						int forestEnemies = (int) Math.round((r * c) * enemyDensity);
+						Util.forestEnemies(entities, forestEnemies, seed);
+						enemies = forestEnemies;
+					} else {
+						// Create an arctic room.
+						Util.fill(environment, "i");
+						int nonIce = (int) Math.round((r * c) * arcticNonIceDensity);
+						Util.arctic(environment, nonIce, seed);
+						// Same enemy density as a forest
+						int arcticEnemies = (int) Math.round((r * c) * enemyDensity); 
+						Util.arcticEnemies(entities, arcticEnemies, seed);
+						enemies = arcticEnemies;
+					}
 				} else {
+					// Create a dungeon room full of baddies and hellstone!
 					Util.randomFill(environment, new String[]{"c", "d"}, seed);
 					int badLandObstacles = (int) Math.round((r * c) * badLandObstacleDensity);
 					Util.badLand(entities, badLandObstacles, seed);
@@ -208,8 +207,7 @@ public class LevelGenerator {
 						doorDist.put(door, -1);
 					} else {
 						// Door is reachable, potentially a good level
-						Util.copy(environment, createPathGrid(environment, path, "d"));
-						doorDist.put(door, pathLength);
+						doorDist.put(door, Util.createPathGrid(environment, path, "d"));
 					}
 				}
 				
@@ -241,10 +239,7 @@ public class LevelGenerator {
 					}
 				}
 				
-				// Allow the player to return to the previous level through the entrance door
-				environment[entrance.x][entrance.y] = new Long(prior).toString();
-				
-				// Or not
+				// Block off the entrance - no turning back!
 				environment[entrance.x][entrance.y] = "X";
 				
 				// Put in walls
@@ -253,6 +248,7 @@ public class LevelGenerator {
 					
 				// Print out the level
 				if(goodLevel) {
+					// Increment the enemy level formula
 					int enemyLevel = Math.max(1, (distTravelled - (enemies)) / 10);
 					System.out.println("Enemy level: " + enemyLevel); // DEBUG
 					levelMap.put(id, 
@@ -263,7 +259,6 @@ public class LevelGenerator {
 							.environment(environment)
 							.entities(entities)
 							.exits(doorDist.values().toArray(new Integer[0]))
-							// Increment the enemy level formula
 							.enemyLevel(enemyLevel)
 							.create());
 

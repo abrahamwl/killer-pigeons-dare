@@ -75,6 +75,34 @@ public class Util {
 					dest[x + r][y + c] = source[r][c];
 	}
 	
+	public static int createPathGrid(String[][] grid, Coord path, String pathMarker) {
+		int pathLength = 0;
+		while(path != null) {
+			if(!(path.x < 0 || path.x >= grid.length || path.y < 0 || path.y >= grid[0].length)) grid[path.x][path.y] = pathMarker;
+			path = path.parent;
+			pathLength++;
+		}
+		
+		return pathLength;
+	}
+	
+	public static void arctic(String[][] grid, int count, long seed) {
+		Random r = new Random(seed);
+		int w = grid.length;
+		int h = grid[0].length;
+		for(int i = 0; i < count; i++) {
+			grid[r.nextInt(w)][r.nextInt(h)] = new String[]{"d", "W"}[r.nextInt(2)];;
+		}
+	}
+	
+	public static void arcticEnemies(String[][] grid, int count, long seed) {
+		Random r = new Random(seed);
+		int w = grid.length;
+		int h = grid[0].length;
+		for(int i = 0; i < count; i++)
+			grid[r.nextInt(w)][r.nextInt(h)] = new String[]{"I","G","K"}[r.nextInt(3)];
+	}
+	
 	public static void forest(String[][] grid, int count, long seed) {
 		Random r = new Random(seed);
 		int w = grid.length;
@@ -86,6 +114,7 @@ public class Util {
 		String item = "";
 		for(int i = 0; i < count; i++) {
 			if(grid[x][y].equals("W") && r.nextFloat() < 0.75f) {
+				// Try to make water squares contiguous
 				item = "W";
 				
 				do {
@@ -93,9 +122,10 @@ public class Util {
 					newy = r.nextInt(h);
 				} while(Math.hypot(x - newx, y - newy) > 1.0 || (newx == x && newy == y));
 			} else {
+				// Otherwise, place trees, ice and water around randomly
 				newx = r.nextInt(w);
 				newy = r.nextInt(h);
-				item =  new String[]{"t", "W"}[r.nextInt(2)];
+				item =  new String[]{"t","W"}[r.nextInt(2)];
 			}
 			grid[newx][newy] = item;
 			x = newx;
@@ -108,9 +138,8 @@ public class Util {
 		int w = grid.length;
 		int h = grid[0].length;
 		for(int i = 0; i < count; i++)
-			grid[r.nextInt(w)][r.nextInt(h)] = new String[]{"S","O","K"}[r.nextInt(3)];
+			grid[r.nextInt(w)][r.nextInt(h)] = new String[]{"S","O","K","I"}[r.nextInt(4)];
 	}
-	
 	
 	public static void badLand(String[][] grid, int count, long seed) {
 		Random r = new Random(seed);

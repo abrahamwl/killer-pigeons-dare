@@ -104,7 +104,7 @@ class WinLoseScreen extends UILayer implements SuppliesMusic {
 		else if (state == State.FINISHED) {
 			IMAGE_FINISHED.draw(LEFT, TOP);
 			g.drawString("You have defeated the Killer Pidgeons.", LEFT, TOP + IMAGE_HEIGHT + 14);				
-			g.drawString("They shall kill and destroy nevermore.", LEFT, TOP + IMAGE_HEIGHT + 2 * 14);				
+			g.drawString("The farthest door you reached was " + rLayer.game.hero.farthestRoom + ".", LEFT, TOP + IMAGE_HEIGHT + 2 * 14);				
 		}
 		g.drawString("Click to continue...", LEFT, TOP + IMAGE_HEIGHT + 3 * 14);
 	}

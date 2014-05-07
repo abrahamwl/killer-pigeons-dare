@@ -100,6 +100,7 @@ public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusi
 		ArrayList<Door> doors = room.entitiesAt(game.hero.x, game.hero.y, Door.class);
 		if (doors.size() > 0) {
 			Door door = (Door)doors.get(0);
+			game.hero.farthestRoom = Math.max(game.hero.farthestRoom, door.roomNumber);
 			winLoseScreen.state = WinLoseScreen.State.WON;
 			Character.Record r = game.hero.record.get((int)room.roomNumber);
 			if (winLoseScreen.turnAllBaddiesKilled == -1) {
