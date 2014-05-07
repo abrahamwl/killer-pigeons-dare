@@ -2,7 +2,7 @@ package net.bithaven.efficiencyrpg.levelgenerator;
 
 public class Coord implements Comparable<Coord>{
 	public Coord parent = null;
-	public float goodness = Float.MAX_VALUE; // Used for A* search
+	public double goodness = Float.MAX_VALUE; // Used for A* search
 	public int x;
 	public int y;
 	
@@ -17,18 +17,11 @@ public class Coord implements Comparable<Coord>{
 		this.parent = parent;
 	}
 	
-	public Coord(int x, int y, Coord parent, float goodness) {
+	public Coord(int x, int y, Coord parent, double d) {
 		this.x = x;
 		this.y = y;
 		this.parent = parent;
-		this.goodness = goodness;
-	}
-	
-	public Coord(int x, int y, Coord parent, Coord destination) {
-		this.x = x;
-		this.y = y;
-		this.parent = parent;
-		this.goodness = dist(destination);
+		this.goodness = d;
 	}
 	
 	public boolean equals(Object c) {
