@@ -3,7 +3,6 @@ package net.bithaven.efficiencyrpg.entity;
 import net.bithaven.efficiencyrpg.ability.Hooked;
 import net.bithaven.efficiencyrpg.ability.MovementPassabilityModifier;
 import net.bithaven.efficiencyrpg.ability.TriggersOnMovedOn;
-import net.bithaven.efficiencyrpg.ability.abilities.AbilitySoulBurning;
 import net.bithaven.efficiencyrpg.ability.abilities.AbilitySoulFrozen;
 import net.bithaven.efficiencyrpg.action.ActionMove;
 import net.bithaven.efficiencyrpg.entity.features.Damage;

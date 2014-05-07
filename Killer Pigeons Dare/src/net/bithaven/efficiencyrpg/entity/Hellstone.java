@@ -1,13 +1,8 @@
 package net.bithaven.efficiencyrpg.entity;
 
-import net.bithaven.efficiencyrpg.Room;
 import net.bithaven.efficiencyrpg.ability.MovementPassabilityModifier;
 import net.bithaven.efficiencyrpg.entity.features.Damage;
 import net.bithaven.efficiencyrpg.event.DamageEvent;
-
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
 
 public class Hellstone extends Entity {
 	public Hellstone () {

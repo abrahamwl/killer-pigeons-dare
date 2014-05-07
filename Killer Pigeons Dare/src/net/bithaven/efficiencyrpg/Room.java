@@ -191,6 +191,7 @@ public class Room {
 		return out;
 	}
 
+	@SuppressWarnings("unchecked")
 	public <E extends Entity> ArrayList<E> entitiesAt (int x, int y, Entity.Layer layer) {
 		ArrayList<E> out = new ArrayList<E>();
 		for (Entity e : entities) {

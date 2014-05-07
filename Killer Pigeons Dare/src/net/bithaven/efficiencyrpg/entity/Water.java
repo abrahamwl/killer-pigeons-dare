@@ -1,14 +1,6 @@
 package net.bithaven.efficiencyrpg.entity;
 
-import java.util.EnumSet;
-
-import net.bithaven.efficiencyrpg.Room;
 import net.bithaven.efficiencyrpg.ability.MovementPassabilityModifier;
-import net.bithaven.efficiencyrpg.entity.Entity.Layer;
-
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
 
 
 public class Water extends Entity {

@@ -1,17 +1,13 @@
 package net.bithaven.efficiencyrpg.ability.abilities;
 
-import net.bithaven.efficiencyrpg.Game;
-import net.bithaven.efficiencyrpg.Room;
 import net.bithaven.efficiencyrpg.ability.Ability;
 import net.bithaven.efficiencyrpg.ability.ConsumesMeleeAttacked;
 import net.bithaven.efficiencyrpg.ability.Hooked;
 import net.bithaven.efficiencyrpg.action.ActionMeleeAttack;
 import net.bithaven.efficiencyrpg.entity.Actor;
 import net.bithaven.efficiencyrpg.event.effect.RisingTextEffect;
-import net.bithaven.efficiencyrpg.event.effect.SoundEffect;
 
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Image;
 
 
 public class AbilityBlock extends Ability implements ConsumesMeleeAttacked {	

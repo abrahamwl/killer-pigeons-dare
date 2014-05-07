@@ -9,7 +9,6 @@ import net.bithaven.util.ImageLibrary;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 public class Door extends Entity {
 	private static final Image CLOSED_IMAGE = ImageLibrary.load("res/open1/dc-dngn/dngn_closed_door.png");

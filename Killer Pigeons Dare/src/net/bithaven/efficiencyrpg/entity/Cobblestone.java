@@ -1,10 +1,6 @@
 package net.bithaven.efficiencyrpg.entity;
 
 
-import net.bithaven.efficiencyrpg.Room;
-
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 public class Cobblestone extends Entity {
 	public Cobblestone () {

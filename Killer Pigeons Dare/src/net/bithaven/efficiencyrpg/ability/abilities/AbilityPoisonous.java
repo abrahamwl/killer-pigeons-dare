@@ -3,7 +3,6 @@ package net.bithaven.efficiencyrpg.ability.abilities;
 import net.bithaven.efficiencyrpg.ability.Ability;
 import net.bithaven.efficiencyrpg.ability.Hooked;
 import net.bithaven.efficiencyrpg.ability.TriggersOnMeleeHit;
-import net.bithaven.efficiencyrpg.ability.Ability.Category;
 import net.bithaven.efficiencyrpg.action.ActionMeleeAttack;
 import net.bithaven.efficiencyrpg.entity.Actor;
 import net.bithaven.efficiencyrpg.entity.features.Damage;
