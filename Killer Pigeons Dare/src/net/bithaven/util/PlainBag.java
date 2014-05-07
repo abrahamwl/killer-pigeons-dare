@@ -92,12 +92,19 @@ public class PlainBag<T> implements Collection<T> {
 			if (l.o.equals(o)) {
 				if (prev != null) {
 					prev.next = l.next;
+					if (last == l) {
+						last = prev;
+					}
 				} else {
 					first = l.next;
+					if (last == l) {
+						last = null;
+					}
 				}
 				size--;
 				return true;
 			}
+			prev = l;
 			l = l.next;
 		}
 		return false;
@@ -119,12 +126,19 @@ public class PlainBag<T> implements Collection<T> {
 			if (!collection.contains(l.o)) {
 				if (prev != null) {
 					prev.next = l.next;
+					if (last == l) {
+						last = prev;
+					}
 				} else {
 					first = l.next;
+					if (last == l) {
+						last = null;
+					}
 				}
 				size--;
 				out = true;
 			}
+			prev = l;
 			l = l.next;
 		}
 		return out;
