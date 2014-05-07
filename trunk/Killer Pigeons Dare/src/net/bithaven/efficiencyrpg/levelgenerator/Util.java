@@ -1,16 +1,10 @@
 package net.bithaven.efficiencyrpg.levelgenerator;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Random;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import net.bithaven.efficiencyrpg.Dir;
-import net.bithaven.efficiencyrpg.Room;
-import net.bithaven.efficiencyrpg.entity.Character;
 
 public class Util {
 	/*
@@ -51,31 +45,39 @@ public class Util {
 		return roomString;
 	}
 	
-	public static void fill(String[][] grid, String item) {
+	public static String[][] createGrid(int w, int h, String fill) {
+		return fill(new String[w][h], fill);
+	}
+	
+	public static String[][] fill(String[][] grid, String item) {
 		for(int r = 0; r < grid.length; r++)
 			for(int c = 0; c < grid[r].length; c++)
 				grid[r][c] = item;
+		return grid;
 	}
 	
-	public static void randomFill(String[][] grid, String[] items, long seed) {
+	public static String[][] randomFill(String[][] grid, String[] items, long seed) {
 		Random rand = new Random(seed);
 		for(int r = 0; r < grid.length; r++)
 			for(int c = 0; c < grid[r].length; c++)
 				grid[r][c] = items[rand.nextInt(items.length)];
+		return grid;
 	}
 	
-	public static void copy(String[][] dest, String[][] source) {
+	public static String[][] copy(String[][] dest, String[][] source) {
 		for(int r = 0; r < dest.length; r++)
 			for(int c = 0; c < dest[r].length; c++)
 				if(source[r][c] != "") 
 					dest[r][c] = source[r][c];
+		return dest;
 	}
 	
-	public static void copy(String[][] dest, String[][] source, int x, int y) {
+	public static String[][] copy(String[][] dest, String[][] source, int x, int y) {
 		for(int r = 0; r < source.length; r++)
 			for(int c = 0; c < source[r].length; c++)
 				if(source[r][c] != "") 
 					dest[x + r][y + c] = source[r][c];
+		return dest;
 	}
 	
 	public static int createPathGrid(String[][] grid, Coord path, String pathMarker) {
@@ -117,7 +119,6 @@ public class Util {
 		int newx = 0;
 		int y = 0;
 		int newy = 0;
-		String item = "";
 		for(int i = 0; i < count; i++) {
 			if(env[x][y].equals("W") && r.nextFloat() < 0.75f) {
 				// Try to make water squares contiguous

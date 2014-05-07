@@ -2,22 +2,23 @@ package net.bithaven.efficiencyrpg.controller;
 
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 
 import net.bithaven.efficiencyrpg.Dir;
 import net.bithaven.efficiencyrpg.Game;
 import net.bithaven.efficiencyrpg.InfoPanel;
-import net.bithaven.efficiencyrpg.Room;
 import net.bithaven.efficiencyrpg.ability.Ability;
 import net.bithaven.efficiencyrpg.ability.ActivatedAbility;
-import net.bithaven.efficiencyrpg.action.*;
+import net.bithaven.efficiencyrpg.action.Action;
+import net.bithaven.efficiencyrpg.action.ActionActivateAbility;
+import net.bithaven.efficiencyrpg.action.ActionNoneYet;
+import net.bithaven.efficiencyrpg.action.ActionWait;
+import net.bithaven.efficiencyrpg.action.Validity;
 import net.bithaven.efficiencyrpg.entity.Character;
 import net.bithaven.efficiencyrpg.entity.Entity;
-import net.bithaven.efficiencyrpg.ui.UILayer;
 import net.bithaven.efficiencyrpg.ui.UIElement;
+import net.bithaven.efficiencyrpg.ui.UILayer;
 
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -177,7 +178,6 @@ public class UserController extends BasicController {
 		@Override
 		public int getWidth(Graphics g) {
 			if (width == 0) {
-				Font f = g.getFont();
 				height = children.size() * 32 + 4;
 				for (UIElement ability : children) {
 					width = Math.max(width, ability.getWidth(g) + 4);

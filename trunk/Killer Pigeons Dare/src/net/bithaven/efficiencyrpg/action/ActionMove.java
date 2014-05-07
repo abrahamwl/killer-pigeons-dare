@@ -1,18 +1,13 @@
 package net.bithaven.efficiencyrpg.action;
 
-import java.util.LinkedList;
-
-import javax.swing.text.html.parser.Entity;
-
-import com.google.common.collect.TreeMultiset;
-
-import net.bithaven.efficiencyrpg.*;
-import net.bithaven.efficiencyrpg.ability.ConsumesMeleeAttacked;
+import net.bithaven.efficiencyrpg.Dir;
 import net.bithaven.efficiencyrpg.ability.PriorityComparator;
 import net.bithaven.efficiencyrpg.ability.TriggersOnMove;
 import net.bithaven.efficiencyrpg.ability.TriggersOnMovedOn;
 import net.bithaven.efficiencyrpg.entity.Actor;
 import net.bithaven.efficiencyrpg.entity.features.StatusEffect;
+
+import com.google.common.collect.TreeMultiset;
 
 public class ActionMove extends Action {
 	public Dir dir;
