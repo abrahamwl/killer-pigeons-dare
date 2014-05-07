@@ -28,17 +28,18 @@ import org.newdawn.slick.geom.Transform;
  * RoomLayer handles UI and processing for the current Room.
  * @author Abe
  */
-public class RoomLayer extends UILayer {
+public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusic {
 	Game game;
 	Room room;
 	private InfoPanel panel;
 	private WinLoseScreen winLoseScreen;
+	private String musicToPlay;
 	private int loadRoomNumber = -1;
+
 	private static final Polygon MOVE_CURSOR = new Polygon(new float[] {0, 0, -32, 16, -32, -16});
+	private Shape drawCursor = MOVE_CURSOR;
+	
 	private static final Sound SOUND_ENTER_ROOM;
-
-	public final RoomLayerUIInterfaces uiInterfaces = new RoomLayerUIInterfaces();
-
 	static {
 		String extension = "ogg";
 		File[] f = (new File("./res/")).listFiles(new RegexpFilter(".*aif"));
@@ -200,7 +201,7 @@ public class RoomLayer extends UILayer {
 		game.events.add(new SoundEffect(SOUND_ENTER_ROOM));
 		
 		if (room.metadata.containsKey("music")) {
-			uiInterfaces.musicToPlay = room.metadata.get("music");
+			musicToPlay = room.metadata.get("music");
 		}
 		
 		if (panel != null) panel.target = null;
@@ -208,61 +209,53 @@ public class RoomLayer extends UILayer {
 		loadRoomNumber = -1;
 	}
 
+	public String musicToPlay() {
+		return musicToPlay;
+	}
+
 	public void loadRoom(int roomNumber) {
 		loadRoomNumber  = roomNumber;
+	}
+
+	public void renderCursor(GameContainer gc, Graphics g) {
+		int x = gc.getInput().getMouseX();
+		int y = gc.getInput().getMouseY();
+		int hX = game.hero.x  * Entity.CELL_SIZE;
+		int hY = game.hero.y  * Entity.CELL_SIZE;
+		if (x > hX + Entity.CELL_SIZE) {
+			if (y < hY) {
+				drawCursor = MOVE_CURSOR.transform(Transform.createRotateTransform(-(float)(Math.PI * .25)));
+			} else if (y > hY + Entity.CELL_SIZE) {
+				drawCursor = MOVE_CURSOR.transform(Transform.createRotateTransform((float)(Math.PI * .25)));
+			} else {
+				drawCursor = MOVE_CURSOR;
+			}
+		} else if (x < hX) {
+			if (y < hY) {
+				drawCursor = MOVE_CURSOR.transform(Transform.createRotateTransform(-(float)(Math.PI * .75)));
+			} else if (y > hY + Entity.CELL_SIZE) {
+				drawCursor = MOVE_CURSOR.transform(Transform.createRotateTransform((float)(Math.PI *.75)));
+			} else {
+				drawCursor = MOVE_CURSOR.transform(Transform.createRotateTransform((float)Math.PI));
+			}
+		} else {
+			if (y < hY) {
+				drawCursor = MOVE_CURSOR.transform(Transform.createRotateTransform(-(float)(Math.PI * .5)));
+			} else if (y > hY + Entity.CELL_SIZE) {
+				drawCursor = MOVE_CURSOR.transform(Transform.createRotateTransform((float)(Math.PI *.5)));
+			} else {
+				//Make it like a pointing arrow.
+				drawCursor = MOVE_CURSOR.transform(Transform.createRotateTransform(-(float)(Math.PI *.625)));
+			}
+		}
+
+		drawCursor = drawCursor.transform(Transform.createTranslateTransform(x,y));
+		g.setColor(Color.white);
+		g.fill(drawCursor);
 	}
 
 	@Override
 	public int getWidth(Graphics g) {
 		return Game.GAME_WIDTH;
-	}
-	
-	final class RoomLayerUIInterfaces implements DrawsMouseCursor, SuppliesMusic {
-		private String musicToPlay;
-		private Shape drawCursor = MOVE_CURSOR;
-		
-		private RoomLayerUIInterfaces () {
-		}
-		
-		public void renderCursor(GameContainer gc, Graphics g) {
-			int x = gc.getInput().getMouseX();
-			int y = gc.getInput().getMouseY();
-			int hX = game.hero.x  * Entity.CELL_SIZE;
-			int hY = game.hero.y  * Entity.CELL_SIZE;
-			if (x > hX + Entity.CELL_SIZE) {
-				if (y < hY) {
-					drawCursor = MOVE_CURSOR.transform(Transform.createRotateTransform(-(float)(Math.PI * .25)));
-				} else if (y > hY + Entity.CELL_SIZE) {
-					drawCursor = MOVE_CURSOR.transform(Transform.createRotateTransform((float)(Math.PI * .25)));
-				} else {
-					drawCursor = MOVE_CURSOR;
-				}
-			} else if (x < hX) {
-				if (y < hY) {
-					drawCursor = MOVE_CURSOR.transform(Transform.createRotateTransform(-(float)(Math.PI * .75)));
-				} else if (y > hY + Entity.CELL_SIZE) {
-					drawCursor = MOVE_CURSOR.transform(Transform.createRotateTransform((float)(Math.PI *.75)));
-				} else {
-					drawCursor = MOVE_CURSOR.transform(Transform.createRotateTransform((float)Math.PI));
-				}
-			} else {
-				if (y < hY) {
-					drawCursor = MOVE_CURSOR.transform(Transform.createRotateTransform(-(float)(Math.PI * .5)));
-				} else if (y > hY + Entity.CELL_SIZE) {
-					drawCursor = MOVE_CURSOR.transform(Transform.createRotateTransform((float)(Math.PI *.5)));
-				} else {
-					//Make it like a pointing arrow.
-					drawCursor = MOVE_CURSOR.transform(Transform.createRotateTransform(-(float)(Math.PI *.625)));
-				}
-			}
-
-			drawCursor = drawCursor.transform(Transform.createTranslateTransform(x,y));
-			g.setColor(Color.white);
-			g.fill(drawCursor);
-		}
-
-		public String musicToPlay() {
-			return musicToPlay;
-		}
 	}
 }
