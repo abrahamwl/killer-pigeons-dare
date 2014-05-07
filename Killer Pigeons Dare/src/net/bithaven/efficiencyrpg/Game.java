@@ -28,6 +28,9 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 		NO_TURNS;
 	}
 	
+	/**
+	 * While Game is in the LogicState NO_TURNS, only Events and Effects will be executed.
+	 */
 	LogicState logicState = LogicState.ALL_LOGIC;
 	
 	public static final int FPS = 60;
@@ -66,7 +69,7 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 	
 	// Can be passed multiple room files on the command line to create a complex room
 	public static void main(String[] args) throws SlickException {
-		Game kpg = new Game("Killer Pigeons RPG");
+		Game kpg = new Game("Effeciency RPG");
 		AppGameContainer app = new AppGameContainer(kpg);
 		app.setDisplayMode(512 + MARGIN, 512, false);
 		app.start();
