@@ -71,7 +71,7 @@ public class Game extends BasicGame implements DrawsMouseCursor {
 	public static void main(String[] args) throws SlickException {
 		Game kpg = new Game("Effeciency RPG");
 		AppGameContainer app = new AppGameContainer(kpg);
-		app.setDisplayMode(512 + MARGIN, 512, false);
+		app.setDisplayMode(GAME_WIDTH, LEVEL_AREA_WIDTH, false);
 		app.start();
 	}
 
