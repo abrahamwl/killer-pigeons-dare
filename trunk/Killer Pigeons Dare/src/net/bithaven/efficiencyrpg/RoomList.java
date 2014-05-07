@@ -1,15 +1,17 @@
 package net.bithaven.efficiencyrpg;
 
-import java.util.TreeMap;
-
 import net.bithaven.efficiencyrpg.entity.Character;
 import net.bithaven.efficiencyrpg.ui.UILayer;
 import net.bithaven.util.Util;
 
 import org.newdawn.slick.*;
 
-
-
+/**
+ * UILayer that displays a list of the rooms visited, the player's scores on those rooms.
+ * Clicking on a room allows the player to replay that room.
+ * @author Abe
+ *
+ */
 class RoomList extends UILayer {
 	static final int IMAGE_WIDTH = 350;
 	static final int OUTER_WIDTH = IMAGE_WIDTH + 10;

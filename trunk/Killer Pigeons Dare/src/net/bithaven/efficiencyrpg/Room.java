@@ -22,8 +22,8 @@ public class Room {
 	int initialMonsterCount = 0;
 	int totalMonsterLevels = 0;
 	
-	public int width = 0;
-	public int height = 0;
+	private int width;
+	private int height;
 	
 	public Entity addEntity(String es, int ex, int ey) {
 		Entity entity = null;
@@ -63,9 +63,14 @@ public class Room {
 		return game.hero;
 	}
 
-	// This function is passed a series of class names 
-	// representing entities.  Columns are broken up by 
-	// commas, rows broken up by semicolons.
+	/**
+	 * This function is passed a series of class names 
+	 * representing entities.  Columns are broken up by 
+	 * commas, rows broken up by semicolons.
+	 * @param game
+	 * @param roomStrings
+	 * @param roomNumber
+	 */
 	public Room (Game game, String[] roomStrings, long roomNumber) {
 		this.roomNumber = roomNumber;
 		this.game = game;
@@ -210,10 +215,21 @@ public class Room {
 
 		return pass;
 	}
-
+	
+	/**
+	 * Calls cleanup() on every Entity in the Room except Characters.
+	 */
 	public void cleanup() {
 		for (Entity e : entities) {
 			if (!(e instanceof Character)) e.cleanup();
 		}
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
 	}
 }

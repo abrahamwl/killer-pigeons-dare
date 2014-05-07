@@ -124,7 +124,7 @@ class WinLoseScreen extends UILayer implements SuppliesMusic {
 		if (state == State.FINISHED) {
 			return "music_Win";
 		} else {
-			return rLayer.musicToPlay();
+			return rLayer.uiInterfaces.musicToPlay();
 		}
 	}
 

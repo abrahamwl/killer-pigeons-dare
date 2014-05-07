@@ -84,7 +84,10 @@ public enum Dir {
 		}
 	}
 	
-	// 0 is North, pi is South, 1/2 * pi is East, 3/2 * pi is West
+	/**
+	 * @param radian 0 is North, pi is South, 1/2 * pi is East, 3/2 * pi is West.
+	 * @return The Dir that returns to the radian.
+	 */
 	public static Dir fromRadian(double radian) {
 		return fromXY(Math.round((int) Math.sin(radian)), (int) Math.round(Math.cos(radian)));
 	}
