@@ -1,6 +1,8 @@
 package net.bithaven.efficiencyrpg;
 
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Random;
 
 import net.bithaven.efficiencyrpg.ability.Ability;
 import net.bithaven.efficiencyrpg.ability.Ability.Category;
@@ -8,12 +10,14 @@ import net.bithaven.efficiencyrpg.ability.AbilityInterface;
 import net.bithaven.efficiencyrpg.entity.Character;
 import net.bithaven.efficiencyrpg.ui.UILayer;
 
+import org.apache.commons.lang3.RandomUtils;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.particles.ConfigurableEmitter.RandomValue;
 
 
 public class LevelUp extends UILayer {
@@ -88,14 +92,29 @@ public class LevelUp extends UILayer {
 
 	public void process(GameContainer gc) {
 		if (selectsLeft > 0) {
-			options = new LinkedList<Ability>();
-			for (Ability a : Ability.abilityTypes) {
-				if (a.allowed(c)) options.add(a);
-			}
-			options.removeAll(c.abilities);
-			
-			if (options.size() > 0) {
-				levelUpStep = 2;
+			if (options == null) {
+				options = new LinkedList<Ability>();
+				for (Ability a : Ability.abilityTypes) {
+					if (a.allowed(c)) options.add(a);
+				}
+				options.removeAll(c.abilities);
+				
+				if (options.size() > 0) {
+					while (options.size() > 3) {
+						options.remove(RandomUtils.nextInt(0, options.size()));
+					}
+					
+					//Removes unused indexes.
+					/*LinkedList<Ability> newOptions = new LinkedList<Ability>();
+					for (Ability option : options) {
+						if (option != null) {
+							newOptions.add(option);
+						}
+					}
+					options = newOptions;*/
+					
+					levelUpStep = 2;
+				}
 			}
 		}
 		
@@ -116,12 +135,13 @@ public class LevelUp extends UILayer {
 			
 			if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 				//System.out.println("Mouse click at " + mX + ", " + mY); //DEBUG
-				if (mX >= LEFT && mX <= LEFT + IMAGE_WIDTH && mY >= LIST_TOP && mY <= LIST_TOP + options.size() * 32) {
-					int selection = (mY - LIST_TOP) / 32;
+				if (mX >= LEFT && mX <= LEFT + IMAGE_WIDTH && mY >= LIST_TOP && mY <= LIST_TOP + options.size() * Ability.ICON_SIZE) {
+					int selection = (mY - LIST_TOP) / Ability.ICON_SIZE;
 					selectsLeft--;
 					c.abilities.add(options.get(selection));
 					levelUpStep = 1;
 					children.clear();
+					options = null;
 				}
 			}
 		} else if (levelUpStep == 1) {

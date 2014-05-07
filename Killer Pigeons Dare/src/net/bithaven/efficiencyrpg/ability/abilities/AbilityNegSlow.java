@@ -11,7 +11,7 @@ import net.bithaven.efficiencyrpg.entity.features.StatusEffect;
 public class AbilityNegSlow extends Ability implements TriggersOnMove {
 	public AbilityNegSlow() {
 		super(	"Slow",
-				"When <name> moves, it cannot move the next turn.",
+				"When <name> moves, <it> cannot move the next turn.",
 				9, 18, Category.NEGATIVE);
 	}
 
