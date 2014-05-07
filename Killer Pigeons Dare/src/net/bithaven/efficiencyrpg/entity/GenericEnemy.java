@@ -30,7 +30,10 @@ public class GenericEnemy extends Actor {
 		GenericEnemy e;
 		switch (c) {
 		case 'G': return new GenericEnemy(level, "Golem", 0, AbilityTough.class, "res/open1/dc-mon/nonliving/clay_golem.png", SoundLibrary.getSound("res/sound_effect_attack_goblin"));
-		case 'S': return new GenericEnemy(level, "Snake", 0, AbilityPoisonous.class, "res/open1/dc-mon/animals/snake.png", SoundLibrary.getSound("res/sound_effect_attack_snake"));
+		case 'S': e = new GenericEnemy(level, "Snake", 0, AbilityPoisonous.class, "res/open1/dc-mon/animals/snake.png", SoundLibrary.getSound("res/sound_effect_attack_snake"));
+			e.abilities.add(Ability.getAbility(AbilitySwimming.class));
+			return e;
+		case 'r': return new GenericEnemy(level, "Rat", 0, null, "res/open1/dc-mon/animals/grey_rat.png", null);
 		case 'K': return new GenericEnemy(level, "Giant Fly", 0, AbilityFlying.class, "res/open1/dc-mon/animals/giant_blowfly.png", SoundLibrary.getSound("res/sound_effect_attack_killer_pidgeon"));
 		case 'O': e =  new GenericEnemy(level, "Kobold", 2, null, "res/open1/dc-mon/kobold.png", null);
 			e.gender = Gender.MALE;
