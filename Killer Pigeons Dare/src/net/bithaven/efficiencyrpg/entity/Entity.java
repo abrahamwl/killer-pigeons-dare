@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 import net.bithaven.efficiencyrpg.Room;
+import net.bithaven.util.ImageLibrary;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -51,15 +52,18 @@ public abstract class Entity {
 		this(name, imageName, EnumSet.of(layer));
 	}
 	
+	public Entity(String name, Image image, Layer layer) {
+		this(name, image, EnumSet.of(layer));
+	}
+	
 	public Entity(String name, String imageName, EnumSet<Layer> layers) {
+		this(name, (createImage ? ImageLibrary.load(imageName) : null), layers);
+	}
+
+	public Entity(String name, Image image, EnumSet<Layer> layers) {
 		this.name = name;
 		this.layers = layers;
-		try {
-			if (createImage) this.image = new Image(imageName);
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.image = image;
 	}
 
 	public void render(GameContainer gc, Graphics g) {
