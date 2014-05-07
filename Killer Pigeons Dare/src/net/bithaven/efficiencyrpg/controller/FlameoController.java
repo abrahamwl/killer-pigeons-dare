@@ -30,36 +30,23 @@ public class FlameoController extends BasicController {
 	}
 	
 	private Action spawnFlame(Room room, Actor t) {
-		int distx = a.x - t.x;
-		int disty = a.y - t.y;
 		int distToTarget = Math.abs(a.x - t.x) + Math.abs(a.y - t.y);
 		int testDist = 0;
 
-		Dir currDir = null;
-		int currpoint = 0;
-		boolean dirEquidist[] = new boolean[9]; 
-		int pointx[] = new int[9];
-		int pointy[] = new int[9];
+		int pointx = 0;
+		int pointy = 0;
 		
 		// Find equidistance directions
-		for(int i = 0; i < Dir.values().length; i++, currpoint++) {
-			currDir = Dir.values()[i]; 
-			if(currDir == Dir.NO_DIRECTION) continue;
-			pointx[i] = a.x + currDir.x;
-			pointy[i] = a.y + currDir.y;
+		for(Dir currDir : Dir.compass) {
+			pointx = a.x + currDir.x;
+			pointy = a.y + currDir.y;
 			
-			testDist = Math.abs(pointx[i] - t.x) + Math.abs(pointy[i] - t.y);
+			testDist = Math.abs(pointx - t.x) + Math.abs(pointy - t.y);
 			
-			dirEquidist[currpoint] = false;
-			if(testDist == distToTarget) 
-				dirEquidist[currpoint] = true;
+			if(testDist == distToTarget && 
+				room.checkForPassableAt(pointx, pointy, a)) 
+				return new ActionSpawnFlameo(currDir);
 		}				
-		
-		// Spawn flame in first equidistance point that doesn't have flame
-		for(int i = 0; i < 9; i++)
-			if(dirEquidist[i] && 
-					room.checkForPassableAt(pointx[i], pointy[i], a)) 
-				return new ActionSpawnFlameo(Dir.values()[i]);
 		
 		return new ActionWait();
 	}
