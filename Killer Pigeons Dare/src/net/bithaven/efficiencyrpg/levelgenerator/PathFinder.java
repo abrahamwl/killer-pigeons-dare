@@ -7,26 +7,33 @@ import java.util.Queue;
 
 import net.bithaven.efficiencyrpg.Dir;
 import net.bithaven.efficiencyrpg.Room;
-import net.bithaven.efficiencyrpg.entity.Character;
-import net.bithaven.efficiencyrpg.levelgenerator.Util.PathMetric;
+import net.bithaven.efficiencyrpg.entity.Actor;
 
 public class PathFinder {
+	// Helper class so different metrics can be used in A*
+	public static class PathMetric {
+		public double measure(int sx, int sy, int ex, int ey) {return 0.0;}
+	}
+	
 	// Default to simple distance metric
-	PathFinder(){}	
+	public PathFinder(){}	
 	PathMetric pm = new PathMetric() {			
 		@Override
-		public double measure(int sx, int sy, int ex, int ey, Character c, Room r) {
+		public double measure(int sx, int sy, int ex, int ey) {
 			return Math.hypot(sx - ex,  sy - ey);
 		}
 	};
 	
 	// Allow custom metrics
-	PathFinder(PathMetric pm) {
+	public PathFinder(PathMetric pm) {
 		this.pm = pm;
 	}
 
 	public Coord pathCheck(int sx, int sy, int ex, int ey, Room room,
-			Character hero, int limit) {
+			Actor a, int limit) {
+		// Cain't go nowhere anywho
+		if(!room.checkForPassableAt(sx, sy, a)) return null;
+		
 		// Search uses a PriorityQueue to 
 		// make it a rudimentary A* search
 		Queue<Coord> open = new PriorityQueue<Coord>();
@@ -54,7 +61,7 @@ public class PathFinder {
 
 				Coord newCoord = new Coord(cx, cy, currPos, pm.measure(cx, cy, ex, ey));
 				if(closed.contains(newCoord)) continue;
-				if(!room.checkForPassableAt(newCoord.x, newCoord.y, hero)) continue;
+				if(!room.checkForPassableAt(newCoord.x, newCoord.y, a)) continue;
 
 				if(newCoord.equals(end)) return newCoord;
 

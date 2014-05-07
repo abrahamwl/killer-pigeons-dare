@@ -6,8 +6,6 @@ import net.bithaven.efficiencyrpg.action.*;
 import net.bithaven.efficiencyrpg.entity.Actor;
 import net.bithaven.efficiencyrpg.entity.Character;
 
-import org.newdawn.slick.GameContainer;
-
 public class AttackController extends BasicController {
 	private int waitDistance = 0;
 	
@@ -37,7 +35,8 @@ public class AttackController extends BasicController {
 		return chooseMovement(a.room, a, h);
 	}
 
-	static protected Action chooseMovement(Room room, Actor a, Actor t) {
+	// TODO This can be done more concisely using the Dir.fromRadian function
+	public static Action chooseMovement(Room room, Actor a, Actor t) {
 		if (a.x > t.x) {
 			if (a.y > t.y) {
 				if (room.checkForPassableAt(a.x - 1, a.y - 1, a)) {
