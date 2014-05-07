@@ -9,6 +9,7 @@ import java.util.TreeMap;
 public class Character extends Actor {
 	public TreeMap<Integer,Record> record = new TreeMap<Integer,Record>();
 	public int totalXP = 5;
+	public int farthestRoom = 0;
 	
 	public Character () {
 		super("Hero", 1, "res/open1/dc-mon/human.png");
