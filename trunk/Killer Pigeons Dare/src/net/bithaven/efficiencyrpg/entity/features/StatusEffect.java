@@ -75,6 +75,8 @@ public class StatusEffect {
 		case POISONED:
 			on.room.game.events.add(new DamageEvent(null, null, on, new Damage(((Float)amount).intValue(), Damage.Type.POISON), null));
 			break;
+		default:
+			break;
 		}
 		reduceBy(effect.countDown);
 	}

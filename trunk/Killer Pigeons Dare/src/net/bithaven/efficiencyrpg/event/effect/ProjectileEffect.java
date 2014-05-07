@@ -6,11 +6,9 @@ import java.util.LinkedList;
 import net.bithaven.efficiencyrpg.Game;
 import net.bithaven.efficiencyrpg.entity.Entity;
 
-import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
 
 public class ProjectileEffect extends Effect {
 	private static final float TRAVEL_SECONDS = .5f;

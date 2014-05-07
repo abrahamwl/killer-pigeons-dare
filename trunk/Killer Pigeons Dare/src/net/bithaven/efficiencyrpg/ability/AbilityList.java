@@ -7,6 +7,9 @@ import java.util.LinkedHashSet;
 import java.util.TreeSet;
 
 public class AbilityList extends LinkedHashSet<Ability> {
+	private static final long serialVersionUID = -5451091765501641622L;
+
+	@SuppressWarnings("unchecked")
 	public <T extends Ability> T getFirstAbility(Class<T> c) {
 		AbilityInterface out = null;
 		int priority = Integer.MIN_VALUE;

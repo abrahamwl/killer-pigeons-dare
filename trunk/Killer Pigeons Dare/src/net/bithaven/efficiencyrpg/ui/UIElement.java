@@ -57,6 +57,8 @@ public abstract class UIElement implements ControlledInputReciever {
 	}
 	
 	public class Children extends ArrayList<UIElement> {
+		private static final long serialVersionUID = -2197783254691759930L;
+
 		@Override
 		public void add(int index, UIElement element) {
 			addEffects(element);

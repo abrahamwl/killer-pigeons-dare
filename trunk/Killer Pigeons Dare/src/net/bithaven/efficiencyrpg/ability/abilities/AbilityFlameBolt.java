@@ -2,19 +2,19 @@ package net.bithaven.efficiencyrpg.ability.abilities;
 
 import java.util.ArrayList;
 
+import net.bithaven.efficiencyrpg.ability.ActivatedAbility;
+import net.bithaven.efficiencyrpg.ability.Hooked;
+import net.bithaven.efficiencyrpg.action.ActionRangedAttack;
+import net.bithaven.efficiencyrpg.action.Validity;
+import net.bithaven.efficiencyrpg.entity.Actor;
+import net.bithaven.efficiencyrpg.entity.Character;
+import net.bithaven.efficiencyrpg.entity.features.Damage;
+import net.bithaven.efficiencyrpg.event.effect.ProjectileEffect;
+import net.bithaven.efficiencyrpg.event.effect.SoundEffect;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
-
-import net.bithaven.efficiencyrpg.Game;
-import net.bithaven.efficiencyrpg.ability.*;
-import net.bithaven.efficiencyrpg.ability.Ability.Category;
-import net.bithaven.efficiencyrpg.action.ActionRangedAttack;
-import net.bithaven.efficiencyrpg.action.Validity;
-import net.bithaven.efficiencyrpg.entity.*;
-import net.bithaven.efficiencyrpg.entity.Character;
-import net.bithaven.efficiencyrpg.entity.features.Damage;
-import net.bithaven.efficiencyrpg.event.effect.*;
 
 
 public class AbilityFlameBolt extends ActivatedAbility {

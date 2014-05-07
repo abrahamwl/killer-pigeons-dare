@@ -1,12 +1,9 @@
 package net.bithaven.efficiencyrpg.ability.abilities;
 
-import net.bithaven.efficiencyrpg.Game;
 import net.bithaven.efficiencyrpg.ability.Ability;
 import net.bithaven.efficiencyrpg.ability.Hooked;
 import net.bithaven.efficiencyrpg.ability.TriggersAfterInit;
 import net.bithaven.efficiencyrpg.entity.Actor;
-
-import org.newdawn.slick.Image;
 
 
 public class AbilityTough extends Ability implements TriggersAfterInit {

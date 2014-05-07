@@ -1,10 +1,7 @@
 package net.bithaven.efficiencyrpg.action;
 
-import java.util.ArrayList;
-
-import net.bithaven.efficiencyrpg.*;
+import net.bithaven.efficiencyrpg.Dir;
 import net.bithaven.efficiencyrpg.entity.Actor;
-import net.bithaven.efficiencyrpg.entity.Entity;
 import net.bithaven.efficiencyrpg.entity.features.Damage;
 import net.bithaven.efficiencyrpg.event.DamageEvent;
 

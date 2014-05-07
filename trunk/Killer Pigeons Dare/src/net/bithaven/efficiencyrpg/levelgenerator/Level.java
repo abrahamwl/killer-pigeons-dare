@@ -1,7 +1,5 @@
 package net.bithaven.efficiencyrpg.levelgenerator;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class Level {
 	public int id;

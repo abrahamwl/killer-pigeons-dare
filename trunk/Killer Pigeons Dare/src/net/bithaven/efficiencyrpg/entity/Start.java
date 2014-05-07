@@ -4,11 +4,6 @@ package net.bithaven.efficiencyrpg.entity;
 import java.util.EnumSet;
 
 import net.bithaven.efficiencyrpg.Room;
-import net.bithaven.efficiencyrpg.entity.Entity.Layer;
-
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
 
 public class Start extends Entity {
 	public boolean started = false;

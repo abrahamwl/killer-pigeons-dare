@@ -1,8 +1,7 @@
 package net.bithaven.efficiencyrpg.action;
 
-import net.bithaven.efficiencyrpg.*;
 import net.bithaven.efficiencyrpg.ability.ActivatedAbility;
-import net.bithaven.efficiencyrpg.entity.*;
+import net.bithaven.efficiencyrpg.entity.Actor;
 
 public class ActionActivateAbility extends Action {
 	ActivatedAbility ability;

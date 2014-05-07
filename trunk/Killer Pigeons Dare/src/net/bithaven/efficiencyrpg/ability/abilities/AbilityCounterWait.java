@@ -1,18 +1,13 @@
 package net.bithaven.efficiencyrpg.ability.abilities;
 
-import net.bithaven.efficiencyrpg.Game;
-import net.bithaven.efficiencyrpg.Room;
 import net.bithaven.efficiencyrpg.ability.Ability;
 import net.bithaven.efficiencyrpg.ability.ConsumesMeleeAttacked;
 import net.bithaven.efficiencyrpg.ability.Hooked;
-import net.bithaven.efficiencyrpg.action.ActionAttack;
 import net.bithaven.efficiencyrpg.action.ActionMeleeAttack;
 import net.bithaven.efficiencyrpg.entity.Actor;
 import net.bithaven.efficiencyrpg.event.effect.RisingTextEffect;
 
-import org.apache.commons.lang3.text.WordUtils;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Image;
 
 
 public class AbilityCounterWait extends Ability implements ConsumesMeleeAttacked {

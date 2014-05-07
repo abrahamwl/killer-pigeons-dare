@@ -160,6 +160,7 @@ public class PlainBag<T> implements Collection<T> {
 		return out;
 	}
 
+	@SuppressWarnings("unchecked")
 	public <O> O[] toArray(O[] array) {
 		if (array.length < size) {
 			O[] out = (O[])Array.newInstance(array.getClass().getComponentType(), size);

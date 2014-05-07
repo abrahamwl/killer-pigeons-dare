@@ -2,7 +2,6 @@ package net.bithaven.efficiencyrpg.entity;
 
 
 import java.util.EnumSet;
-import java.util.Set;
 
 import net.bithaven.efficiencyrpg.Room;
 import net.bithaven.util.ImageLibrary;
@@ -10,7 +9,6 @@ import net.bithaven.util.ImageLibrary;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 public abstract class Entity {
 	public int x, y; //Location in room coordinates.
