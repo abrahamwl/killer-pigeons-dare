@@ -29,7 +29,7 @@ public class AbilitySwimming extends Ability implements TriggersOnMove {
 	}
 
 	public void move(Actor a, ActionMove move) {
-		if (!a.room.entitiesAt(a.x, a.y, Water.class).isEmpty()) {
+		if (!a.room.entitiesAt(a.x, a.y, Water.class).isEmpty() && !a.activeAbilities.getPassabilityModifiers().contains(MovementPassabilityModifier.FLYING)) {
 			StatusEffect.apply(a, StatusEffect.Effect.STOPPED, 2f);
 		}
 	}
