@@ -1,5 +1,8 @@
 package net.bithaven.efficiencyrpg;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum Dir {
 	NO_DIRECTION(null, null),
 	NORTH(0, -1),
@@ -12,6 +15,18 @@ public enum Dir {
 	NORTH_WEST(-1, -1);
 	
 	public final Integer x, y;
+	
+	@SuppressWarnings("serial")
+	public final static List<Dir> compass = new ArrayList<Dir>() {{
+		add(Dir.NORTH);
+		add(Dir.NORTH_EAST);
+		add(Dir.EAST);
+		add(Dir.SOUTH_EAST);
+		add(Dir.SOUTH);
+		add(Dir.SOUTH_WEST);
+		add(Dir.WEST);
+		add(Dir.NORTH_WEST);
+	}};
 	
 	private Dir (Integer x, Integer y) {
 		this.x = x;
@@ -67,5 +82,17 @@ public enum Dir {
 				return NO_DIRECTION;
 			}
 		}
+	}
+	
+	// 0 is North, pi is South, 1/2 * pi is East, 3/2 * pi is West
+	public static Dir fromRadian(double radian) {
+		return fromXY(Math.round((int) Math.sin(radian)), (int) Math.round(Math.cos(radian)));
+	}
+	
+	public static void main(String[] arg) {
+		System.out.println("fromRadian(0.0 * PI): " + fromRadian(0.0 * Math.PI));
+		System.out.println("fromRadian(0.5 * PI): " + fromRadian(0.5 * Math.PI));
+		System.out.println("fromRadian(1.0 * PI): " + fromRadian(1.0 * Math.PI));
+		System.out.println("fromRadian(1.5 * PI): " + fromRadian(1.5 * Math.PI));
 	}
 }

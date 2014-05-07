@@ -1,10 +1,18 @@
 package net.bithaven.efficiencyrpg.levelgenerator;
 
+import net.bithaven.efficiencyrpg.Dir;
+
 public class Coord implements Comparable<Coord>{
 	public Coord parent = null;
 	public double goodness = Float.MAX_VALUE; // Used for A* search
 	public int x;
 	public int y;
+
+	// Form a coord based on direction from starting point
+	public Coord(Coord c, Dir d) {
+		this.x = c.x + d.x;
+		this.y = c.y + d.y;
+	}
 	
 	public Coord(int x, int y) {
 		this.x = x;

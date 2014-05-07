@@ -226,12 +226,6 @@ public class Util {
 			grid[r.nextInt(w)][r.nextInt(h)] = new String[]{"F","G","K"}[r.nextInt(3)];
 	}
 	
-	// Helper class so different metrics can be used in A*
-	public static class PathMetric {
-		public double measure(int sx, int sy, int ex, int ey) {return 0.0;}
-		public double measure(int sx, int sy, int ex, int ey, Character c, Room r) {return 0.0;}
-	}
-	
 	/*
 	 * Testing section
 	 */
