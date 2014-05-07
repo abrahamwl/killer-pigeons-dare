@@ -7,18 +7,32 @@ import java.util.LinkedHashSet;
 import java.util.TreeSet;
 
 public class AbilityList extends LinkedHashSet<Ability> {
-	public <H extends Hooked> H getFirst(Class<H> c) {
+	public <T extends Ability> T getFirstAbility(Class<T> c) {
 		AbilityInterface out = null;
 		int priority = Integer.MIN_VALUE;
 		for (AbilityInterface ability : this) {
 			if (c.isInstance(ability)) {
-				if (c.cast(ability).getPriority(c) > priority)
-				out = ability;
+				if (c.isInstance(Hooked.class)) {
+					if (((Hooked)ability).getPriority((Class<? extends Hooked>)c) > priority) out = ability;
+				} else {
+					return c.cast(ability);
+				}
 			}
 		}
 		return c.cast(out);
 	}
 
+	public <H extends Hooked> H getFirst(Class<H> c) {
+		AbilityInterface out = null;
+		int priority = Integer.MIN_VALUE;
+		for (AbilityInterface ability : this) {
+			if (c.isInstance(ability)) {
+				if (((Hooked)ability).getPriority((Class<? extends Hooked>)c) > priority) out = ability;
+			}
+		}
+		return c.cast(out);
+	}
+	
 	public <H> ArrayList<H> getAll(Class<H> c) {
 		ArrayList<H> out = new ArrayList<H>();
 

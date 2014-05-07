@@ -26,7 +26,8 @@ public abstract class Ability implements AbilityInterface {
 		abilityTypes = new LinkedHashSet<Ability>();
 		Reflections reflections = new Reflections("net.bithaven.efficiencyrpg.ability");
 
-		LinkedList<Class<? extends Ability>> allClasses = getSubClasses(Ability.class, reflections);
+		//LinkedList<Class<? extends Ability>> allClasses = getSubClasses(Ability.class, reflections);
+		Set<Class<? extends Ability>> allClasses = reflections.getSubTypesOf(Ability.class);
 		 
 		try {
 			for (Class<? extends Ability> c : allClasses) {
@@ -43,7 +44,7 @@ public abstract class Ability implements AbilityInterface {
 		}
 	}
 	
-	private static <T extends Ability> LinkedList<Class<? extends T>> getSubClasses(Class<T> type, Reflections reflections) {
+	/*private static <T extends Ability> LinkedList<Class<? extends T>> getSubClasses(Class<T> type, Reflections reflections) {
 		LinkedList<Class<? extends T>> out = new LinkedList<Class<? extends T>>();
 		Set<Class<? extends T>> in = reflections.getSubTypesOf(type);
 		for (Class<? extends T> c : in) {
@@ -52,7 +53,7 @@ public abstract class Ability implements AbilityInterface {
 			out.addAll(getSubClasses(c, reflections));
 		}
 		return out;
-	}
+	}*/
 	
 	public class Instance {
 		protected Actor a;
@@ -282,6 +283,10 @@ public abstract class Ability implements AbilityInterface {
 	}
 	
 	public boolean allowed (Actor a) {
+		if (a.abilities.getFirstAbility(this.getClass()) != null) return false;
+		if (category == Category.NEGATIVE) {
+			return false;
+		}
 		if (element == null && category != Category.NATURE) {
 			return true;
 		}
