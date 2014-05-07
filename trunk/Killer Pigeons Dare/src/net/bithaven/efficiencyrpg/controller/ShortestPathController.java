@@ -5,6 +5,7 @@ import net.bithaven.efficiencyrpg.Room;
 import net.bithaven.efficiencyrpg.action.Action;
 import net.bithaven.efficiencyrpg.action.ActionMeleeAttack;
 import net.bithaven.efficiencyrpg.action.ActionMove;
+import net.bithaven.efficiencyrpg.action.ActionWait;
 import net.bithaven.efficiencyrpg.entity.Actor;
 import net.bithaven.efficiencyrpg.entity.Character;
 import net.bithaven.efficiencyrpg.levelgenerator.Coord;
@@ -26,8 +27,10 @@ public class ShortestPathController implements Controller {
 	PathFinder pf = new PathFinder();
 	
 	public Action chooseMovement(Room r, Actor a, Actor t) {
-		Coord path = pf.pathCheck(a.x, a.y, t.x, t.y, r, a, 20);
-		if(path == null) AttackController.chooseMovement(r, a, t);
+		// Increase this to have the actor look harder for a path 
+		int pathDifficulty = 50;
+		Coord path = pf.pathCheck(a.x, a.y, t.x, t.y, r, a, pathDifficulty);
+		if(path == null) chooseSimpleMovement(r, a, t);
 		
 		path = nextPos(a.x, a.y, path);
 		int dirx = path.x - a.x;
@@ -39,5 +42,21 @@ public class ShortestPathController implements Controller {
 	private Coord nextPos(int x, int y, Coord path) {
 		while(path != null) if(path.parent.x == x && path.parent.y == y) return path; else path = path.parent;
 		return null;
+	}
+	
+	public static Action chooseSimpleMovement(Room room, Actor a, Actor t) {
+		Dir tryDir = null;
+		double r = Math.atan2(t.y - a.y, t.x - a.x);
+		tryDir = Dir.fromRadian(r);
+		if(room.checkForPassableAt(a.x + tryDir.x, a.y + tryDir.y, a)) return new ActionMove(tryDir); 
+		tryDir = Dir.fromRadian(r + 0.25 * Math.PI);
+		if(room.checkForPassableAt(a.x + tryDir.x, a.y + tryDir.y, a)) return new ActionMove(tryDir); 
+		tryDir = Dir.fromRadian(r - 0.25 * Math.PI);
+		if(room.checkForPassableAt(a.x + tryDir.x, a.y + tryDir.y, a)) return new ActionMove(tryDir); 
+		tryDir = Dir.fromRadian(r + 0.5 * Math.PI);
+		if(room.checkForPassableAt(a.x + tryDir.x, a.y + tryDir.y, a)) return new ActionMove(tryDir); 
+		tryDir = Dir.fromRadian(r - 0.5 * Math.PI);
+		if(room.checkForPassableAt(a.x + tryDir.x, a.y + tryDir.y, a)) return new ActionMove(tryDir);
+		return new ActionWait();
 	}
 }
