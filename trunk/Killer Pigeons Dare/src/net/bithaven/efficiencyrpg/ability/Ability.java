@@ -20,6 +20,17 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.reflections.Reflections;
 
+/**
+ * Each Ability represents a type of ability. That is, it does not represent an ability instantiated on an Actor.
+ * All Actors with an ability share the same instance of Ability. Information that is specific to an Actor's
+ * instance of an Ability is stored in an Ability.Instance.
+ * 
+ * To get an Actor's Instance of an Ability use Ability.on(Actor).
+ * 
+ * @author Abe
+ * 
+ * @see net.bithaven.efficiencyrpg.ability.Ability.Instance
+ */
 public abstract class Ability implements AbilityInterface {
 	public static LinkedHashSet<Ability> abilityTypes;
 	static {
@@ -55,6 +66,15 @@ public abstract class Ability implements AbilityInterface {
 		return out;
 	}*/
 	
+	/**
+	 * Ability.Instance contains information that is specific to an instance of an Ability on an Actor.
+	 * 
+	 * To get an Actor's Instance of an Ability use Ability.on(Actor).
+	 * 
+	 * @author Abe
+	 * 
+	 * @see net.bithaven.efficiencyrpg.ability.Ability
+	 */
 	public class Instance {
 		protected Actor a;
 		boolean enabled;
@@ -70,6 +90,12 @@ public abstract class Ability implements AbilityInterface {
 		public void doWait() {
 		}
 		
+		/**
+		 * Sets whether this Instance of an Ability is currently enabled. Disabled Instances have no effect but are
+		 * still listed on the Actor (in Grey). Some Abilities are only enabled under certain conditions.
+		 * 
+		 * @param enabled True to enable.
+		 */
 		public final void setEnabled(boolean enabled) {
 			this.enabled = enabled;
 			if (enabled) {
@@ -88,11 +114,19 @@ public abstract class Ability implements AbilityInterface {
 					+ (element != null ? "\n(" + element.toString() + " element)" : "");
 		}
 	}
-	public HashMap<Actor,Instance> instances = new HashMap<Actor,Instance>();
-	/* (non-Javadoc)
+
+	private HashMap<Actor,Instance> instances = new HashMap<Actor,Instance>();
+
+	/**
+	 * @param a The Actor for which you want Instance information of this Ability.
+	 * @return If Actor a has this Ability, returns the Instance information for that Ability on Actor a.
+	 * Otherwise returns null. 
 	 * @see net.bithaven.efficiencyrpg.ability.AbilityInterface#on(net.bithaven.efficiencyrpg.entity.Actor)
 	 */
 	public Instance on(Actor a) {
+		if (!a.abilities.contains(this)) {
+			return null;
+		}
 		Instance out = instances.get(a);
 		if (out == null) {
 			out = getNewInstance(a);
@@ -101,20 +135,55 @@ public abstract class Ability implements AbilityInterface {
 		return out;
 	}
 	
+	/**
+	 * The Category of an Ability.<br>
+	 * <br>
+	 * NEGATIVE Abilities only have negative effects and so are not given as selection options to the player.<br>
+	 * <br>
+	 * Only one NATURE Ability can be selected by the player, and they exclude selection of Abilities that have an
+	 * element other than the NATURE Ability's element. Abilities with no element = null are not excluded.<br>
+	 * <br>
+	 * All other Abilities are NORMAL.<br>
+	 * 
+	 * @author Abe
+	 *
+	 */
 	public static enum Category {
 		NORMAL,
 		NATURE,
 		NEGATIVE;
 	}
 	
+	/**
+	 * The Category of an Ability.<br>
+	 * <br>
+	 * NEGATIVE Abilities only have negative effects and so are not given as selection options to the player.<br>
+	 * <br>
+	 * Only one NATURE Ability can be selected by the player, and they exclude selection of Abilities that have an
+	 * element other than the NATURE Ability's element. Abilities with no element = null are not excluded.<br>
+	 * <br>
+	 * All other Abilities are NORMAL.<br>
+	 * 
+	 * @author Abe
+	 *
+	 */
 	public final Category category;
 	
+	/**
+	 * The element of an Ability. Can be null. If the Ability has an element, possessing that Ability prevents a
+	 * Character from selecting a NATURE Ability with a different element. If the Ability has an element and is a
+	 * NATURE Ability, then possessing that Ability prevents a Character from selecting any Ability with different
+	 * non-null element.
+	 * 
+	 * @author Abe
+	 *
+	 */
 	public final Damage.Type element;
 	
 	protected abstract Instance getNewInstance(Actor a);
 
-	public final String name;
-	public final Image icon;
+	private final String name;
+	private final Image icon;
 	public static final int ICON_SIZE = 32;
 	protected final String generalDescription;
 
@@ -169,11 +238,11 @@ public abstract class Ability implements AbilityInterface {
 			height = 32;
 		}
 		
-		public DisplayElement(Game game, int x, int y, Actor a) {
+		private DisplayElement(Game game, int x, int y, Actor a) {
 			this(game, x, y, a, Integer.MIN_VALUE, Integer.MIN_VALUE);
 		}
 		
-		public DisplayElement(Game game, int x, int y, Actor a, int targetX, int targetY) {
+		private DisplayElement(Game game, int x, int y, Actor a, int targetX, int targetY) {
 			this(game, x, y);
 			this.a = a;
 			this.targetX = targetX;
@@ -282,6 +351,10 @@ public abstract class Ability implements AbilityInterface {
 		return icon;
 	}
 	
+	/**
+	 * @param a
+	 * @return True if Actor a is allowed to gain this Ability.
+	 */
 	public boolean allowed (Actor a) {
 		if (a.abilities.getFirstAbility(this.getClass()) != null) return false;
 		if (category == Category.NEGATIVE) {
