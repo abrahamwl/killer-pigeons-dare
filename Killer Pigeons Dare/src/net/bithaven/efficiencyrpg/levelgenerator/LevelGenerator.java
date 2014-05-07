@@ -2,28 +2,20 @@ package net.bithaven.efficiencyrpg.levelgenerator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
-
-import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.SlickException;
 
 import net.bithaven.efficiencyrpg.Dir;
 import net.bithaven.efficiencyrpg.Game;
 import net.bithaven.efficiencyrpg.Room;
-import net.bithaven.efficiencyrpg.entity.*;
 import net.bithaven.efficiencyrpg.entity.Character;
+import net.bithaven.efficiencyrpg.entity.Entity;
 
 public class LevelGenerator {
 	public static void main(String[] args) {

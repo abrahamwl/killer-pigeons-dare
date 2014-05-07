@@ -134,6 +134,7 @@ public class Util {
 				switch(r.nextInt(2)) {
 				case 0:
 					// Trees are placed in the foreground, so they sit on top of dirt
+					env[newx][newy] = "d";
 					foreground[newx][newy] = "t";
 					break;
 				case 1:
