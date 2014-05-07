@@ -33,12 +33,7 @@ public class LevelGenerator {
 		// Create convenience objects for testing paths later on
 		Game test = new Game("test");
 		test.hero = new Character();
-
-		try {
-			AppGameContainer app = new AppGameContainer(test);
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		PathFinder pf = new PathFinder();
 
 		// Store all the generated maps.  When generation 
 		// is done, they are all written out to the level 
@@ -158,7 +153,7 @@ public class LevelGenerator {
 					if(rand.nextFloat() > 0.33) {
 						// Create a forest room.
 						int trees = (int) Math.round((r * c) * forestDensity);
-						Util.forest(entities, trees, seed);
+						Util.forest(environment, entities, trees, seed);
 						int forestEnemies = (int) Math.round((r * c) * enemyDensity);
 						Util.forestEnemies(entities, forestEnemies, seed);
 						enemies = forestEnemies;
@@ -199,7 +194,7 @@ public class LevelGenerator {
 				Coord path = null;
 				
 				for(Coord door : doors) {
-					path = Util.pathCheck(start.x, start.y, door.x, door.y, room, test.hero, searchDepth);
+					path = pf.pathCheck(start.x, start.y, door.x, door.y, room, test.hero, searchDepth);
 					
 					if(path == null) {
 						// Unreachable door, bad level
@@ -270,13 +265,6 @@ public class LevelGenerator {
 	
 			} while (!goodLevel && tries > 0);
 		}
-		
-		int farthest = 0;
-		for(Integer dist : visited) farthest = Math.max(farthest, dist);
-		System.out.println("Farthest distance seen: " + farthest); // DEBUG
-		
-		for(Integer dist : levelMap.keySet()) farthest = Math.max(farthest, dist);
-		System.out.println("Farthest actually travelled: " + farthest); // DEBUG
 		
 		// Delete previous levels
 		for(File file : new File("./").listFiles())

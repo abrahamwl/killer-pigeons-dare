@@ -13,6 +13,9 @@ import net.bithaven.efficiencyrpg.Room;
 import net.bithaven.efficiencyrpg.entity.Character;
 
 public class Util {
+	/*
+	 * Generic grid manipulation functions
+	 */
 	public static String[][] wallOffGrid(String[][] grid, String wall) {
 		String[][] walledGrid = new String[grid.length + 2][grid[0].length + 2];
 		copy(walledGrid, grid, 1, 1);
@@ -86,6 +89,9 @@ public class Util {
 		return pathLength;
 	}
 	
+	/*
+	 * Room type specific grid functions
+	 */
 	public static void arctic(String[][] grid, int count, long seed) {
 		Random r = new Random(seed);
 		int w = grid.length;
@@ -103,31 +109,37 @@ public class Util {
 			grid[r.nextInt(w)][r.nextInt(h)] = new String[]{"I","G","K"}[r.nextInt(3)];
 	}
 	
-	public static void forest(String[][] grid, int count, long seed) {
+	public static void forest(String[][] env, String[][] foreground, int count, long seed) {
 		Random r = new Random(seed);
-		int w = grid.length;
-		int h = grid[0].length;
+		int w = env.length;
+		int h = env[0].length;
 		int x = 0;
 		int newx = 0;
 		int y = 0;
 		int newy = 0;
 		String item = "";
 		for(int i = 0; i < count; i++) {
-			if(grid[x][y].equals("W") && r.nextFloat() < 0.75f) {
+			if(env[x][y].equals("W") && r.nextFloat() < 0.75f) {
 				// Try to make water squares contiguous
-				item = "W";
-				
 				do {
 					newx = r.nextInt(w);
 					newy = r.nextInt(h);
 				} while(Math.hypot(x - newx, y - newy) > 1.0 || (newx == x && newy == y));
+				env[newx][newy] = "W";
 			} else {
-				// Otherwise, place trees, ice and water around randomly
+				// Otherwise, place trees and water around randomly
 				newx = r.nextInt(w);
 				newy = r.nextInt(h);
-				item =  new String[]{"t","W"}[r.nextInt(2)];
+				switch(r.nextInt(2)) {
+				case 0:
+					// Trees are placed in the foreground, so they sit on top of dirt
+					foreground[newx][newy] = "t";
+					break;
+				case 1:
+					env[newx][newy] = "W";
+					break;
+				}
 			}
-			grid[newx][newy] = item;
 			x = newx;
 			y = newy;
 		}
@@ -153,7 +165,7 @@ public class Util {
 		
 		for(int i = 0; i < count; i++) {
 			if(grid[x][y].equals("h") && r.nextFloat() < 0.75f) {
-				// Make HellStone paths
+				// Make contiguous HellStone sections
 				item = "h";
 				
 				do {
@@ -214,51 +226,15 @@ public class Util {
 			grid[r.nextInt(w)][r.nextInt(h)] = new String[]{"F","G","K"}[r.nextInt(3)];
 	}
 	
-	public static Coord pathCheck(int sx, int sy, int ex, int ey, Room room,
-			Character hero, int limit) {
-		// Search uses a PriorityQueue to 
-		// make it a rudimentary A* search
-		Queue<Coord> open = new PriorityQueue<Coord>();
-		List<Coord> closed = new ArrayList<Coord>();
-		
-		Coord start = new Coord(sx, sy, null, Float.MAX_VALUE);
-		Coord end = new Coord(ex, ey, null, Float.MIN_VALUE);
-		open.add(start);
-		closed.add(start);
-		
-		// Starting with an initial position, it adds 
-		// all passable neighboring positions that 
-		// haven't been added yet.  Each position gets 
-		// a heuristic value marking its distance from 
-		// the destination.  The priority queue will 
-		// always remove the next closest point.
-		while(open.size() > 0 && limit-- > 0) {
-			Coord currPos = open.remove();
-			for(Dir d : Dir.values()) {
-				if(d == Dir.NO_DIRECTION) continue;
-				
-				int cx = currPos.x + d.x;
-				int cy = currPos.y + d.y;
-				if(cx < 0 || cx == room.width || cy < 0 || cy == room.height) continue;
-
-				Coord newCoord = new Coord(cx, cy, currPos, end);
-				if(closed.contains(newCoord)) continue;
-				if(!room.checkForPassableAt(newCoord.x, newCoord.y, hero)) continue;
-
-				if(newCoord.equals(end)) return newCoord;
-
-				open.add(newCoord);
-				closed.add(newCoord);
-			}	
-		}
-		
-		// If all passable positions have been accessed 
-		// without reaching the destination, or the search 
-		// depth has been exceeded, mark the destination 
-		// unreachable.
-		return null;
+	// Helper class so different metrics can be used in A*
+	public static class PathMetric {
+		public double measure(int sx, int sy, int ex, int ey) {return 0.0;}
+		public double measure(int sx, int sy, int ex, int ey, Character c, Room r) {return 0.0;}
 	}
 	
+	/*
+	 * Testing section
+	 */
 	public static void main(String[] args) {
 		String[][] test = 
 				{{" ", " "},
