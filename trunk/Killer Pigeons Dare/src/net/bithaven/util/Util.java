@@ -1,4 +1,4 @@
-package net.bithaven.efficiencyrpg;
+package net.bithaven.util;
 
 import org.newdawn.slick.Graphics;
 
