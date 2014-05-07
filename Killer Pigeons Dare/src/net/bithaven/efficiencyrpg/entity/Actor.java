@@ -8,11 +8,11 @@ import net.bithaven.efficiencyrpg.ability.AbilityInterface;
 import net.bithaven.efficiencyrpg.ability.AbilityList;
 import net.bithaven.efficiencyrpg.ability.HandlesDamaged;
 import net.bithaven.efficiencyrpg.ability.TriggersAfterInit;
-import net.bithaven.efficiencyrpg.action.*;
+import net.bithaven.efficiencyrpg.action.Action;
+import net.bithaven.efficiencyrpg.action.ActionNoneYet;
 import net.bithaven.efficiencyrpg.controller.Controller;
 import net.bithaven.efficiencyrpg.entity.features.Damage;
 import net.bithaven.efficiencyrpg.entity.features.StatusEffect;
-import net.bithaven.efficiencyrpg.event.DamageEvent;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
