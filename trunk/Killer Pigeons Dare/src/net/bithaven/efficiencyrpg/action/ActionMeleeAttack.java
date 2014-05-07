@@ -21,6 +21,10 @@ public class ActionMeleeAttack extends ActionAttack {
 
 	@Override
 	public void execute(Actor a) {
+		if (checkValidityOf(a) == Validity.INVALID) {
+			return;
+		}
+		
 		ArrayList<Actor> target = a.room.entitiesAt(a.x + dir.x, a.y + dir.y, Actor.class);
 
 		if (target.size() > 0) {
