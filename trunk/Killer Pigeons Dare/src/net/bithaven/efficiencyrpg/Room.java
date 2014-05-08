@@ -208,7 +208,6 @@ public class Room {
 		for (Entity e : entities) {
 			if (e.x == x && e.y == y) {
 				if (!e.passableFor(a)) {
-					System.out.println("Cannot pass because of " + e.toString() + " at " + e.x + "," + e.y);//DEBUG
 					pass = false;
 				}
 			}
