@@ -89,7 +89,9 @@ public enum Dir {
 	 * @return The Dir that returns to the radian.
 	 */
 	public static Dir fromRadian(double radian) {
-		return fromXY(Math.round((int) Math.sin(radian)), (int) Math.round(Math.cos(radian)));
+		int x = (int) Math.round(Math.sin(radian));
+		int y = (int) Math.round(Math.cos(radian));
+		return fromXY(x, y);
 	}
 	
 	public static void main(String[] arg) {
