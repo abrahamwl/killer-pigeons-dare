@@ -38,7 +38,6 @@ public abstract class UIElement implements ControlledInputReciever {
 	protected Game game;
 	
 	public UIElement(Game game, int x, int y) {
-		super();
 		this.x = x;
 		this.y = y;
 		this.game = game;

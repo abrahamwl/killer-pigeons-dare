@@ -171,6 +171,7 @@ public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusi
 	}
 
 	private void loadRoomInternal() {
+		if (panel != null) panel.clear();
 		File[] roomFiles = null;
 		System.out.println("Loading room #" + String.valueOf(loadRoomNumber) + "..."); //DEBUG
 		roomFiles = (new File("./")).listFiles(new RegexpFilter("room_" + loadRoomNumber + "_.*"));
