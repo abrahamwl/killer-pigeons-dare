@@ -27,7 +27,7 @@ public class ActionRangedAttack extends ActionAttack {
 
 	@Override
 	public void execute(Actor a) {
-		ConsumesRangedAttacked response = target.activeAbilities.getFirst(ConsumesRangedAttacked.class);
+		ConsumesRangedAttacked response = target.activeAbilities.getFirstHooked(ConsumesRangedAttacked.class);
 		if (response != null) {
 			response.attacked(target, this, a);
 			return;

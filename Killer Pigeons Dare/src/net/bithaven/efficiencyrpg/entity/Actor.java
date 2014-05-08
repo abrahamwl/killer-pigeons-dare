@@ -68,7 +68,7 @@ public class Actor extends Entity {
 	}
 	
 	public Damage applyDamage(Damage damage) {
-		HandlesDamaged handler = activeAbilities.getFirst(HandlesDamaged.class);
+		HandlesDamaged handler = activeAbilities.getFirstHooked(HandlesDamaged.class);
 		if (handler != null) {
 			damage = handler.modifyDamage(damage);
 		}

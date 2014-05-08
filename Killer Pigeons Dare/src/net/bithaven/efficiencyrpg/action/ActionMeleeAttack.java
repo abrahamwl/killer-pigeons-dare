@@ -29,7 +29,7 @@ public class ActionMeleeAttack extends ActionAttack {
 
 		if (target.size() > 0) {
 			Actor victim = (Actor)(target.get(0));
-			ConsumesMeleeAttacked response = victim.activeAbilities.getFirst(ConsumesMeleeAttacked.class);
+			ConsumesMeleeAttacked response = victim.activeAbilities.getFirstHooked(ConsumesMeleeAttacked.class);
 			if (response != null) {
 				response.attacked(victim, this, a);
 				return;

@@ -36,7 +36,7 @@ public class Ice extends Entity implements TriggersOnMovedOn {
 
 	public void move(Actor a, ActionMove move) {
 		if (!a.activeAbilities.getPassabilityModifiers().contains(MovementPassabilityModifier.FLYING) &&
-				a.activeAbilities.getFirst(AbilitySoulFrozen.class) == null) {
+				a.activeAbilities.getFirstHooked(AbilitySoulFrozen.class) == null) {
 			StatusEffect.apply(a, StatusEffect.Effect.STOPPED, 2f);
 		}
 	}

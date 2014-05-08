@@ -25,7 +25,7 @@ public class AbilityList extends LinkedHashSet<Ability> {
 		return c.cast(out);
 	}
 
-	public <H extends Hooked> H getFirst(Class<H> c) {
+	public <H extends Hooked> H getFirstHooked(Class<H> c) {
 		AbilityInterface out = null;
 		int priority = Integer.MIN_VALUE;
 		for (AbilityInterface ability : this) {
