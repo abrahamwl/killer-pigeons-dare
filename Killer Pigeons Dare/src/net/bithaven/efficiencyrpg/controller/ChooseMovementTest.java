@@ -51,6 +51,7 @@ public class ChooseMovementTest {
 		hero.x = ex;
 		hero.y = ey;
 		
+		//System.out.println("abeFunc");
 		Action action = AttackController.chooseMovement(room, enemy, hero);
 		if (action instanceof ActionMove) return ((ActionMove) action).dir;
 		return null;
@@ -61,8 +62,19 @@ public class ChooseMovementTest {
 		for(int x0 = 0; x0 < w; x0++)
 			for(int y0 = 0; y0 < h; y0++)
 				for(int x1 = 0; x1 < w; x1++)
-					for(int y1 = 0; y1 < h; y1++)
-						assert(ericFunc(x0,y0,x1,y1) == abeFunc(x0,y0,x1,y1));
+					for(int y1 = 0; y1 < h; y1++) {
+						//System.out.println(x0 + "," + y0 + " : " + x1 + "," + y1);
+						Dir e = ericFunc(x0,y0,x1,y1);
+						String es = (e == null ? null : e.toString());
+						Dir a = abeFunc(x0,y0,x1,y1);
+						String as = (a == null ? null : a.toString());
+						System.out.println("abeFunc: " + as + " ericFunc: " + es + " (" + x0 + "," + y0 + " : " + x1 + "," + y1 + ")");
+						/*assert(false);
+						if (ericFunc(x0,y0,x1,y1) == abeFunc(x0,y0,x1,y1)) {
+							System.out.println("Same at " + x0 + "," + y0 + " : " + x1 + "," + y1);
+						} */
+						//assert(ericFunc(x0,y0,x1,y1) == abeFunc(x0,y0,x1,y1));
+					}
 	}
 
 }
