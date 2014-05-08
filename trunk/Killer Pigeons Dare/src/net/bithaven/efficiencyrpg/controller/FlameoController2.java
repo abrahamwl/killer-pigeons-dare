@@ -16,7 +16,7 @@ public class FlameoController2 extends BasicController {
 
 		int distToHero = Math.max(Math.abs(a.x - t.x), Math.abs(a.y - t.y));
 		
-		AbilitySummonHellstone summonHellstone = a.abilities.getFirst(AbilitySummonHellstone.class);
+		AbilitySummonHellstone summonHellstone = a.abilities.getFirstHooked(AbilitySummonHellstone.class);
 
 		if (summonHellstone != null) {
 			if(distToHero > 2) return spawnHellstone(a.room, t, summonHellstone, false);

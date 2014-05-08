@@ -9,6 +9,12 @@ import net.bithaven.efficiencyrpg.entity.Actor;
 
 public interface AbilityInterface {
 	
+	/**
+	 * @param a The Actor for which you want Instance information of this Ability.
+	 * @return If Actor a has this Ability, returns the Instance information for that Ability on Actor a.<br>
+	 * Otherwise returns null. 
+	 * @see net.bithaven.efficiencyrpg.ability.Ability.Instance
+	 */
 	public abstract Instance on(Actor a);
 
 	public abstract String getGeneralDescription();

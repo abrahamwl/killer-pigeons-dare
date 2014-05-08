@@ -33,9 +33,9 @@ public class AbilityFlameBolt extends ActivatedAbility {
 		
 		if (actors.size() > 0) {
 			Actor target = actors.get(0);
-			if ((a instanceof Character) && (target instanceof Character ^ target.abilities.getFirst(AbilitySoulBurning.class) != null)) {
+			if ((a instanceof Character) && (target instanceof Character ^ target.abilities.getFirstHooked(AbilitySoulBurning.class) != null)) {
 				return Validity.NOT_RECOMMENDED;
-			} else if (!(a instanceof Character) && !(target instanceof Character ^ target.abilities.getFirst(AbilitySoulBurning.class) != null)) {
+			} else if (!(a instanceof Character) && !(target instanceof Character ^ target.abilities.getFirstHooked(AbilitySoulBurning.class) != null)) {
 				return Validity.NOT_RECOMMENDED;
 			} else {
 				return Validity.OKAY;
