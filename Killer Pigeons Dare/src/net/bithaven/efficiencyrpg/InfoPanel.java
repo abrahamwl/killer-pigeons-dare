@@ -18,7 +18,7 @@ public class InfoPanel extends UIElement {
 		private int height;
 		
 		public RoomListButton (Game game, int x) {
-			super(game, x, Game.MARGIN - 10 - 2 * 14);
+			super(game, x, Game.LEVEL_AREA_WIDTH - 10 - 2 * 14);
 			game.gc.getInput().addMouseListener(this);
 		}
 
