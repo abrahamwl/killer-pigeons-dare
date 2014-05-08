@@ -49,6 +49,10 @@ public class Util {
 		return fill(new String[w][h], fill);
 	}
 	
+	public static String[][] createRandomGrid(int w, int h, String[] items, long seed) {
+		return randomFill(new String[w][h], items, seed);
+	}
+	
 	public static String[][] fill(String[][] grid, String item) {
 		for(int r = 0; r < grid.length; r++)
 			for(int c = 0; c < grid[r].length; c++)

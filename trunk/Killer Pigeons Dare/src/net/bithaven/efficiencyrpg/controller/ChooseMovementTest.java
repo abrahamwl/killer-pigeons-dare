@@ -30,7 +30,8 @@ public class ChooseMovementTest {
 		test.hero = new Character();
 		hero = test.hero;
 		enemy = new Actor("hi", 1, "yo");
-		room = new Room(test, new String[] {Util.convertGridToRoomString(Util.createGrid(w,h,""))}, 0);
+		String[][] grid = Util.createRandomGrid(w,h,new String[]{"d", "W"}, System.currentTimeMillis());
+		room = new Room(test, new String[] {Util.convertGridToRoomString(grid)}, 0);
 	}
 
 	public Dir ericFunc(int sx, int sy, int ex, int ey) {
