@@ -160,4 +160,16 @@ public class InfoPanel extends UIElement {
 	public int getWidth(Graphics g) {
 		return width;
 	}
+
+	public void clear() {
+		target = null;
+
+		ArrayList<UIElement> remove = new ArrayList<UIElement>();
+		for (UIElement child : children) {
+			if (child instanceof Ability.DisplayElement) {
+				remove.add(child);
+			}
+		}
+		children.removeAll(remove);
+	}
 }
