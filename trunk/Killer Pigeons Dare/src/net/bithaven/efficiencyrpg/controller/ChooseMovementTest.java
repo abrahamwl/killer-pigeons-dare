@@ -31,6 +31,7 @@ public class ChooseMovementTest {
 		hero = test.hero;
 		enemy = new Actor("hi", 1, "yo");
 		String[][] grid = Util.createRandomGrid(w,h,new String[]{"d", "W"}, System.currentTimeMillis());
+		System.out.println(Util.convertGridToRoomString(grid).replace(";", ";\n")); // DEBUG
 		room = new Room(test, new String[] {Util.convertGridToRoomString(grid)}, 0);
 	}
 
@@ -65,16 +66,20 @@ public class ChooseMovementTest {
 			for(int y0 = 0; y0 < h; y0++)
 				for(int x1 = 0; x1 < w; x1++)
 					for(int y1 = 0; y1 < h; y1++) {
+						System.out.println("(" + x0 + ", " + y0 + ", " + x1 + ", " + y1 + ")"); // DEBUG
 						Dir e = ericFunc(x0,y0,x1,y1);
 						String es = (e == null ? null : e.toString());
 						Dir a = abeFunc(x0,y0,x1,y1);
 						String as = (a == null ? null : a.toString());
-						if(e != null && a != null && e.equals(a)) yes++; else {
+						if(e != null && a != null && e.equals(a)) {
+							yes++;
+						} else {
 							no++;
-							System.out.println("e: " + es + " a: " + as + "(" + x0 + ", " + y0 + ", " + x1 + ", " + y1 + ")");
+							if(Math.random() > 0.0) System.out.println("e: " + es + " a: " + as + "(" + x0 + ", " + y0 + ", " + x1 + ", " + y1 + ")"); // DEBUG
 						}
 					}
 		System.out.println("yes: " + yes + " no: " + no);
+		assert(no == 0);
 	}
 
 }
