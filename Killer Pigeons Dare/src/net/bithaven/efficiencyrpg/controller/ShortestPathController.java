@@ -46,16 +46,27 @@ public class ShortestPathController implements Controller {
 	
 	public static Action chooseSimpleMovement(Room room, Actor a, Actor t) {
 		Dir tryDir = null;
-		double r = Math.atan2(t.y - a.y, t.x - a.x);
+		double rO = Math.atan2(t.x - a.x, t.y - a.y);
+		if(t.x - a.x == 0 && t.y - a.y == 0) {
+			System.out.println("t.x: " + t.x + " a.x: " + a.x + " t.y: " + t.y + " a.y: " + a.y); // DEBUG
+			return null; 
+		}
+		System.out.println("rO: " + rO); // DEBUG
+		double r = rO + 0.0 * Math.PI;
+		r = rO + 0.0 * Math.PI;
 		tryDir = Dir.fromRadian(r); // Try straight
 		if(room.checkForPassableAt(a.x + tryDir.x, a.y + tryDir.y, a)) return new ActionMove(tryDir); 
-		tryDir = Dir.fromRadian(r + 0.25 * Math.PI); // Try 1/8 turn to right
+		r = rO + 0.25 * Math.PI;
+		tryDir = Dir.fromRadian(r); // Try 1/4 turn to right
 		if(room.checkForPassableAt(a.x + tryDir.x, a.y + tryDir.y, a)) return new ActionMove(tryDir); 
-		tryDir = Dir.fromRadian(r - 0.25 * Math.PI); // Try 1/8 turn to left
+		r = rO - 0.25 * Math.PI;
+		tryDir = Dir.fromRadian(r); // Try 1/4 turn to left
 		if(room.checkForPassableAt(a.x + tryDir.x, a.y + tryDir.y, a)) return new ActionMove(tryDir); 
-		tryDir = Dir.fromRadian(r + 0.5 * Math.PI); // Try 1/4 turn to right
+		r = rO + 0.5 * Math.PI;
+		tryDir = Dir.fromRadian(r); // Try 1/2 turn to right
 		if(room.checkForPassableAt(a.x + tryDir.x, a.y + tryDir.y, a)) return new ActionMove(tryDir); 
-		tryDir = Dir.fromRadian(r - 0.5 * Math.PI); // Try 1/4 turn to left
+		r = rO - 0.5 * Math.PI;
+		tryDir = Dir.fromRadian(r); // Try 1/2 turn to left
 		if(room.checkForPassableAt(a.x + tryDir.x, a.y + tryDir.y, a)) return new ActionMove(tryDir);
 		return new ActionWait(); // Just sit there
 	}

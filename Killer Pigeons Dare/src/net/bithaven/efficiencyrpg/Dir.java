@@ -1,5 +1,7 @@
 package net.bithaven.efficiencyrpg;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,15 +91,33 @@ public enum Dir {
 	 * @return The Dir that returns to the radian.
 	 */
 	public static Dir fromRadian(double radian) {
-		int x = (int) Math.round(Math.sin(radian));
-		int y = (int) Math.round(Math.cos(radian));
+		// Rounding is used due to inexactness of double: 0.0 == 6.1234E-17
+		// The weird use of signum and abs is b/c ceil rounds in the positive 
+		// direction, not in the direction of greater magnitude
+		double x_raw = round(Math.sin(radian), 2);
+		int x = (int) (Math.signum(x_raw) * Math.ceil(Math.abs(x_raw)));
+		double y_raw = round(Math.cos(radian), 2);
+		int y = (int) (Math.signum(y_raw) * Math.ceil(Math.abs(y_raw)));
+		System.out.println("x_raw: " + x_raw + " y_raw: " + y_raw); // DEBUG
+		System.out.println("x: " + x + " y: " + y); // DEBUG
 		return fromXY(x, y);
 	}
-	
+
+	public static double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    BigDecimal bd = new BigDecimal(value);
+	    bd = bd.setScale(places, RoundingMode.HALF_UP);
+	    return bd.doubleValue();
+	}	
 	public static void main(String[] arg) {
+		System.out.println("atan2(1,0): " + Math.atan2(0,1) / Math.PI);
 		System.out.println("fromRadian(0.0 * PI): " + fromRadian(0.0 * Math.PI));
+		System.out.println("atan2(0,1): " + Math.atan2(1,0) / Math.PI);
 		System.out.println("fromRadian(0.5 * PI): " + fromRadian(0.5 * Math.PI));
+		System.out.println("atan2(-1,0): " + Math.atan2(0,-1) / Math.PI);
 		System.out.println("fromRadian(1.0 * PI): " + fromRadian(1.0 * Math.PI));
-		System.out.println("fromRadian(1.5 * PI): " + fromRadian(1.5 * Math.PI));
+		System.out.println("atan2(0,-1): " + Math.atan2(-1,0) / Math.PI);
+		System.out.println("fromRadian(-0.5 * PI): " + fromRadian(-0.5 * Math.PI));
 	}
 }
