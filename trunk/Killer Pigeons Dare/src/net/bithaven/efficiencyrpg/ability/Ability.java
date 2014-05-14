@@ -160,7 +160,7 @@ public abstract class Ability implements AbilityInterface {
 	 * NEGATIVE Abilities only have negative effects and so are not given as selection options to the player.<br>
 	 * <br>
 	 * Only one NATURE Ability can be selected by the player, and they exclude selection of Abilities that have an
-	 * element other than the NATURE Ability's element. Abilities with no element = null are not excluded.<br>
+	 * element other than the NATURE Ability's element. Abilities with element = null are not excluded.<br>
 	 * <br>
 	 * All other Abilities are NORMAL.<br>
 	 * 
