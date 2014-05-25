@@ -3,6 +3,9 @@ package net.bithaven.efficiencyrpg;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import net.bithaven.efficiencyrpg.entity.Actor;
@@ -104,6 +107,9 @@ public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusi
 		if (doors.size() > 0) {
 			Door door = (Door)doors.get(0);
 			game.hero.farthestRoom = Math.max(game.hero.farthestRoom, door.roomNumber);
+
+			createGameCode();
+			
 			winLoseScreen.state = WinLoseScreen.State.WON;
 			Character.Record r = game.hero.record.get((int)room.roomNumber);
 			if (winLoseScreen.turnAllBaddiesKilled == -1) {
@@ -167,6 +173,18 @@ public class RoomLayer extends UILayer implements DrawsMouseCursor, SuppliesMusi
 		if(room.checkForTypeAt(game.hero.x, game.hero.y, Finish.class)) {
 			winLoseScreen.state = WinLoseScreen.State.FINISHED;
 			game.pushUILayer(winLoseScreen);
+		}
+	}
+
+	public void createGameCode() {
+		// Write out gamecode for proof of work
+		int salt = game.random.nextInt(9999);
+		int hash = (int) (Math.pow(salt, game.hero.farthestRoom) % 9999);
+		String gamecode = String.format("%04d", salt) + String.format("%04d", hash);
+		try {
+			Files.write(Paths.get("gamecode.txt"), gamecode.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

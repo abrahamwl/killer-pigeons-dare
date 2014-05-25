@@ -102,6 +102,7 @@ class WinLoseScreen extends UILayer implements SuppliesMusic {
 			g.drawString("Avenge the dead. Eliminate the birds.", LEFT, TOP + IMAGE_HEIGHT + 2 * 14);
 		}
 		else if (state == State.FINISHED) {
+			rLayer.createGameCode(); // Save the proof of work code
 			IMAGE_FINISHED.draw(LEFT, TOP);
 			g.drawString("You have defeated the Killer Pidgeons.", LEFT, TOP + IMAGE_HEIGHT + 14);				
 			g.drawString("The farthest door you reached was " + rLayer.game.hero.farthestRoom + ".", LEFT, TOP + IMAGE_HEIGHT + 2 * 14);				
