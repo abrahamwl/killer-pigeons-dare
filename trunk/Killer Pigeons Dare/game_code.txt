@@ -1,0 +1,3 @@
+Code: 532245253
+Farthest room: 10
+Hash: 156006925
