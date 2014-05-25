@@ -144,7 +144,7 @@ public class Actor extends Entity {
 		for (AbilityInterface ability : abilities) {
 			ability.on(this).doNewTurn();
 		}
-		Action a = controller.chooseNextAction();
+		Action a = controller.chooseNextActionWrapped();
 		
 		if (a instanceof ActionNoneYet) {
 			return false;

@@ -2,6 +2,7 @@ package net.bithaven.efficiencyrpg.controller;
 
 import net.bithaven.efficiencyrpg.Dir;
 import net.bithaven.efficiencyrpg.Room;
+import net.bithaven.efficiencyrpg.ability.abilities.AbilitySummonHellstone;
 import net.bithaven.efficiencyrpg.action.*;
 import net.bithaven.efficiencyrpg.entity.Actor;
 
@@ -10,44 +11,147 @@ public class FlameoController extends BasicController {
 		a = monster;
 	}
 
-	int spawnTickThreshold = 2; // Number of ticks before creating new flame
-	int spawnTick = 0;
-	
-	int moveDistThreshold = 6;
-	int spawnDistThreshold = 1;
-	
-	public Action chooseNextAction() {	
+	public Action chooseNextActionWrapped() {	
 		Actor t = a.room.game.hero;
 
-		int distToHero = Math.abs(a.x - t.x) + Math.abs(a.y - t.y);
+		int distToHero = Math.max(Math.abs(a.x - t.x), Math.abs(a.y - t.y));
 		
-		if(distToHero > moveDistThreshold) return AttackController.chooseMovement(a.room, a, t); // TODO Shouldn't use MoveAttack...
+		AbilitySummonHellstone summonHellstone = a.abilities.getFirstHooked(AbilitySummonHellstone.class);
+
+		if (summonHellstone != null) {
+			if(distToHero > 2) return spawnHellstone(a.room, t, summonHellstone, false);
+			return spawnHellstone(a.room, t, summonHellstone, true);
+		}
 		
-		spawnTick = (spawnTick + 1) % (spawnDistThreshold + spawnTickThreshold);
-		if(distToHero > spawnDistThreshold && spawnTick == 0) return spawnFlame(a.room, t);
-		
-		return new ActionBurn();
+		return AttackController.chooseMovement(a.room, a, t);
 	}
 	
-	private Action spawnFlame(Room room, Actor t) {
-		int distToTarget = Math.abs(a.x - t.x) + Math.abs(a.y - t.y);
-		int testDist = 0;
+	private Action spawnHellstoneAt(Room room, int x, int y, AbilitySummonHellstone sH, boolean hellstoneFirst) {
+		if (hellstoneFirst && sH.checkValidityOf(a, x, y) != Validity.INVALID) {
+			return new ActionActivateAbility(sH, x, y);
+		} else if (room.game.hero.x == x && room.game.hero.y == y) {
+			return new ActionMeleeAttack(Dir.fromXY(x - a.x, y - a.y));			
+		} else if (room.checkForPassableAt(x, y, a)) {
+			return new ActionMove(Dir.fromXY(x - a.x, y - a.y));
+		} else if (!hellstoneFirst && sH.checkValidityOf(a, x, y) != Validity.INVALID) {
+				return new ActionActivateAbility(sH, x, y);
+		} else return null;
+	}
 
-		int pointx = 0;
-		int pointy = 0;
-		
-		// Find equidistance directions
-		for(Dir currDir : Dir.compass) {
-			pointx = a.x + currDir.x;
-			pointy = a.y + currDir.y;
-			
-			testDist = Math.abs(pointx - t.x) + Math.abs(pointy - t.y);
-			
-			if(testDist == distToTarget && 
-				room.checkForPassableAt(pointx, pointy, a)) 
-				return new ActionSpawnFlameo(currDir);
-		}				
-		
-		return new ActionWait();
+	private Action spawnHellstone(Room room, Actor t, AbilitySummonHellstone sH, boolean hellstoneFirst) {
+		Action out = null;
+		if (a.x > t.x) {
+			if (a.y > t.y) {
+				out = spawnHellstoneAt(room, a.x - 1, a.y - 1, sH, hellstoneFirst);
+				if (out != null) {
+					return out;
+				} else {
+					if (a.x - t.x > a.y - t.y) {
+						out = spawnHellstoneAt(room, a.x - 1, a.y, sH, hellstoneFirst);
+						if (out != null) {
+							return out;
+						} else {
+							out = spawnHellstoneAt(room, a.x, a.y - 1, sH, hellstoneFirst);
+							if (out != null) return out; else return new ActionWait();
+						}
+					} else {
+						out = spawnHellstoneAt(room, a.x, a.y - 1, sH, hellstoneFirst);
+						if (out != null) {
+							return out;
+						} else {
+							out = spawnHellstoneAt(room, a.x - 1, a.y, sH, hellstoneFirst);
+							if (out != null) return out; else return new ActionWait();
+						}
+					}
+				}
+			} else if (a.y < t.y) {
+				out = spawnHellstoneAt(room, a.x - 1, a.y + 1, sH, hellstoneFirst);
+				if (out != null) {
+					return out;
+				} else {
+					if (a.x - t.x > t.y - a.y) {
+						out = spawnHellstoneAt(room, a.x - 1, a.y, sH, hellstoneFirst);
+						if (out != null) {
+							return out;
+						} else {
+							out = spawnHellstoneAt(room, a.x, a.y + 1, sH, hellstoneFirst);
+							if (out != null) return out; else return new ActionWait();
+						}
+					} else {
+						out = spawnHellstoneAt(room, a.x, a.y + 1, sH, hellstoneFirst);
+						if (out != null) {
+							return out;
+						} else {
+							out = spawnHellstoneAt(room, a.x - 1, a.y, sH, hellstoneFirst);
+							if (out != null) return out; else return new ActionWait();
+						}
+					}
+				}
+			} else {
+				out = spawnHellstoneAt(room, a.x - 1, a.y, sH, hellstoneFirst);
+				if (out != null) return out; else return new ActionWait();
+			}
+		} else if (a.x < t.x) {
+			if (a.y > t.y) {
+				out = spawnHellstoneAt(room, a.x + 1, a.y - 1, sH, hellstoneFirst);
+				if (out != null) {
+					return out;
+				} else {
+					if (t.x - a.x > a.y - t.y) {
+						out = spawnHellstoneAt(room, a.x + 1, a.y, sH, hellstoneFirst);
+						if (out != null) {
+							return out;
+						} else {
+							out = spawnHellstoneAt(room, a.x, a.y - 1, sH, hellstoneFirst);
+							if (out != null) return out; else return new ActionWait();
+						}
+					} else {
+						out = spawnHellstoneAt(room, a.x, a.y - 1, sH, hellstoneFirst);
+						if (out != null) {
+							return out;
+						} else {
+							out = spawnHellstoneAt(room, a.x + 1, a.y, sH, hellstoneFirst);
+							if (out != null) return out; else return new ActionWait();
+						}
+					}
+				}
+			} else if (a.y < t.y) {
+				out = spawnHellstoneAt(room, a.x + 1, a.y + 1, sH, hellstoneFirst);
+				if (out != null) {
+					return out;
+				} else {
+					if (t.x - a.x > t.y - a.y) {
+						out = spawnHellstoneAt(room, a.x + 1, a.y, sH, hellstoneFirst);
+						if (out != null) {
+							return out;
+						} else {
+							out = spawnHellstoneAt(room, a.x, a.y + 1, sH, hellstoneFirst);
+							if (out != null) return out; else return new ActionWait();
+						}
+					} else {
+						out = spawnHellstoneAt(room, a.x, a.y + 1, sH, hellstoneFirst);
+						if (out != null) {
+							return out;
+						} else {
+							out = spawnHellstoneAt(room, a.x + 1, a.y, sH, hellstoneFirst);
+							if (out != null) return out; else return new ActionWait();
+						}
+					}
+				}
+			} else {
+				out = spawnHellstoneAt(room, a.x + 1, a.y, sH, hellstoneFirst);
+				if (out != null) return out; else return new ActionWait();
+			}
+		} else {
+			if (a.y > t.y) {
+				out = spawnHellstoneAt(room, a.x, a.y - 1, sH, hellstoneFirst);
+				if (out != null) return out; else return new ActionWait();
+			} else if (a.y < t.y) {
+				out = spawnHellstoneAt(room, a.x, a.y + 1, sH, hellstoneFirst);
+				if (out != null) return out; else return new ActionWait();
+			} else {
+				return new ActionWait();
+			}
+		}
 	}
 }

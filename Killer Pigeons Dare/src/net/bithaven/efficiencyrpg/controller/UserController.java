@@ -2,6 +2,7 @@ package net.bithaven.efficiencyrpg.controller;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.bithaven.efficiencyrpg.Dir;
 import net.bithaven.efficiencyrpg.Game;
@@ -31,7 +32,15 @@ public class UserController extends BasicController {
 		a = avatar;
 	}
 
+	private List<Action> actionLog = new ArrayList<Action>();
+	
 	public Action chooseNextAction() {
+		Action a = chooseNextActionWrapped();
+		actionLog.add(a);
+		return a;
+	}
+	
+	public Action chooseNextActionWrapped() {
 		if (useAbility != null) {
 			Action out = useAbility;
 			useAbility = null;

@@ -19,7 +19,7 @@ public class AttackController extends BasicController {
 		a = monster;
 	}
 	
-	public Action chooseNextAction() {
+	public Action chooseNextActionWrapped() {
 		Character h = a.room.game.hero;
 		
 		int dist = Math.max(Math.abs(a.x - h.x), Math.abs(a.y - h.y));
