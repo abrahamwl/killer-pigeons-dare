@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.LinkedHashSet;
 import java.util.TreeSet;
+import java.util.function.Predicate;
 
 public class AbilityList extends LinkedHashSet<Ability> {
 	private static final long serialVersionUID = -5451091765501641622L;
@@ -23,6 +24,15 @@ public class AbilityList extends LinkedHashSet<Ability> {
 			}
 		}
 		return c.cast(out);
+	}
+
+	public AbilityInterface getFirstAbility(Predicate<AbilityInterface> p) {
+		for (AbilityInterface ability : this) {
+			if (p.test(ability)) {
+				return ability;
+			}
+		}
+		return null;
 	}
 
 	public <H extends Hooked> H getFirstHooked(Class<H> c) {
@@ -66,7 +76,7 @@ public class AbilityList extends LinkedHashSet<Ability> {
 				out.add(ability.movementPassabilityModifier);
 			}
 		}
-		
+
 		return out;
 	}
 }
