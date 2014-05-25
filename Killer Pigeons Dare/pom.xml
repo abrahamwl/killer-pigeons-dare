@@ -14,10 +14,36 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+<plugin>
+<groupId>com.googlecode.mavennatives</groupId>
+<artifactId>maven-nativedependencies-plugin</artifactId>
+<version>0.0.7</version>
+<configuration>
+    <nativesTargetDir>target/natives</nativesTargetDir>
+    <separateDirs>false</separateDirs>
+</configuration><executions>
+<execution>
+<id>unpacknatives</id>
+<phase>generate-resources</phase>
+<goals>
+<!--suppress MavenModelInspection (this line is for IDEA)-->
+<goal>copy</goal>
+</goals>
+</execution>
+</executions>
+</plugin>
     </plugins>
   </build>
 	<repositories>
-	  <repository>
+<repository>
+<id>mavenNatives</id>
+<name>Maven Natives Repository</name>
+<url>http://mavennatives.googlecode.com/svn/repo</url>
+<snapshots>
+<enabled>true</enabled>
+</snapshots>
+</repository>
+<repository>
 	    <id>nifty-maven-repo.sourceforge.net</id>
 	    <url>http://nifty-gui.sourceforge.net/nifty-maven-repo</url>
 	  </repository>
@@ -47,6 +73,12 @@
   		<groupId>org.slick2d</groupId>
   		<artifactId>slick2d-core</artifactId>
   		<version>1.0.1</version>
+  		<exclusions>
+  			<exclusion>
+  				<artifactId>lwjgl-platform</artifactId>
+  				<groupId>org.lwjgl.lwjgl</groupId>
+  			</exclusion>
+  		</exclusions>
   	</dependency>
   	<dependency>
   		<groupId>junit</groupId>
@@ -57,6 +89,11 @@
   		<groupId>lessvoid</groupId>
   		<artifactId>nifty-slick-renderer</artifactId>
   		<version>1.3.3</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.lwjgl.lwjgl</groupId>
+  		<artifactId>lwjgl</artifactId>
+  		<version>2.9.1</version>
   	</dependency>
   </dependencies>
   <groupId>net.bithaven</groupId>
